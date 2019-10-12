@@ -23,6 +23,7 @@ class Mario(Sprite):
         self.shrink = False
         self.grow = False
         self.fireball = False
+        self.facing_left = True
         self.index = 0
 
         self.current_image = pygame.transform.scale(pygame.image.load("Images/white.png"),
@@ -101,7 +102,7 @@ class Mario(Sprite):
                                                        (self.settings.bm_width, self.settings.bm_height)))
 
     def draw(self):
-        self.screen.blit(self.image, self.rect)
+        self.screen.blit(pygame.transform.flip(self.image, facing_left, False), self.rect)
 
     def update(self):
         if 0:  # Small Mario
