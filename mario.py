@@ -1,8 +1,10 @@
 # Ryan Chen - 893219394
 #
-# 10/11/19 Initial creation
+# 10/11/19 Initial creation - RC
 #   Added basic settings and states
 #   Added image handling and placeholders
+# 10/17/19 - RC
+#   Added some sprites and some state changes
 
 import pygame
 from pygame.sprite import Sprite

@@ -1,6 +1,9 @@
 # Ryan Chen - 893219394
 #
-# 10/11/19 Initial creation
+# 10/11/19 Initial creation - RC
+# 10/17/19 - RC
+#   Added settings for star, coin, and fire flower
+#   Added image scaling
 
 class Settings:
     def __init__(self):

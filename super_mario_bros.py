@@ -1,6 +1,7 @@
 # Ryan Chen - 893219394
 #
-# 10/11/19 initial creation
+# 10/11/19 initial creation - RC
+# 10/17/19 added code to test mario star coin and fire flower - RC
 
 import pygame
 import sys

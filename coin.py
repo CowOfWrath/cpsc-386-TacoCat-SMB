@@ -1,8 +1,9 @@
 # Ryan Chen - 893219394
 #
-# 10/17/19 Initial creation
+# 10/17/19 Initial creation - RC
 #   Added basic settings and states
 #   Added image handling and placeholders
+#   Added way to track which coins to kill
 
 import pygame
 from pygame.sprite import Sprite
