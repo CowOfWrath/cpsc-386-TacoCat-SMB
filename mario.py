@@ -14,9 +14,6 @@ class Mario(Sprite):
         self.settings = settings
         self.screen = screen
 
-        self.current_width = self.settings.sm_width
-        self.current_height = self.settings.sm_height
-
         # States: sm = 0 | bm = 1 | fm = 2 | smi = 3 | bmi = 4
         self.state = 0
         self.walk = True
@@ -30,7 +27,7 @@ class Mario(Sprite):
         self.last_tick = pygame.time.get_ticks()
 
         self.current_image = pygame.transform.scale(pygame.image.load("Images/white.png"),
-                                                    (self.current_width, self.current_height))
+                                                    (self.settings.sm_width, self.settings.sm_height))
 
         self.current_rect = self.current_image.get_rect()
 

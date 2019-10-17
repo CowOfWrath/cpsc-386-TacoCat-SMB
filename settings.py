@@ -15,3 +15,9 @@ class Settings:
         self.bm_height = 16 * self.image_scale
         self.sm_width = 8 * self.image_scale
         self.sm_height = 8 * self.image_scale
+
+        # Star Settings
+        self.star_width = 8 * self.image_scale
+        self.star_height = 8 * self.image_scale
+        self.star_speed = 1 * self.image_scale
+        self.star_jump = 8 * self.image_scale
