@@ -10,6 +10,7 @@ from settings import Settings
 from mario import Mario
 from star import Star
 from coin import Coin
+from fire_flower import Fire_Flower
 
 
 def run():
@@ -34,6 +35,9 @@ def run():
     coin2 = Coin(screen, settings)
     coin2.current_rect.centerx = 200
 
+    ff = Fire_Flower(screen, settings)
+    ff.current_rect.centerx = 300
+
     # Game Loop
     running = True
     while running:
@@ -45,15 +49,17 @@ def run():
                 running = False
 
         # Update here
-        mario.update()
+        ff.update()
         star.update()
         coin1.update()
         coin2.update()
+        mario.update()
 
         # Display here
         screen.fill(settings.bg_color)
         coin1.draw()
         coin2.draw()
+        ff.draw()
         star.draw()
         mario.draw()
 

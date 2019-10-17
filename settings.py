@@ -25,3 +25,7 @@ class Settings:
         # Coin Settings
         self.coin_width = 8 * self.image_scale
         self.coin_height = 8 * self.image_scale
+
+        # Fire Flower Settings
+        self.fire_flower_width = 8 * self.image_scale
+        self.fire_flower_height = 8 * self.image_scale

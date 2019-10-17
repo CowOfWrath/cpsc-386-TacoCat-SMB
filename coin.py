@@ -20,7 +20,7 @@ class Coin(Sprite):
         self.last_tick = pygame.time.get_ticks()
 
         self.current_image = pygame.transform.scale(pygame.image.load("Images/white.png"),
-                                                    (self.settings.star_width, self.settings.star_height))
+                                                    (self.settings.coin_width, self.settings.coin_height))
 
         self.current_rect = self.current_image.get_rect()
 
