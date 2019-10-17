@@ -1,4 +1,4 @@
-#Ryan Chen - 893219394
+# Ryan Chen - 893219394
 #
 # 10/11/19 initial creation
 
@@ -7,6 +7,8 @@ import sys
 import time
 
 from settings import Settings
+from mario import Mario
+
 
 def run():
     # Initialization
@@ -17,6 +19,8 @@ def run():
     bg_color = settings.bg_color
 
     clock = pygame.time.Clock()
+
+    mario = Mario(screen, settings)
 
     # Game Loop
     running = True
@@ -29,10 +33,16 @@ def run():
                 running = False
 
         # Update here
+        mario.update()
 
         # Display here
+        screen.fill(settings.bg_color)
+        mario.draw()
+
+        pygame.display.flip()
 
     pygame.quit()
     sys.exit()
+
 
 run()
