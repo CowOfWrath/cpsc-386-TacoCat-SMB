@@ -7,6 +7,7 @@
 # 10/18/19 - JL
 #   added settings for floors, bricks
 #   added paths for sound and images
+#   added dictionary for point values
 from os.path import abspath, dirname
 
 
@@ -21,6 +22,18 @@ class Settings:
         self.screen_height = 720
         self.bg_color = (0, 0, 0)
         self.image_scale = 8
+
+        # Point Dictionary
+        # TODO - finish points list
+        self.point_values = {
+            "coin": 200,
+            "flower": 1000,
+            "star": 1000,
+            "mushroom": 1000,
+            "goomba": 100,
+            "koopa": 200,
+            "brick": 50
+        }
 
         # Mario Settings
         self.bm_width = 8 * self.image_scale
@@ -58,7 +71,15 @@ class Settings:
         # Block Settings
         self.block_width = 8 * self.image_scale
         self.block_height = 8 * self.image_scale
-        self.block_empty = self.IMAGE_PATH + 'block_empty.png'
+        self.block_empty_image = self.IMAGE_PATH + 'block_empty.png'
 
         # Block Sounds
         self.coin_block_sound = self.SOUND_PATH + 'coin.wav'
+
+        # Pipe Settings
+        self.pipe_width = 16 * self.image_scale
+        self.pipe_height = 16 * self.image_scale
+        self.pipe_image = self.IMAGE_PATH + 'pipe.png'
+        self.horiz_pipe_image = self.IMAGE_PATH + 'horiz_pipe.png'
+        self.pipe_sound = self.SOUND_PATH + 'pipe_hit.png'
+
