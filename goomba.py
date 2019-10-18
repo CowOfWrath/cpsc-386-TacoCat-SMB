@@ -1,5 +1,5 @@
 # Rey Vergara
-# Need to add collision detection for both enemies and blocks
+
 # 10/17/19 Initial creation
 
 import pygame
