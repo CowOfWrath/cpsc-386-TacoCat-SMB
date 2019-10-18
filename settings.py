@@ -33,3 +33,13 @@ class Settings:
         # Fire Flower Settings
         self.fire_flower_width = 8 * self.image_scale
         self.fire_flower_height = 8 * self.image_scale
+        
+        # Goomba settings
+        self.goomba_width = 8 * self.image_scale
+        self.goomba_height = 8 * self.image_scale
+        self.goomba_speed = 1 * self.image_scale
+        
+        # Koopa settings
+        self.koopa_width = 8 * self.image_scale
+        self.koopa_height = 16 * self.image_scale
+        self.koopa_speed = 1 * self.image_scale
