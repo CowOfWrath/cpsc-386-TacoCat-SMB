@@ -7,6 +7,9 @@
 
 class Settings:
     def __init__(self):
+        self.IMAGE_PATH = self.BASE_PATH + '/images/'
+
+
         # General Settings
         self.screen_width = 1280
         self.screen_height = 720
@@ -32,3 +35,10 @@ class Settings:
         # Fire Flower Settings
         self.fire_flower_width = 8 * self.image_scale
         self.fire_flower_height = 8 * self.image_scale
+
+        # Brick Settings
+        self.brick_width = 8 * self.image_scale
+        self.brick_height = 8 * self.image_scale
+        self.brick_image = self.IMAGE_PATH + 'brick.png'
+        # Underground Brick Settings
+        self.brick_ug_image = self.IMAGE_PATH + 'brick_ug.png'
