@@ -1,5 +1,5 @@
 # Ryan Chen - 893219394
-# Jeffrey Lo
+#
 # 10/11/19 Initial creation - RC
 # 10/17/19 - RC
 #   Added settings for star, coin, and fire flower
@@ -13,9 +13,10 @@ from os.path import abspath, dirname
 
 class Settings:
     def __init__(self):
+
         self.BASE_PATH = abspath(dirname(__file__))
         self.IMAGE_PATH = self.BASE_PATH + '/images/'
-        self.SOUND_PATH = self.BASE_PATH + '/sound/'
+        self.SOUND_PATH = self.BASE_PATH + '/sounds/'
 
         # General Settings
         self.screen_width = 1280
@@ -40,6 +41,7 @@ class Settings:
         self.bm_height = 16 * self.image_scale
         self.sm_width = 8 * self.image_scale
         self.sm_height = 8 * self.image_scale
+        self.mario_speed = 1 * self.image_scale
 
         # Star Settings
         self.star_width = 8 * self.image_scale
@@ -90,3 +92,12 @@ class Settings:
         self.horiz_pipe_image = self.IMAGE_PATH + 'horiz_pipe.png'
         self.pipe_sound = self.SOUND_PATH + 'pipe_hit.png'
 
+        # Goomba settings
+        self.goomba_width = 8 * self.image_scale
+        self.goomba_height = 8 * self.image_scale
+        self.goomba_speed = 1 * self.image_scale
+        
+        # Koopa settings
+        self.koopa_width = 8 * self.image_scale
+        self.koopa_height = 16 * self.image_scale
+        self.koopa_speed = 1 * self.image_scale
