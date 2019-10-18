@@ -7,7 +7,9 @@ import pygame
 import sys
 import time
 
+import game_functions as gf
 from settings import Settings
+from game_state import Game_State
 from mario import Mario
 from star import Star
 from coin import Coin
@@ -18,6 +20,7 @@ def run():
     # Initialization
     pygame.init()
     settings = Settings()
+    state = Game_State()
     screen = pygame.display.set_mode((settings.screen_width, settings.screen_height))
     pygame.display.set_caption("Super Mario Bros")
     bg_color = settings.bg_color
@@ -40,16 +43,11 @@ def run():
     ff.current_rect.centerx = 300
 
     # Game Loop
-    running = True
-    while running:
+    while state.running:
         clock.tick(60)
 
-        # Temporary exit code
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-
         # Update here
+        gf.check_events(state, mario)
         ff.update()
         star.update()
         coin1.update()
