@@ -68,6 +68,13 @@ class Settings:
         # Underground Brick Settings
         self.brick_ug_image = self.IMAGE_PATH + 'brick_ug.png'
 
+        # Broken Brick
+        self.brick_rubble_height = 4 * self.image_scale
+        self.brick_rubble_width = 4 * self.image_scale
+        self.brick_rubble_left = self.IMAGE_PATH + 'block_debris_left'
+        self.brick_rubble_right = self.IMAGE_PATH + 'block_debris_right'
+        self.break_brick_sound = self.SOUND_PATH + 'breakblock.wav'
+
         # Block Settings
         self.block_width = 8 * self.image_scale
         self.block_height = 8 * self.image_scale
