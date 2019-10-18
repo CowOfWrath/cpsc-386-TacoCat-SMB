@@ -1,6 +1,10 @@
+# Jeffrey Lo
+#
+# 10/18/19 Initial creation - JL
 import pygame
 from pygame import image
 from pygame.sprite import Sprite
+
 
 class Floor(Sprite):
     def __init__(self, screen, settings, is_underground=False):
@@ -10,13 +14,13 @@ class Floor(Sprite):
 
         if is_underground:
             self.image = pygame.transform.scale(
-                image.load(settings.brick_ug_image),
+                image.load(settings.floor_ug_image),
                 (self.settings.brick_width,
                  self.settings.brick_height)
             )
         else:
             self.image = pygame.transform.scale(
-                image.load(settings.brick_image),
+                image.load(settings.floor_image),
                 (self.settings.brick_width,
                  self.settings.brick_height)
         )
