@@ -120,3 +120,10 @@ class Settings:
         self.koopa_width = 8 * self.image_scale
         self.koopa_height = 16 * self.image_scale
         self.koopa_speed = 1 * self.image_scale
+
+        # Mushroom Settings
+        self.mushroom_width = 8 * self.image_scale
+        self.mushroom_height = 8 * self.image_scale
+        self.mushroom_speed = 1 * self.image_scale
+        self.mushroom_img = self.IMAGE_PATH + 'mushroom.png'
+        self.oneup_img = self.IMAGE_PATH + '1_up.png'
