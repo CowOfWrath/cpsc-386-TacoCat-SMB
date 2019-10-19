@@ -27,9 +27,10 @@ class Settings:
         # TODO - finish points list
         self.point_values = {
             "coin": 200,
-            "flower": 1000,
+            "fire-flower": 1000,
             "star": 1000,
             "mushroom": 1000,
+            "1-up": 1000,
             "goomba": 100,
             "koopa": 200,
             "brick": 50
@@ -83,6 +84,25 @@ class Settings:
 
         # Block Sounds
         self.coin_block_sound = self.SOUND_PATH + 'coin.wav'
+
+        # Mystery Block Settings
+        self.mystery_block_height = 8 * self.image_scale
+        self.mystery_block_width = 8 * self.image_scale
+        self.mystery_block_TBF = 100
+        self.mystery_block_images = [
+            self.IMAGE_PATH + 'qbrick_u_1.png',
+            self.IMAGE_PATH + 'qbrick_u_2.png',
+            self.IMAGE_PATH + 'qbrick_u_3.png',
+            self.IMAGE_PATH + 'qbrick_u_2.png'
+        ]
+        self.mystery_block_possible_items = {
+            'MUSHROOM' : 'mushroom',
+            'FIRE_FLOWER' : 'fire-flower',
+            'ONE_UP' : '1-up',
+            'STAR' : 'star',
+            'NONE' : ''
+        }
+        self.mystery_block_sound = self.SOUND_PATH + 'powerup_appears.wav'
 
         # Pipe Settings
         self.pipe_width = 16 * self.image_scale

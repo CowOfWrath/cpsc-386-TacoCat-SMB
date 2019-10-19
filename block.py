@@ -8,6 +8,8 @@ from pygame import mixer
 
 import pygame
 from coin import Coin
+from fire_flower import Fire_Flower
+from mushroom import Mushroom
 
 
 class Block(Sprite):
@@ -24,6 +26,7 @@ class Block(Sprite):
         self.last_tick = pygame.time.get_ticks()
 
         # Block States
+        self.is_hittable = True
         self.is_broken = False
         # TODO: add break block code
 
@@ -145,6 +148,7 @@ class CoinBlock(Block):
 
     def collision_check(self, sprite_object):
         if self.is_hittable:
+            # TODO: JL Note - may need to check corner top collisions
             did_collide = self.rect.collidepoint(sprite_object.rect.midtop)
             if did_collide:
                 # TODO - figure out if need to adjust collided object physics
@@ -164,3 +168,68 @@ class CoinBlock(Block):
                         self.set_empty()
         # else:
         #     # if collides, force mario back down
+
+
+class MysteryBlock(Block):
+
+    def __init__(self, screen, settings, is_underground=False, stored_item=''):
+        super(MysteryBlock, self).__init__(screen, settings, is_underground)
+        self.empty_image = pygame.transform.scale(
+            image.load(settings.block_empty),
+            (self.settings.block_width,
+             self.settings.block_height)
+        )
+        self.stored_item = stored_item
+        self.images_idle = [
+            pygame.transform.scale(
+                pygame.image.load(settings.mystery_block_images[i]),
+                (self.settings.mystery_block_width,
+                self.settings.mystery_block_height)
+            ) for i in range(len(settings.mystery_block_images))
+        ]
+
+        self.is_empty = False
+        self.index = 0
+        self.tick_time_limit = settings.mystery_block_TBF
+
+        self.sound = mixer.Sound(settings.mystery_block_sound)
+        self.image = self.images_idle[0]
+        self.rect = self.image.get_rect()
+
+    def update(self):
+        if not self.is_empty:
+            # update idle frames
+            self.iterate_index(len(self.images_idle))
+            self.image = self.images_idle[self.index]
+
+    def set_empty(self):
+        self.stored_item = self.settings.mystery_block_possible_items['NONE']
+        self.is_empty = True
+        self.is_hittable = False
+        self.image = self.empty_image
+
+    def collision_check(self, sprite_object):
+        if self.is_hittable:
+            # TODO: JL Note - may need to check corner top collisions
+            did_collide = self.rect.collidepoint(sprite_object.rect.midtop)
+            if did_collide:
+                # TODO - figure out if need to adjust collided object physics
+                if not self.is_empty:
+                    # Animate Contained Sprite to Appear
+                    # TODO: animate sprite to appear
+
+                    # Play Sound
+                    self.sound.play()
+
+                    # Change To Empty
+                    self.set_empty()
+        # else:
+             # if collides, force mario back down?
+
+    def iterate_index(self, max):
+        time = pygame.time.get_ticks() - self.last_tick
+        if time > self.tick_time_limit:
+            self.index += 1
+            self.last_tick = pygame.time.get_ticks()
+        if self.index == max:
+            self.index = 0
