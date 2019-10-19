@@ -26,14 +26,12 @@ def check_keydown(state, event, mario):
     # Mario movement events
     elif event.key == pygame.K_RIGHT:
         print("right down")
-        mario.walk = True
         mario.facing_left = False
         mario.move_left = False
         mario.move_right = True
 
     elif event.key == pygame.K_LEFT:
         print("left down")
-        mario.walk = True
         mario.facing_left = True
         mario.move_left = True
         mario.move_right = False
@@ -49,11 +47,9 @@ def check_keydown(state, event, mario):
 def check_keyup(event, mario):
     if event.key == pygame.K_RIGHT:
         print("right up")
-        mario.walk = False
         mario.move_right = False
     elif event.key == pygame.K_LEFT:
         print("left up")
-        mario.walk = False
         mario.move_left = False
 
     if event.key == pygame.K_UP:

@@ -30,12 +30,18 @@ class Mario(Sprite):
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
 
-        self.current_image = pygame.transform.scale(pygame.image.load("Images/white.png"),
+        self.current_image = pygame.transform.scale(pygame.image.load("Images/mario_small_idle.png"),
                                                     (self.settings.sm_width, self.settings.sm_height))
 
         self.current_rect = self.current_image.get_rect()
+        self.x = self.current_rect.x
+        self.y = self.current_rect.y + 200
+
+        self.display_rect = pygame.Rect(0, 0, self.settings.bm_width, self.settings.bm_height)
 
         # Images for Small Mario
+        self.sm_idle = pygame.transform.scale(pygame.image.load("Images/mario_small_idle.png"),
+                                              (self.settings.sm_width, self.settings.sm_height))
         self.sm_walk = []
         self.sm_walk.append(pygame.transform.scale(pygame.image.load("Images/mario_small_walk1.png"),
                                                    (self.settings.sm_width, self.settings.sm_height)))
@@ -48,16 +54,31 @@ class Mario(Sprite):
                                               (self.settings.sm_width, self.settings.sm_height))
 
         self.sm_grow = []
-        self.sm_grow.append(pygame.transform.scale(pygame.image.load("Images/white.png"),
+        self.sm_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_small_idle.png"),
                                                    (self.settings.sm_width, self.settings.sm_height)))
+        self.sm_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_big_hit.png"),
+                                                   (self.settings.bm_width, self.settings.bm_height)))
+        self.sm_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_big_idle.png"),
+                                                   (self.settings.bm_width, self.settings.bm_height)))
+        self.sm_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_small_idle.png"),
+                                                   (self.settings.sm_width, self.settings.sm_height)))
+        self.sm_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_big_hit.png"),
+                                                   (self.settings.bm_width, self.settings.bm_height)))
+        self.sm_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_big_idle.png"),
+                                                   (self.settings.bm_width, self.settings.bm_height)))
+        self.sm_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_small_idle.png"),
+                                                   (self.settings.sm_width, self.settings.sm_height)))
+        self.sm_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_big_hit.png"),
+                                                   (self.settings.bm_width, self.settings.bm_height)))
+        self.sm_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_big_idle.png"),
+                                                   (self.settings.bm_width, self.settings.bm_height)))
 
         self.sm_dead = pygame.transform.scale(pygame.image.load("Images/mario_death.png"),
                                               (self.settings.sm_width, self.settings.sm_height))
 
-        self.sm_idle = pygame.transform.scale(pygame.image.load("Images/mario_small_idle.png"),
-                                              (self.settings.sm_width, self.settings.sm_height))
-
         # Images for Big Mario
+        self.bm_idle = pygame.transform.scale(pygame.image.load("Images/mario_big_idle.png"),
+                                              (self.settings.bm_width, self.settings.bm_height))
         self.bm_walk = []
         self.bm_walk.append(pygame.transform.scale(pygame.image.load("Images/mario_big_walk1.png"),
                                                    (self.settings.bm_width, self.settings.bm_height)))
@@ -70,7 +91,7 @@ class Mario(Sprite):
                                               (self.settings.bm_width, self.settings.bm_height))
 
         self.bm_crouch = pygame.transform.scale(pygame.image.load("Images/mario_big_crouch.png"),
-                                                (self.settings.sm_width, self.settings.sm_height))
+                                                (self.settings.bm_width, self.settings.bm_height))
 
         self.bm_shrink = []
         self.bm_shrink.append(pygame.transform.scale(pygame.image.load("Images/mario_big_idle.png"),
@@ -93,6 +114,8 @@ class Mario(Sprite):
                                                      (self.settings.sm_width, self.settings.sm_height)))
 
         # Images for Fire Mario
+        self.fm_idle = pygame.transform.scale(pygame.image.load("Images/fire_mario_idle.png"),
+                                              (self.settings.bm_width, self.settings.bm_height))
         self.fm_walk = []
         self.fm_walk.append(pygame.transform.scale(pygame.image.load("Images/fire_mario_walk1.png"),
                                                    (self.settings.bm_width, self.settings.bm_height)))
@@ -109,7 +132,7 @@ class Mario(Sprite):
                                                   (self.settings.bm_width, self.settings.bm_height))
 
         self.fm_crouch = pygame.transform.scale(pygame.image.load("Images/fire_mario_crouch.png"),
-                                                (self.settings.sm_width, self.settings.sm_height))
+                                                (self.settings.bm_width, self.settings.bm_height))
 
         self.fm_shrink = []
         self.fm_shrink.append(pygame.transform.scale(pygame.image.load("Images/fire_mario_idle.png"),
@@ -174,87 +197,174 @@ class Mario(Sprite):
                                                        (self.settings.bm_width, self.settings.bm_height)))
 
     def draw(self):
-        self.screen.blit(pygame.transform.flip(self.current_image, self.facing_left, False), self.current_rect)
+        # Temporary code to display hitbox
+        self.screen.fill((255, 255, 255), self.current_rect, 0)
+        if self.crouch and self.state != 0:  # Image rect is different size from hitbox
+            self.screen.blit(pygame.transform.flip(self.current_image, self.facing_left, False), self.display_rect)
+        else:
+            self.screen.blit(pygame.transform.flip(self.current_image, self.facing_left, False), self.current_rect)
 
     def update(self):
-        if self.move_right:
-            self.current_rect.x += self.settings.mario_speed
-        elif self.move_left:
-            self.current_rect.x -= self.settings.mario_speed
+        # Update Movement
+        self.walk = False
+        if self.move_right and not self.crouch:
+            self.walk = True
+            self.x += self.settings.mario_speed
+        elif self.move_left and not self.crouch:
+            self.walk = True
+            self.x -= self.settings.mario_speed
 
+        # Update animation states and hitbox and position
         if self.state == 0:  # Small Mario
             if self.grow:  # On mushroom collision set index to 0
                 self.iterate_index(len(self.sm_grow))
+                temp = self.current_rect.copy()
                 self.current_image = self.sm_grow[self.index]
                 self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.bottom = temp.bottom
             elif self.shrink:
                 self.current_image = self.sm_dead
             elif self.jump:
                 self.current_image = self.sm_jump
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
             elif self.walk:
                 self.iterate_index(len(self.sm_walk))
                 self.current_image = self.sm_walk[self.index]
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
             else:
                 self.current_image = self.sm_idle
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
         elif self.state == 1:  # Big Mario
             if self.shrink:  # On enemy collsion set indeox to 0
                 self.iterate_index(len(self.bm_shrink))
+                temp = self.current_rect.copy()
                 self.current_image = self.bm_shrink[self.index]
                 self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.bottom = temp.bottom
             elif self.jump:
                 self.current_image = self.bm_jump
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
             elif self.crouch:
                 self.current_image = self.bm_crouch
-                self.current_rect = self.current_image.get_rect()  # on key release reset the rect
+                temp = self.current_rect.copy()
+                self.current_rect = self.sm_idle.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.bottom = temp.bottom
+                self.display_rect.x = self.x
+                self.display_rect.bottom = temp.bottom
             elif self.walk:
                 self.iterate_index(len(self.bm_walk))
                 self.current_image = self.bm_walk[self.index]
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
             else:
-                self.current_image = self.bm_walk[0]
+                self.current_image = self.bm_idle
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
         elif self.state == 2:  # Fire Mario
             if self.shrink:  # On enemy collision set index to 0
                 self.iterate_index(len(self.fm_shrink))
+                temp = self.current_rect.copy()
                 self.current_image = self.fm_shrink[self.index]
                 self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.bottom = temp.bottom
             elif self.fireball:
                 self.current_image = self.fm_throw_fb
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
                 self.fireball = False
             elif self.jump:
                 self.current_image = self.fm_jump
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
             elif self.crouch:
                 self.current_image = self.fm_crouch
-                self.current_rect = self.current_image.get_rect()  # on key release reset the rect
+                temp = self.current_rect.copy()
+                self.current_rect = self.sm_idle.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.bottom = temp.bottom
+                self.display_rect.x = self.x
+                self.display_rect.bottom = temp.bottom
             elif self.walk:
                 self.iterate_index(len(self.fm_walk))
                 self.current_image = self.fm_walk[self.index]
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
             else:
-                self.current_image = self.fm_walk[0]
+                self.current_image = self.fm_idle
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
         elif self.state == 3:  # Small Mario Invincible
             if self.grow:  # On mushroom collision set index to 0
                 self.iterate_index(len(self.smi_grow))
+                temp = self.current_rect.copy()
                 self.current_image = self.smi_grow[self.index]
                 self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.bottom = temp.bottom
             elif self.jump:
                 self.current_image = self.smi_jump
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
             elif self.walk:
                 self.iterate_index(len(self.smi_walk))
                 self.current_image = self.smi_walk[self.index]
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
             else:
                 self.iterate_index(len(self.smi_sparkle))
                 self.current_image = self.smi_sparkle[self.index]
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
         elif self.state == 4:  # Big Mario Invinicble
             if self.jump:
                 self.current_image = self.bmi_jump
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
             elif self.walk:
                 self.iterate_index(len(self.bmi_walk))
                 self.current_image = self.bmi_walk[self.index]
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
             else:
                 self.iterate_index(len(self.bmi_sparkle))
                 self.current_image = self.bmi_sparkle[self.index]
-        else:  # reset state to default on error
+                self.current_rect = self.current_image.get_rect()
+                self.current_rect.x = self.x
+                self.current_rect.y = self.y
+        else:  # reset state to default on error (This should never happen)
             self.state = 0
+            self.walk = False
             self.jump = False
+            self.crouch = False
             self.shrink = False
+            self.grow = False
+            self.fireball = False
+            self.facing_left = False
+            self.move_right = False
+            self.move_left = False
             self.index = 0
 
     def iterate_index(self, max):
