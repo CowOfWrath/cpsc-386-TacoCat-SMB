@@ -1,7 +1,7 @@
 # Jeffrey Lo
 #
 # 10/18/19 Initial creation - JL
-#   Brick, CoinBrick, Brick Pieces
+#   Brick, CoinBrick, Brick Pieces, Mystery block
 from pygame.sprite import Sprite
 from pygame import image
 from pygame import mixer
@@ -10,6 +10,7 @@ import pygame
 from coin import Coin
 from fire_flower import Fire_Flower
 from mushroom import Mushroom
+from star import Star
 
 
 class Block(Sprite):
@@ -43,6 +44,7 @@ class Block(Sprite):
                 (self.settings.brick_width,
                  self.settings.brick_height)
             )
+        # TODO: may move invisible block to inherit mystery block
         if is_invisible:
             self.initial_image = self.initial_image.copy()
             self.initial_image.fill((255, 255, 255, 0), None, pygame.BLEND_RGBA_MULT)
@@ -51,6 +53,7 @@ class Block(Sprite):
         self.rect = self.image.get_rect()
 
     def collision_check(self, sprite_object):
+        # TODO: if hittable, break block
         pass
 
     def update(self):
@@ -61,28 +64,31 @@ class Block(Sprite):
         pass
 
     def animate_internal_object(self, sprite_object):
-        # TODO animate internal object
+        # TODO animate internal object to move to top of block
+        if sprite_object:
+            print('TODO - get sprite_object rect and move block')
         pass
 
     def draw(self):
         self.screen.blit(self.image, self.rect)
 
-    def iterate_index(self, max):
+    def iterate_index(self, max_index):
         time = pygame.time.get_ticks() - self.last_tick
         if time > 100:
             self.index += 1
             self.last_tick = pygame.time.get_ticks()
-        if self.index == max:
+        if self.index == max_index:
             self.index = 0
 
 
 class BrickRubblePiece(Sprite):
-    def __init__(self, screen, settings, isLeft=True):
+    def __init__(self, screen, settings, is_left=True):
         super(BrickRubblePiece, self).__init__()
         self.screen = screen
         self.settings = settings
         self.f_index = 0
         self.image = None
+        self.last_tick = pygame.time.get_ticks()
         self.frames_list = []
         self.image_left = pygame.transform.scale(
             image.load(settings.brick_rubble_left),
@@ -95,7 +101,7 @@ class BrickRubblePiece(Sprite):
             settings.brick_rubble_height
         )
 
-        if isLeft:
+        if is_left:
             self.image = self.image_left
             self.frames_list[::2] = [self.image_left] * 4
             self.frames_list[1::2] = [self.image_right] * 4
@@ -114,12 +120,12 @@ class BrickRubblePiece(Sprite):
     def draw(self):
         self.screen.blit(self.image, self.rect)
 
-    def iterate_index(self, max):
+    def iterate_index(self, max_index):
         time = pygame.time.get_ticks() - self.last_tick
-        if time > 100:
+        if time > self.settings.brick_rubble_image_TBF:
             self.f_index += 1
             self.last_tick = pygame.time.get_ticks()
-        if self.f_index == max:
+        if self.f_index == max_index:
             # self.f_index = 0
             self.kill()
 
@@ -167,7 +173,7 @@ class CoinBlock(Block):
                     if self.num_coins_left <= 0:
                         self.set_empty()
         # else:
-        #     # if collides, force mario back down
+        #     # if collides with bottom and empty, force mario back down
 
 
 class MysteryBlock(Block):
@@ -180,13 +186,13 @@ class MysteryBlock(Block):
              self.settings.block_height)
         )
         self.stored_item = stored_item
-        self.images_idle = [
-            pygame.transform.scale(
+        self.images_idle = []
+        for i in range(len(settings.mystery_block_images)):
+            self.images_idle.append(pygame.transform.scale(
                 pygame.image.load(settings.mystery_block_images[i]),
                 (self.settings.mystery_block_width,
-                self.settings.mystery_block_height)
-            ) for i in range(len(settings.mystery_block_images))
-        ]
+                 self.settings.mystery_block_height)
+            ))
 
         self.is_empty = False
         self.index = 0
@@ -216,7 +222,7 @@ class MysteryBlock(Block):
                 # TODO - figure out if need to adjust collided object physics
                 if not self.is_empty:
                     # Animate Contained Sprite to Appear
-                    # TODO: animate sprite to appear
+                    self.make_item_appear()
 
                     # Play Sound
                     self.sound.play()
@@ -224,12 +230,36 @@ class MysteryBlock(Block):
                     # Change To Empty
                     self.set_empty()
         # else:
-             # if collides, force mario back down?
+        # if collides with bottom and empty, force mario back down
 
-    def iterate_index(self, max):
+    def make_item_appear(self):
+        # TODO: animate sprite to appear in if/else below
+        #   Move sprite up until bottom of sprite is at top of block
+        obj = None
+        if self.stored_item == self.settings.mystery_block_possible_items['MUSHROOM']:
+            print('Mushroom item appears!')
+            obj = Mushroom(self.screen, self.settings)
+
+        elif self.stored_item == self.settings.mystery_block_possible_items['FIRE_FLOWER']:
+            print('Flower item appears!')
+            obj = Fire_Flower(self.screen, self.settings)
+
+        elif self.stored_item == self.settings.mystery_block_possible_items['ONE_UP']:
+            print('1UP item appears!')
+            obj = Mushroom(self.screen, self.settings, is_one_up=True)
+
+        elif self.stored_item == self.settings.mystery_block_possible_items['STAR']:
+            print('Star item appears!')
+            obj = Star(self.screen, self.settings)
+        else:
+            # shouldn't be empty!
+            print('WARNING - mystery block missing item')
+        self.animate_internal_object(obj)
+
+    def iterate_index(self, max_index):
         time = pygame.time.get_ticks() - self.last_tick
         if time > self.tick_time_limit:
             self.index += 1
             self.last_tick = pygame.time.get_ticks()
-        if self.index == max:
+        if self.index == max_index:
             self.index = 0

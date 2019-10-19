@@ -5,7 +5,7 @@
 #   Added settings for star, coin, and fire flower
 #   Added image scaling
 # 10/18/19 - JL
-#   added settings for floors, bricks
+#   added settings for floors, bricks, blocks
 #   added paths for sound and images
 #   added dictionary for point values
 from os.path import abspath, dirname
@@ -76,6 +76,7 @@ class Settings:
         self.brick_rubble_left = self.IMAGE_PATH + 'block_debris_left'
         self.brick_rubble_right = self.IMAGE_PATH + 'block_debris_right'
         self.break_brick_sound = self.SOUND_PATH + 'breakblock.wav'
+        self.brick_rubble_image_TBF = 100   # TBF - time between frames
 
         # Block Settings
         self.block_width = 8 * self.image_scale
@@ -96,11 +97,11 @@ class Settings:
             self.IMAGE_PATH + 'qbrick_u_2.png'
         ]
         self.mystery_block_possible_items = {
-            'MUSHROOM' : 'mushroom',
-            'FIRE_FLOWER' : 'fire-flower',
-            'ONE_UP' : '1-up',
-            'STAR' : 'star',
-            'NONE' : ''
+            'MUSHROOM': 'mushroom',
+            'FIRE_FLOWER': 'fire-flower',
+            'ONE_UP': '1-up',
+            'STAR': 'star',
+            'NONE': ''
         }
         self.mystery_block_sound = self.SOUND_PATH + 'powerup_appears.wav'
 
