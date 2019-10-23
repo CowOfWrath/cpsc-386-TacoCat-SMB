@@ -58,3 +58,44 @@ def check_keyup(event, mario):
     elif event.key == pygame.K_DOWN:
         print("down up")
         mario.crouch = False
+
+def update(screen, settings, mario, map_group, block_group, enemy_group, powerup_group, fireball_group):
+    for x in map_group:
+        x.update()
+
+    for x in block_group:
+        x.update()
+    for x in enemy_group:
+        x.update()
+    for x in powerup_group:
+        x.update()
+    for x in fireball_group:
+        x.update()
+
+    mario.update()
+
+def update_screen(screen, settings, mario, map_group, block_group, enemy_group, powerup_group, fireball_group):
+    screen.fill(settings.bg_color)
+
+
+    for x in map_group:
+        x.draw()
+
+    for x in block_group:
+        x.draw()
+    for x in enemy_group:
+        x.draw()
+    for x in powerup_group:
+        x.draw()
+    for x in fireball_group:
+        x.draw()
+
+    mario.draw()
+
+    # map_group.draw(screen)
+    # block_group.draw(screen)
+    # enemy_group.draw(screen)
+    # powerup_group.draw(screen)
+    #
+    #fireball_group.draw(screen)
+    pygame.display.flip()

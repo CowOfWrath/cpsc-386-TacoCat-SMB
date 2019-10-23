@@ -23,15 +23,15 @@ class Goomba(Sprite):
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
 
-        self.current_image = pygame.transform.scale(pygame.image.load("images/goomba_2.png"),
+        self.current_image = pygame.transform.scale(pygame.image.load("Images/goomba_2.png"),
                                                     (self.settings.goomba_width, self.settings.goomba_height))
 
         self.current_rect = self.current_image.get_rect()
 
         self.images = []
-        self.images.extend([pygame.transform.scale(pygame.image.load("images/goomba_2.png"),
+        self.images.extend([pygame.transform.scale(pygame.image.load("Images/goomba_2.png"),
                                                    (self.settings.goomba_width, self.settings.goomba_height)),
-                           pygame.transform.scale(pygame.image.load("images/goomba_1.png"),
+                           pygame.transform.scale(pygame.image.load("Images/goomba_1.png"),
                                                   (self.settings.goomba_width, self.settings.goomba_height))])
 
     def draw(self):

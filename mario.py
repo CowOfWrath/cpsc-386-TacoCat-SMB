@@ -34,8 +34,8 @@ class Mario(Sprite):
                                                     (self.settings.sm_width, self.settings.sm_height))
 
         self.current_rect = self.current_image.get_rect()
-        self.x = self.current_rect.x
-        self.y = self.current_rect.y + 200
+        self.x = self.settings.sm_width * 3
+        self.y = self.settings.sm_height * 12
 
         self.display_rect = pygame.Rect(0, 0, self.settings.bm_width, self.settings.bm_height)
 
@@ -204,13 +204,17 @@ class Mario(Sprite):
         else:
             self.screen.blit(pygame.transform.flip(self.current_image, self.facing_left, False), self.current_rect)
 
-    def update(self):
+    def update(self, map_group):
         # Update Movement
         self.walk = False
         if self.move_right and not self.crouch:
             self.walk = True
-            self.x += self.settings.mario_speed
-        elif self.move_left and not self.crouch:
+            if self.x >= self.settings.screen_width / 2:
+                for e in map_group:
+                    e.current_rect.x -= self.settings.mario_speed
+            else:
+                self.x += self.settings.mario_speed
+        elif self.move_left and not self.crouch and self.x > 0:
             self.walk = True
             self.x -= self.settings.mario_speed
 

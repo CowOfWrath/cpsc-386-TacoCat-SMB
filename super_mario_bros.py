@@ -6,8 +6,10 @@
 import pygame
 import sys
 import time
+from pygame.sprite import Group
 
 import game_functions as gf
+import map_generator as map
 from settings import Settings
 from game_state import Game_State
 from mario import Mario
@@ -42,6 +44,27 @@ def run():
     ff = Fire_Flower(screen, settings)
     ff.current_rect.centerx = 300
 
+    # Groups
+    map_group = Group()
+    block_group = Group()
+    enemy_group = Group()
+    powerup_group = Group()
+    fireball_group = Group()
+    
+    star.add(powerup_group)
+    ff.add(powerup_group)
+    coin1.add(powerup_group)
+    coin2.add(powerup_group)
+    star.add(map_group)
+    ff.add(map_group)
+    coin1.add(map_group)
+    coin2.add(map_group)
+    
+    
+    map.generate_map(screen, settings, map_group, block_group, enemy_group)
+    
+    
+    
     # Game Loop
     while state.running:
         clock.tick(60)
@@ -52,17 +75,18 @@ def run():
         star.update()
         coin1.update()
         coin2.update()
-        mario.update()
+        mario.update(map_group)
 
         # Display here
-        screen.fill(settings.bg_color)
-        coin1.draw()
-        coin2.draw()
-        ff.draw()
-        star.draw()
-        mario.draw()
+        gf.update_screen(screen, settings, mario, map_group, block_group, enemy_group, powerup_group, fireball_group)
+        # screen.fill(settings.bg_color)
+        # coin1.draw()
+        # coin2.draw()
+        # ff.draw()
+        # star.draw()
+        # mario.draw()
 
-        pygame.display.flip()
+        # pygame.display.flip()
 
     pygame.quit()
     sys.exit()

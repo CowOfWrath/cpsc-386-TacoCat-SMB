@@ -22,15 +22,15 @@ class Koopa(Sprite):
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
 
-        self.current_image = pygame.transform.scale(pygame.image.load("images/koopa_2.png"),
+        self.current_image = pygame.transform.scale(pygame.image.load("Images/koopa_2.png"),
                                                     (self.settings.koopa_width, self.settings.koopa_height))
 
         self.current_rect = self.current_image.get_rect()
 
         self.images = []
-        self.images.extend([pygame.transform.scale(pygame.image.load("images/koopa_2.png"),
+        self.images.extend([pygame.transform.scale(pygame.image.load("Images/koopa_2.png"),
                                                    (self.settings.koopa_width, self.settings.koopa_height)),
-                           pygame.transform.scale(pygame.image.load("images/koopa_1.png"),
+                           pygame.transform.scale(pygame.image.load("Images/koopa_1.png"),
                                                   (self.settings.koopa_width, self.settings.koopa_height))])
 
     def draw(self):
