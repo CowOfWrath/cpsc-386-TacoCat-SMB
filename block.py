@@ -49,8 +49,8 @@ class Block(Sprite):
             self.initial_image = self.initial_image.copy()
             self.initial_image.fill((255, 255, 255, 0), None, pygame.BLEND_RGBA_MULT)
 
-        self.image = self.initial_image
-        self.rect = self.image.get_rect()
+        self.current_image = self.initial_image
+        self.current_rect = self.current_image.get_rect()
 
     def collision_check(self, sprite_object):
         # TODO: if hittable, break block
@@ -70,7 +70,7 @@ class Block(Sprite):
         pass
 
     def draw(self):
-        self.screen.blit(self.image, self.rect)
+        self.screen.blit(self.current_image, self.current_rect)
 
     def iterate_index(self, max_index):
         time = pygame.time.get_ticks() - self.last_tick
@@ -87,7 +87,7 @@ class BrickRubblePiece(Sprite):
         self.screen = screen
         self.settings = settings
         self.f_index = 0
-        self.image = None
+        self.current_image = None
         self.last_tick = pygame.time.get_ticks()
         self.frames_list = []
         self.image_left = pygame.transform.scale(
@@ -102,23 +102,23 @@ class BrickRubblePiece(Sprite):
         )
 
         if is_left:
-            self.image = self.image_left
+            self.current_image = self.image_left
             self.frames_list[::2] = [self.image_left] * 4
             self.frames_list[1::2] = [self.image_right] * 4
 
         else:
-            self.image = self.image_right
+            self.current_image = self.image_right
             self.frames_list[::2] = [self.image_left] * 4
             self.frames_list[1::2] = [self.image_right] * 4
-        self.rect = self.image.get_rect()
+        self.current_rect = self.current_image.get_rect()
 
     def update(self):
         self.iterate_index(len(self.frames_list))
-        self.image = self.frames_list[self.f_index]
+        self.current_image = self.frames_list[self.f_index]
         # TODO: Animate Rubble Movement
 
     def draw(self):
-        self.screen.blit(self.image, self.rect)
+        self.screen.blit(self.current_image, self.current_rect)
 
     def iterate_index(self, max_index):
         time = pygame.time.get_ticks() - self.last_tick
@@ -146,7 +146,7 @@ class CoinBlock(Block):
 
     def set_empty(self):
         self.is_hittable = False
-        self.image = self.empty_image
+        self.current_image = self.empty_image
 
     def init_coin_list(self):
         for i in range(self.num_coins_left):
@@ -155,7 +155,7 @@ class CoinBlock(Block):
     def collision_check(self, sprite_object):
         if self.is_hittable:
             # TODO: JL Note - may need to check corner top collisions
-            did_collide = self.rect.collidepoint(sprite_object.rect.midtop)
+            did_collide = self.current_rect.collidepoint(sprite_object.rect.midtop)
             if did_collide:
                 # TODO - figure out if need to adjust collided object physics
 
@@ -199,25 +199,25 @@ class MysteryBlock(Block):
         self.tick_time_limit = settings.mystery_block_TBF
 
         self.sound = mixer.Sound(settings.mystery_block_sound)
-        self.image = self.images_idle[0]
-        self.rect = self.image.get_rect()
+        self.current_image = self.images_idle[0]
+        self.current_rect = self.current_image.get_rect()
 
     def update(self):
         if not self.is_empty:
             # update idle frames
             self.iterate_index(len(self.images_idle))
-            self.image = self.images_idle[self.index]
+            self.current_image = self.images_idle[self.index]
 
     def set_empty(self):
         self.stored_item = self.settings.mystery_block_possible_items['NONE']
         self.is_empty = True
         self.is_hittable = False
-        self.image = self.empty_image
+        self.current_image = self.empty_image
 
     def collision_check(self, sprite_object):
         if self.is_hittable:
             # TODO: JL Note - may need to check corner top collisions
-            did_collide = self.rect.collidepoint(sprite_object.rect.midtop)
+            did_collide = self.current_rect.collidepoint(sprite_object.rect.midtop)
             if did_collide:
                 # TODO - figure out if need to adjust collided object physics
                 if not self.is_empty:
