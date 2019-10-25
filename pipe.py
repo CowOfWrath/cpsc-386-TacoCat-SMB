@@ -17,12 +17,12 @@ class Pipe(Sprite):
 
         self.sound = mixer.Sound(settings.pipe_sound)
 
-        self.image = pygame.transform.scale(
+        self.current_image = pygame.transform.scale(
             image.load(settings.pipe_image),
             (self.settings.pipe_width,
              self.settings.pipe_height)
         )
-        self.rect = self.image.get_rect()
+        self.current_rect = self.current_image.get_rect()
 
     def check_entered(self, mario):
         # returns None if no-entry or tuple with teleport spawn location
@@ -43,6 +43,6 @@ class Pipe(Sprite):
             pts = collision_pts["rightSide"]
 
         if pts:
-            if self.rect.collidepoint(pts[0]) and self.rect.collidepoint(pts[1]) and self.rect.collidepoint(pts[2]):
+            if self.current_rect.collidepoint(pts[0]) and self.current_rect.collidepoint(pts[1]) and self.current_rect.collidepoint(pts[2]):
                 # TODO - JL consider mario animation?
                 return self.destination

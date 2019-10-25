@@ -19,12 +19,13 @@ class Block(Sprite):
     COIN = 'coin'
     MYSTERY = 'mystery'
 
-    def __init__(self, screen, settings, is_underground=False, is_invisible=False):
+    def __init__(self, screen, settings, is_underground=False):
         super(Block, self).__init__()
         self.screen = screen
         self.settings = settings
         self.is_underground = is_underground
         self.last_tick = pygame.time.get_ticks()
+        self.index = 0
 
         # Block States
         self.is_hittable = True
@@ -44,10 +45,6 @@ class Block(Sprite):
                 (self.settings.brick_width,
                  self.settings.brick_height)
             )
-        # TODO: may move invisible block to inherit mystery block
-        if is_invisible:
-            self.initial_image = self.initial_image.copy()
-            self.initial_image.fill((255, 255, 255, 0), None, pygame.BLEND_RGBA_MULT)
 
         self.current_image = self.initial_image
         self.current_rect = self.current_image.get_rect()
@@ -178,7 +175,7 @@ class CoinBlock(Block):
 
 class MysteryBlock(Block):
 
-    def __init__(self, screen, settings, is_underground=False, stored_item=''):
+    def __init__(self, screen, settings, is_underground=False, stored_item='', is_invisible=False):
         super(MysteryBlock, self).__init__(screen, settings, is_underground)
         self.empty_image = pygame.transform.scale(
             image.load(settings.block_empty),
@@ -197,6 +194,10 @@ class MysteryBlock(Block):
         self.is_empty = False
         self.index = 0
         self.tick_time_limit = settings.mystery_block_TBF
+
+        if is_invisible:
+            self.initial_image = self.initial_image.copy()
+            self.initial_image.fill((255, 255, 255, 0), None, pygame.BLEND_RGBA_MULT)
 
         self.sound = mixer.Sound(settings.mystery_block_sound)
         self.current_image = self.images_idle[0]

@@ -7,10 +7,12 @@ from pygame.sprite import Sprite
 
 
 class Floor(Sprite):
+
     def __init__(self, screen, settings, is_underground=False):
         super(Floor, self).__init__()
         self.screen = screen
         self.settings = settings
+        self.current_image = None
 
         if is_underground:
             self.current_image = pygame.transform.scale(
