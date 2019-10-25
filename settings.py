@@ -6,7 +6,7 @@
 #   Added image scaling
 # 10/18/19 - JL
 #   added settings for floors, bricks, blocks
-#   added paths for sound and images
+#   added paths for Sound and Images
 #   added dictionary for point values
 from os.path import abspath, dirname
 
