@@ -20,10 +20,10 @@ class Coin(Sprite):
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
 
-        self.current_image = pygame.transform.scale(pygame.image.load("Images/white.png"),
+        self.image = pygame.transform.scale(pygame.image.load("Images/white.png"),
                                                     (self.settings.coin_width, self.settings.coin_height))
 
-        self.current_rect = self.current_image.get_rect()
+        self.rect = self.image.get_rect()
 
         self.images_idle = []
         self.images_idle.append(pygame.transform.scale(pygame.image.load("Images/coin_idle1.png"),
@@ -44,15 +44,15 @@ class Coin(Sprite):
                                                        (self.settings.coin_width, self.settings.coin_height)))
 
     def draw(self):
-        self.screen.blit(self.current_image, self.current_rect)
+        self.screen.blit(self.image, self.rect)
 
     def update(self):
         if self.idle:
             self.iterate_index(len(self.images_idle))
-            self.current_image = self.images_idle[self.index]
+            self.image = self.images_idle[self.index]
         else:
             self.iterate_index(len(self.images_move))
-            self.current_image = self.images_move[self.index]
+            self.image = self.images_move[self.index]
 
     def iterate_index(self, max):
         time = pygame.time.get_ticks() - self.last_tick

@@ -32,17 +32,17 @@ def run():
     mario = Mario(screen, settings)
 
     star = Star(screen, settings)
-    star.current_rect.center = screen.get_rect().center
+    star.rect.center = screen.get_rect().center
 
     coin1 = Coin(screen, settings)
     coin1.idle = False
-    coin1.current_rect.centerx = 100
+    coin1.rect.centerx = 100
 
     coin2 = Coin(screen, settings)
-    coin2.current_rect.centerx = 200
+    coin2.rect.centerx = 200
 
     ff = Fire_Flower(screen, settings)
-    ff.current_rect.centerx = 300
+    ff.rect.centerx = 300
 
     # Groups
     map_group = Group()

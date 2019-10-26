@@ -12,21 +12,21 @@ class Floor(Sprite):
         super(Floor, self).__init__()
         self.screen = screen
         self.settings = settings
-        self.current_image = None
+        self.image = None
 
         if is_underground:
-            self.current_image = pygame.transform.scale(
+            self.image = pygame.transform.scale(
                 image.load(settings.floor_ug_image),
                 (self.settings.brick_width,
                  self.settings.brick_height)
             )
         else:
-            self.current_image = pygame.transform.scale(
+            self.image = pygame.transform.scale(
                 image.load(settings.floor_image),
                 (self.settings.brick_width,
                  self.settings.brick_height)
         )
-        self.current_rect = self.current_image.get_rect()
+        self.rect = self.image.get_rect()
 
     def draw(self):
-        self.screen.blit(self.current_image, self.current_rect)
+        self.screen.blit(self.image, self.rect)

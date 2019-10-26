@@ -30,10 +30,10 @@ class Mario(Sprite):
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
 
-        self.current_image = pygame.transform.scale(pygame.image.load("Images/mario_small_idle.png"),
+        self.image = pygame.transform.scale(pygame.image.load("Images/mario_small_idle.png"),
                                                     (self.settings.sm_width, self.settings.sm_height))
 
-        self.current_rect = self.current_image.get_rect()
+        self.rect = self.image.get_rect()
         self.x = self.settings.sm_width * 3
         self.y = self.settings.sm_height * 12
 
@@ -198,11 +198,11 @@ class Mario(Sprite):
 
     def draw(self):
         # Temporary code to display hitbox
-        self.screen.fill((255, 255, 255), self.current_rect, 0)
+        self.screen.fill((255, 255, 255), self.rect, 0)
         if self.crouch and self.state != 0:  # Image rect is different size from hitbox
-            self.screen.blit(pygame.transform.flip(self.current_image, self.facing_left, False), self.display_rect)
+            self.screen.blit(pygame.transform.flip(self.image, self.facing_left, False), self.display_rect)
         else:
-            self.screen.blit(pygame.transform.flip(self.current_image, self.facing_left, False), self.current_rect)
+            self.screen.blit(pygame.transform.flip(self.image, self.facing_left, False), self.rect)
 
     def update(self, map_group):
         # Update Movement
@@ -211,7 +211,7 @@ class Mario(Sprite):
             self.walk = True
             if self.x >= self.settings.screen_width / 2:
                 for e in map_group:
-                    e.current_rect.x -= self.settings.mario_speed
+                    e.rect.x -= self.settings.mario_speed
             else:
                 self.x += self.settings.mario_speed
         elif self.move_left and not self.crouch and self.x > 0:
@@ -222,142 +222,142 @@ class Mario(Sprite):
         if self.state == 0:  # Small Mario
             if self.grow:  # On mushroom collision set index to 0
                 self.iterate_index(len(self.sm_grow))
-                temp = self.current_rect.copy()
-                self.current_image = self.sm_grow[self.index]
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.bottom = temp.bottom
+                temp = self.rect.copy()
+                self.image = self.sm_grow[self.index]
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.bottom = temp.bottom
             elif self.shrink:
-                self.current_image = self.sm_dead
+                self.image = self.sm_dead
             elif self.jump:
-                self.current_image = self.sm_jump
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.sm_jump
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
             elif self.walk:
                 self.iterate_index(len(self.sm_walk))
-                self.current_image = self.sm_walk[self.index]
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.sm_walk[self.index]
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
             else:
-                self.current_image = self.sm_idle
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.sm_idle
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
         elif self.state == 1:  # Big Mario
             if self.shrink:  # On enemy collsion set indeox to 0
                 self.iterate_index(len(self.bm_shrink))
-                temp = self.current_rect.copy()
-                self.current_image = self.bm_shrink[self.index]
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.bottom = temp.bottom
+                temp = self.rect.copy()
+                self.image = self.bm_shrink[self.index]
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.bottom = temp.bottom
             elif self.jump:
-                self.current_image = self.bm_jump
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.bm_jump
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
             elif self.crouch:
-                self.current_image = self.bm_crouch
-                temp = self.current_rect.copy()
-                self.current_rect = self.sm_idle.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.bottom = temp.bottom
+                self.image = self.bm_crouch
+                temp = self.rect.copy()
+                self.rect = self.sm_idle.get_rect()
+                self.rect.x = self.x
+                self.rect.bottom = temp.bottom
                 self.display_rect.x = self.x
                 self.display_rect.bottom = temp.bottom
             elif self.walk:
                 self.iterate_index(len(self.bm_walk))
-                self.current_image = self.bm_walk[self.index]
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.bm_walk[self.index]
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
             else:
-                self.current_image = self.bm_idle
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.bm_idle
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
         elif self.state == 2:  # Fire Mario
             if self.shrink:  # On enemy collision set index to 0
                 self.iterate_index(len(self.fm_shrink))
-                temp = self.current_rect.copy()
-                self.current_image = self.fm_shrink[self.index]
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.bottom = temp.bottom
+                temp = self.rect.copy()
+                self.image = self.fm_shrink[self.index]
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.bottom = temp.bottom
             elif self.fireball:
-                self.current_image = self.fm_throw_fb
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.fm_throw_fb
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
                 self.fireball = False
             elif self.jump:
-                self.current_image = self.fm_jump
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.fm_jump
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
             elif self.crouch:
-                self.current_image = self.fm_crouch
-                temp = self.current_rect.copy()
-                self.current_rect = self.sm_idle.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.bottom = temp.bottom
+                self.image = self.fm_crouch
+                temp = self.rect.copy()
+                self.rect = self.sm_idle.get_rect()
+                self.rect.x = self.x
+                self.rect.bottom = temp.bottom
                 self.display_rect.x = self.x
                 self.display_rect.bottom = temp.bottom
             elif self.walk:
                 self.iterate_index(len(self.fm_walk))
-                self.current_image = self.fm_walk[self.index]
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.fm_walk[self.index]
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
             else:
-                self.current_image = self.fm_idle
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.fm_idle
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
         elif self.state == 3:  # Small Mario Invincible
             if self.grow:  # On mushroom collision set index to 0
                 self.iterate_index(len(self.smi_grow))
-                temp = self.current_rect.copy()
-                self.current_image = self.smi_grow[self.index]
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.bottom = temp.bottom
+                temp = self.rect.copy()
+                self.image = self.smi_grow[self.index]
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.bottom = temp.bottom
             elif self.jump:
-                self.current_image = self.smi_jump
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.smi_jump
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
             elif self.walk:
                 self.iterate_index(len(self.smi_walk))
-                self.current_image = self.smi_walk[self.index]
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.smi_walk[self.index]
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
             else:
                 self.iterate_index(len(self.smi_sparkle))
-                self.current_image = self.smi_sparkle[self.index]
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.smi_sparkle[self.index]
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
         elif self.state == 4:  # Big Mario Invinicble
             if self.jump:
-                self.current_image = self.bmi_jump
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.bmi_jump
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
             elif self.walk:
                 self.iterate_index(len(self.bmi_walk))
-                self.current_image = self.bmi_walk[self.index]
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.bmi_walk[self.index]
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
             else:
                 self.iterate_index(len(self.bmi_sparkle))
-                self.current_image = self.bmi_sparkle[self.index]
-                self.current_rect = self.current_image.get_rect()
-                self.current_rect.x = self.x
-                self.current_rect.y = self.y
+                self.image = self.bmi_sparkle[self.index]
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
         else:  # reset state to default on error (This should never happen)
             self.state = 0
             self.walk = False

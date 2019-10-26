@@ -17,10 +17,10 @@ class Fire_Flower(Sprite):
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
 
-        self.current_image = pygame.transform.scale(pygame.image.load("Images/white.png"),
-                                                    (self.settings.fire_flower_width, self.settings.fire_flower_height))
+        self.image = pygame.transform.scale(pygame.image.load("Images/white.png"),
+                                            (self.settings.fire_flower_width, self.settings.fire_flower_height))
 
-        self.current_rect = self.current_image.get_rect()
+        self.rect = self.image.get_rect()
 
         self.images = []
         self.images.append(pygame.transform.scale(pygame.image.load("Images/fire_flower_1.png"),
@@ -33,11 +33,11 @@ class Fire_Flower(Sprite):
                                                   (self.settings.fire_flower_width, self.settings.fire_flower_height)))
 
     def draw(self):
-        self.screen.blit(self.current_image, self.current_rect)
+        self.screen.blit(self.image, self.rect)
 
     def update(self):
         self.iterate_index(len(self.images))
-        self.current_image = self.images[self.index]
+        self.image = self.images[self.index]
 
     def iterate_index(self, max):
         time = pygame.time.get_ticks() - self.last_tick

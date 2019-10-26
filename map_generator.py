@@ -14,53 +14,53 @@ class BG(Sprite):
         self.screen = screen
         self.settings = settings
 
-        self.current_image = pygame.image.load("Images/map_1_1.png")
-        self.current_rect = self.current_image.get_rect()
-        self.current_rect.width = self.current_rect.width * self.settings.image_scale
-        self.current_rect.height = self.current_rect.height * self.settings.image_scale
-        self.current_image = pygame.transform.scale(self.current_image,
-                                                    (self.current_rect.width, self.current_rect.height))
+        self.image = pygame.image.load("Images/map_1_1.png")
+        self.rect = self.image.get_rect()
+        self.rect.width = self.rect.width * self.settings.image_scale
+        self.rect.height = self.rect.height * self.settings.image_scale
+        self.image = pygame.transform.scale(self.image,
+                                            (self.rect.width, self.rect.height))
 
     def draw(self):
-        self.screen.blit(self.current_image, self.current_rect)
+        self.screen.blit(self.image, self.rect)
 
 
 def generate_floor(screen, settings, map_group):
     for i in range(0, 69):
         # level 15 and 16
         f = Floor(screen, settings)
-        f.current_rect.top = 13 * settings.floor_height
-        f.current_rect.left = i * settings.floor_width
+        f.rect.top = 13 * settings.floor_height
+        f.rect.left = i * settings.floor_width
         fl = Floor(screen, settings)
-        fl.current_rect.top = 14 * settings.floor_height
-        fl.current_rect.left = i * settings.floor_width
+        fl.rect.top = 14 * settings.floor_height
+        fl.rect.left = i * settings.floor_width
         f.add(map_group)
         fl.add(map_group)
     for i in range(71,86):
         f = Floor(screen, settings)
-        f.current_rect.top = 13 * settings.floor_height
-        f.current_rect.left = i * settings.floor_width
+        f.rect.top = 13 * settings.floor_height
+        f.rect.left = i * settings.floor_width
         fl = Floor(screen, settings)
-        fl.current_rect.top = 14 * settings.floor_height
-        fl.current_rect.left = i * settings.floor_width
+        fl.rect.top = 14 * settings.floor_height
+        fl.rect.left = i * settings.floor_width
         f.add(map_group)
         fl.add(map_group)
     for i in range(89,153):
         f = Floor(screen, settings)
-        f.current_rect.top = 13 * settings.floor_height
-        f.current_rect.left = i * settings.floor_width
+        f.rect.top = 13 * settings.floor_height
+        f.rect.left = i * settings.floor_width
         fl = Floor(screen, settings)
-        fl.current_rect.top = 14 * settings.floor_height
-        fl.current_rect.left = i * settings.floor_width
+        fl.rect.top = 14 * settings.floor_height
+        fl.rect.left = i * settings.floor_width
         f.add(map_group)
         fl.add(map_group)
     for i in range(155,224):
         f = Floor(screen, settings)
-        f.current_rect.top = 13 * settings.floor_height
-        f.current_rect.left = i * settings.floor_width
+        f.rect.top = 13 * settings.floor_height
+        f.rect.left = i * settings.floor_width
         fl = Floor(screen, settings)
-        fl.current_rect.top = 14 * settings.floor_height
-        fl.current_rect.left = i * settings.floor_width
+        fl.rect.top = 14 * settings.floor_height
+        fl.rect.left = i * settings.floor_width
         f.add(map_group)
         fl.add(map_group)
 

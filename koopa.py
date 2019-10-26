@@ -22,10 +22,10 @@ class Koopa(Sprite):
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
 
-        self.current_image = pygame.transform.scale(pygame.image.load("Images/koopa_2.png"),
-                                                    (self.settings.koopa_width, self.settings.koopa_height))
+        self.image = pygame.transform.scale(pygame.image.load("Images/koopa_2.png"),
+                                            (self.settings.koopa_width, self.settings.koopa_height))
 
-        self.current_rect = self.current_image.get_rect()
+        self.rect = self.image.get_rect()
 
         self.images = []
         self.images.extend([pygame.transform.scale(pygame.image.load("Images/koopa_2.png"),
@@ -34,16 +34,16 @@ class Koopa(Sprite):
                                                   (self.settings.koopa_width, self.settings.koopa_height))])
 
     def draw(self):
-        self.screen.blit(self.current_image, self.current_rect)
+        self.screen.blit(self.image, self.rect)
 
     def update(self):
         self.iterate_index(len(self.images))
-        self.current_image = self.images[self.index]
+        self.image = self.images[self.index]
 
         if self.facing_right:
-            self.current_rect.centerx += 1
+            self.rect.centerx += 1
         else:
-            self.current_rect.centerx -= 1
+            self.rect.centerx -= 1
 
     def iterate_index(self, max_):
         time = pygame.time.get_ticks() - self.last_tick
