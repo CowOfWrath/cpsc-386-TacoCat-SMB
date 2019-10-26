@@ -6,7 +6,7 @@
 #   Added image scaling
 # 10/18/19 - JL
 #   added settings for floors, bricks, blocks
-#   added paths for Sound and Images
+#   added paths for Sounds and Images
 #   added dictionary for point values
 from os.path import abspath, dirname
 
@@ -106,11 +106,12 @@ class Settings:
         self.mystery_block_sound = self.SOUND_PATH + 'powerup_appears.wav'
 
         # Pipe Settings
-        self.pipe_width = 32 * self.image_scale
-        self.pipe_height = 32 * self.image_scale
+        self.pipe_width_size_factor = 2
+        self.pipe_width = 16 * self.image_scale * self.pipe_width_size_factor
+        self.pipe_height = 16 * self.image_scale
         self.pipe_image = self.IMAGE_PATH + 'pipe.png'
         self.horiz_pipe_image = self.IMAGE_PATH + 'horiz_pipe.png'
-        self.pipe_sound = self.SOUND_PATH + 'pipe_hit.png'
+        self.pipe_sound = self.SOUND_PATH + 'pipe_hit.wav'
 
         # Goomba settings
         self.goomba_width = 16 * self.image_scale

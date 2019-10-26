@@ -15,7 +15,7 @@ from star import Star
 
 class Block(Sprite):
     INVISIBLE = 'invisible'
-    UNDERGROND = 'underground'
+    UNDERGROUND = 'underground'
     COIN = 'coin'
     MYSTERY = 'mystery'
 
@@ -163,7 +163,7 @@ class CoinBlock(Block):
                     # Animate Coin Trigger
                     # TODO call coin animation - Make sure coin animation plays points
 
-                    # Play Coin Sound
+                    # Play Coin Sounds
                     self.sound.play()
 
                     # Set coinblock to empty if no coins
@@ -225,7 +225,7 @@ class MysteryBlock(Block):
                     # Animate Contained Sprite to Appear
                     self.make_item_appear()
 
-                    # Play Sound
+                    # Play Sounds
                     self.sound.play()
 
                     # Change To Empty

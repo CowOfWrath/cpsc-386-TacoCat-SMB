@@ -7,6 +7,7 @@
 import pygame
 from pygame.sprite import Sprite
 from floor import Floor
+from pipe import Pipe
 
 class BG(Sprite):
     def __init__(self, screen, settings):
@@ -34,6 +35,8 @@ def generate_floor(screen, settings, map_group):
         fl = Floor(screen, settings)
         fl.rect.top = 14 * settings.floor_height
         fl.rect.left = i * settings.floor_width
+        # print('floor top: ' + str(f.rect.top))
+        # print('floor x,y: ' + str(f.rect.x) + ', ' + str(f.rect.y))
         f.add(map_group)
         fl.add(map_group)
     for i in range(71,86):
@@ -64,45 +67,33 @@ def generate_floor(screen, settings, map_group):
         f.add(map_group)
         fl.add(map_group)
 
-    # 29,12 pipe
-    # 29,12 pipe
-    # 30,12 pipe
-    # 30,12 pipe
+    # Overworld Pipes
+    p =  Pipe(screen, settings)
+    p.set_position(11, 28)
+    p.add(map_group)
 
-    # 39,12 pipe
-    # 39,11 pipe
-    # 39,10 pipe
-    # 40,12 pipe
-    # 40,11 pipe
-    # 40,10 pipe
+    p = Pipe(screen, settings, height_factor=3)
+    p.set_position(10, 38)
+    p.add(map_group)
 
-    # 47,12 pipe
-    # 47,11 pipe
-    # 47,10 pipe
-    # 47,9  pipe
-    # 48,12 pipe
-    # 48,11 pipe
-    # 48,10 pipe
-    # 48,9  pipe
+    p = Pipe(screen, settings, height_factor=4)
+    p.set_position(9, 46)
+    p.add(map_group)
 
     # 58,12 pipe
-    # 58,11 pipe
-    # 58,10 pipe
-    # 58,9  pipe
-    # 59,12 pipe
-    # 59,11 pipe
-    # 59,10 pipe
-    # 59,9  pipe
+    p = Pipe(screen, settings, height_factor=4)
+    p.set_position(9, 57)
+    p.add(map_group)
 
-    # 164,12 pipe
-    # 164,11 pipe
-    # 165,12 pipe
-    # 165,11 pipe
+    p = Pipe(screen, settings)
+    p.set_position(11, 163)
+    p.add(map_group)
 
-    # 180,12 pipe
-    # 180,11 pipe
-    # 181,12 pipe
-    # 181,11 pipe
+    p = Pipe(screen, settings)
+    p.set_position(11, 179)
+    p.add(map_group)
+
+    # TODO: Generate Underworld Floors and Pipes
 
 
     
