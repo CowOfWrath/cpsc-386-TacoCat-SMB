@@ -78,6 +78,9 @@ class Settings:
         self.break_brick_sound = self.SOUND_PATH + 'breakblock.wav'
         self.brick_rubble_image_TBF = 100   # TBF - time between frames
 
+        # BlockStairs Settings
+        self.block_stairs_image = self.IMAGE_PATH + 'block.png'
+
         # Block Settings
         self.block_width = 16 * self.image_scale
         self.block_height = 16 * self.image_scale
@@ -99,6 +102,7 @@ class Settings:
         self.mystery_block_possible_items = {
             'MUSHROOM': 'mushroom',
             'FIRE_FLOWER': 'fire-flower',
+            'COIN': 'coin',
             'ONE_UP': '1-up',
             'STAR': 'star',
             'NONE': ''

@@ -19,13 +19,14 @@ class Block(Sprite):
     COIN = 'coin'
     MYSTERY = 'mystery'
 
-    def __init__(self, screen, settings, is_underground=False):
+    def __init__(self, screen, settings, is_underground=False, is_stairs=False):
         super(Block, self).__init__()
         self.screen = screen
         self.settings = settings
         self.is_underground = is_underground
         self.last_tick = pygame.time.get_ticks()
         self.index = 0
+        self.initial_image = None
 
         # Block States
         self.is_hittable = True
@@ -33,21 +34,32 @@ class Block(Sprite):
         # TODO: add break block code
 
         # initial block image
-        if is_underground:
+        if is_stairs:
             self.initial_image = pygame.transform.scale(
-                image.load(settings.floor_ug_image),
+                image.load(settings.block_stairs_image),
                 (self.settings.brick_width,
                  self.settings.brick_height)
             )
+        elif is_underground:
+            self.initial_image = pygame.transform.scale(
+                image.load(settings.brick_ug_image),
+                (self.settings.brick_width,
+                 self.settings.brick_height)
+            )
+
         else:
             self.initial_image = pygame.transform.scale(
-                image.load(settings.floor_image),
+                image.load(settings.brick_image),
                 (self.settings.brick_width,
                  self.settings.brick_height)
             )
 
         self.image = self.initial_image
         self.rect = self.image.get_rect()
+
+    def set_position(self, top, left):
+        self.rect.top = top * self.settings.block_height
+        self.rect.left = left * self.settings.block_width
 
     def collision_check(self, sprite_object):
         # TODO: if hittable, break block
@@ -128,12 +140,12 @@ class BrickRubblePiece(Sprite):
 
 
 class CoinBlock(Block):
-    def __init__(self, screen, settings, is_underground=False, coins=0):
+    def __init__(self, screen, settings, coins=0, is_underground=False):
         super(CoinBlock, self).__init__(screen, settings, is_underground)
         self.num_coins_left = coins
         self.coins = []
         self.empty_image = pygame.transform.scale(
-            image.load(settings.block_empty),
+            image.load(settings.block_empty_image),
             (self.settings.block_width,
              self.settings.block_height)
         )
@@ -175,10 +187,10 @@ class CoinBlock(Block):
 
 class MysteryBlock(Block):
 
-    def __init__(self, screen, settings, is_underground=False, stored_item='', is_invisible=False):
+    def __init__(self, screen, settings, stored_item='', is_invisible=False, is_underground=False):
         super(MysteryBlock, self).__init__(screen, settings, is_underground)
         self.empty_image = pygame.transform.scale(
-            image.load(settings.block_empty),
+            image.load(settings.block_empty_image),
             (self.settings.block_width,
              self.settings.block_height)
         )
@@ -196,8 +208,13 @@ class MysteryBlock(Block):
         self.tick_time_limit = settings.mystery_block_TBF
 
         if is_invisible:
-            self.initial_image = self.initial_image.copy()
-            self.initial_image.fill((255, 255, 255, 0), None, pygame.BLEND_RGBA_MULT)
+            self.initial_image = pygame.Surface([settings.brick_width, settings.brick_height], pygame.SRCALPHA, 32).convert_alpha()
+            # TODO - remove this fill statement for hidden block
+            self.initial_image.fill((255, 255, 255, 50))
+            length = len(self.images_idle)
+            self.images_idle.clear()
+            for i in range(length):
+                self.images_idle.append(self.initial_image)
 
         self.sound = mixer.Sound(settings.mystery_block_sound)
         self.image = self.images_idle[0]
@@ -245,6 +262,10 @@ class MysteryBlock(Block):
             print('Flower item appears!')
             obj = Fire_Flower(self.screen, self.settings)
 
+        elif self.stored_item == self.settings.mystery_block_possible_items['COIN']:
+            print('Flower item appears!')
+            obj = Coin(self.screen, self.settings)
+
         elif self.stored_item == self.settings.mystery_block_possible_items['ONE_UP']:
             print('1UP item appears!')
             obj = Mushroom(self.screen, self.settings, is_one_up=True)
@@ -264,3 +285,28 @@ class MysteryBlock(Block):
             self.last_tick = pygame.time.get_ticks()
         if self.index == max_index:
             self.index = 0
+
+
+class BrickMysteryBlock(MysteryBlock):
+    def __init__(self, screen, settings, stored_item='', is_underground=False):
+        super(BrickMysteryBlock, self).__init__(screen, settings, stored_item=stored_item, is_invisible=False, is_underground=is_underground)
+
+        # initial block image
+        if is_underground:
+            self.initial_image = pygame.transform.scale(
+                image.load(settings.brick_ug_image),
+                (self.settings.brick_width,
+                 self.settings.brick_height)
+            )
+        else:
+            self.initial_image = pygame.transform.scale(
+                image.load(settings.brick_image),
+                (self.settings.brick_width,
+                 self.settings.brick_height)
+            )
+
+        self.images_idle.clear()
+        self.images_idle = [self.initial_image]
+        self.image = self.images_idle[0]
+        self.rect = self.image.get_rect()
+

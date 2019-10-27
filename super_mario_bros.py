@@ -76,6 +76,11 @@ def run():
         coin1.update()
         coin2.update()
         mario.update(map_group)
+        #block updates
+        for b in block_group.sprites():
+            b.update()
+
+
 
         # Display here
         gf.update_screen(screen, settings, mario, map_group, block_group, enemy_group, powerup_group, fireball_group)
