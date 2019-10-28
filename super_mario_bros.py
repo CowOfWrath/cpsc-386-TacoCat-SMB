@@ -50,18 +50,22 @@ def run():
     enemy_group = Group()
     powerup_group = Group()
     fireball_group = Group()
-    
-    star.add(powerup_group)
-    ff.add(powerup_group)
-    coin1.add(powerup_group)
-    coin2.add(powerup_group)
+
+    map.generate_map(screen, settings, map_group, block_group, enemy_group)
+
+
     star.add(map_group)
     ff.add(map_group)
     coin1.add(map_group)
     coin2.add(map_group)
+    star.add(powerup_group)
+    ff.add(powerup_group)
+    coin1.add(powerup_group)
+    coin2.add(powerup_group)
+
     
     
-    map.generate_map(screen, settings, map_group, block_group, enemy_group)
+
     
     
     
@@ -71,11 +75,12 @@ def run():
 
         # Update here
         gf.check_events(state, mario)
-        ff.update()
-        star.update()
-        coin1.update()
-        coin2.update()
-        mario.update(map_group)
+        gf.update(screen, settings, mario, map_group, block_group, enemy_group, powerup_group, fireball_group)
+        # ff.update()
+        # star.update()
+        # coin1.update()
+        # coin2.update()
+        # mario.update(map_group)
         #block updates
         for b in block_group.sprites():
             b.update()

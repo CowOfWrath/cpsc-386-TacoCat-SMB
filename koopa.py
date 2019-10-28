@@ -40,6 +40,9 @@ class Koopa(Sprite):
         self.iterate_index(len(self.images))
         self.image = self.images[self.index]
 
+        # gravity
+        # self.rect.centery += self.settings.gravity
+
         if self.facing_right:
             self.rect.centerx += 1
         else:

@@ -41,7 +41,9 @@ class Settings:
         self.bm_height = 32 * self.image_scale
         self.sm_width = 16 * self.image_scale
         self.sm_height = 16 * self.image_scale
-        self.mario_speed = 4 * self.image_scale
+        self.mario_walk = 4 * self.image_scale
+        self.mario_run = 6 * self.image_scale
+        self.mario_jump = 8 * self.image_scale
 
         # Star Settings
         self.star_width = 16 * self.image_scale
@@ -133,3 +135,6 @@ class Settings:
         self.mushroom_speed = 1 * self.image_scale
         self.mushroom_img = self.IMAGE_PATH + 'mushroom.png'
         self.oneup_img = self.IMAGE_PATH + '1_up.png'
+
+        # Physics Settings
+        self.gravity = 4 * self.image_scale

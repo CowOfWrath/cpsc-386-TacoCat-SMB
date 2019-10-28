@@ -31,6 +31,9 @@ class Mushroom(Sprite):
         self.screen.blit(self.image, self.mushroom_rect)
 
     def update(self):
+        # gravity
+        # self.rect.centery += self.settings.gravity
+
         if self.going_left:
             self.mushroom_rect -= self.settings.mushroom_speed
         else:

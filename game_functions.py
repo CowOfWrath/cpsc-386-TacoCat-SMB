@@ -43,6 +43,9 @@ def check_keydown(state, event, mario):
         print("down down")
         mario.crouch = True
 
+    if event.key == pygame.K_LCTRL:
+        mario.run = True
+
 
 def check_keyup(event, mario):
     if event.key == pygame.K_RIGHT:
@@ -59,38 +62,65 @@ def check_keyup(event, mario):
         print("down up")
         mario.crouch = False
 
+    if event.key == pygame.K_LCTRL:
+        mario.run = False
+
+def collide_enemies(mario, enemy_group, fireball_group):
+    collisions = pygame.sprite.groupcollide(enemy_group, fireball_group, True, True)
+    for e in enemy_group:
+        if pygame.sprite.collide_rect(mario, e):
+            if mario.state == 0:
+                if mario.rect.centery > e.rect.centery
+                    e.kill()
+                else:
+                    mario.dead = True # need to add code for killing and animating mario death
+            if mario.state == 1 and not mario.shrink:
+                if mario.rect.centery > e.rect.centery
+                    e.kill()
+                else:
+                    mario.shrink = True
+            if mario.state == 2 and not mario.shrink:
+                if mario.rect.centery > e.rect.centery
+                    e.kill()
+                else:
+                    mario.shrink = True
+            if mario.state == 3:
+                e.kill()
+            if mario.state == 4:
+                e.kill()
+
+
 def update(screen, settings, mario, map_group, block_group, enemy_group, powerup_group, fireball_group):
-    for x in map_group:
-        x.update()
+    # for x in map_group:
+    #     x.update()
+    map_group.update()
+    mario.update(map_group)
+    # for x in block_group:
+    #     x.update()
+    # for x in enemy_group:
+    #     x.update()
+    # for x in powerup_group:
+    #     x.update()
+    # for x in fireball_group:
+    #     x.update()
 
-    for x in block_group:
-        x.update()
-    for x in enemy_group:
-        x.update()
-    for x in powerup_group:
-        x.update()
-    for x in fireball_group:
-        x.update()
 
-    mario.update()
 
 def update_screen(screen, settings, mario, map_group, block_group, enemy_group, powerup_group, fireball_group):
     screen.fill(settings.bg_color)
-
-
-    for x in map_group:
-        x.draw()
-
-    for x in block_group:
-        x.draw()
-    for x in enemy_group:
-        x.draw()
-    for x in powerup_group:
-        x.draw()
-    for x in fireball_group:
-        x.draw()
-
+    map_group.draw(screen)
     mario.draw()
+    # for x in map_group:
+    #     x.draw()
+
+    # for x in block_group:
+    #     x.draw()
+    # for x in enemy_group:
+    #     x.draw()
+    # for x in powerup_group:
+    #     x.draw()
+    # for x in fireball_group:
+    #     x.draw()
 
     # map_group.draw(screen)
     # block_group.draw(screen)

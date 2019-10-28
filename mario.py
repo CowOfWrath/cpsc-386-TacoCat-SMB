@@ -18,7 +18,9 @@ class Mario(Sprite):
 
         # States: sm = 0 | bm = 1 | fm = 2 | smi = 3 | bmi = 4
         self.state = 0
+        self.dead = False
         self.walk = False
+        self.run = False
         self.jump = False
         self.crouch = False
         self.shrink = False
@@ -211,12 +213,25 @@ class Mario(Sprite):
             self.walk = True
             if self.x >= self.settings.screen_width / 2:
                 for e in map_group:
-                    e.rect.x -= self.settings.mario_speed
+                    if self.run:
+                        e.rect.x -= self.settings.mario_run
+                    else:
+                        e.rect.x -= self.settings.mario_walk
             else:
-                self.x += self.settings.mario_speed
+                if self.run:
+                    self.x += self.settings.mario_run
+                else:
+                    self.x += self.settings.mario_walk
         elif self.move_left and not self.crouch and self.x > 0:
             self.walk = True
-            self.x -= self.settings.mario_speed
+            if self.run:
+                self.x -= self.settings.mario_run
+            else:
+                self.x -= self.settings.mario_walk
+
+        self.y += self.settings.gravity
+        if self.jump:
+            self.y -= self.settings.mario_jump
 
         # Update animation states and hitbox and position
         if self.state == 0:  # Small Mario
