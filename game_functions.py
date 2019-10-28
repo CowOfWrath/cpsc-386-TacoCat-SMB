@@ -70,17 +70,17 @@ def collide_enemies(mario, enemy_group, fireball_group):
     for e in enemy_group:
         if pygame.sprite.collide_rect(mario, e):
             if mario.state == 0:
-                if mario.rect.centery > e.rect.centery
+                if mario.rect.centery > e.rect.centery:
                     e.kill()
                 else:
                     mario.dead = True # need to add code for killing and animating mario death
             if mario.state == 1 and not mario.shrink:
-                if mario.rect.centery > e.rect.centery
+                if mario.rect.centery > e.rect.centery:
                     e.kill()
                 else:
                     mario.shrink = True
             if mario.state == 2 and not mario.shrink:
-                if mario.rect.centery > e.rect.centery
+                if mario.rect.centery > e.rect.centery:
                     e.kill()
                 else:
                     mario.shrink = True
