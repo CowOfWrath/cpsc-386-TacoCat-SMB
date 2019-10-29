@@ -208,7 +208,7 @@ class Mario(Sprite):
 
     def draw(self):
         # Temporary code to display hitbox
-        self.screen.fill((255, 255, 255), self.rect, 0)
+        # self.screen.fill((255, 255, 255), self.rect, 0)
         if self.crouch and self.state != 0:  # Image rect is different size from hitbox
             self.screen.blit(pygame.transform.flip(self.image, self.facing_left, False), self.display_rect)
         else:

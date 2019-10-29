@@ -77,30 +77,14 @@ def run():
         # Update here
         gf.check_events(state, mario)
 
-        gf.check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group)
 
         gf.update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group)
-        # ff.update()
-        # star.update()
-        # coin1.update()
-        # coin2.update()
-        # mario.update(map_group)
-        #block updates
-        # for b in block_group.sprites():
-        #     b.update()
+
 
 
 
         # Display here
         gf.update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group)
-        # screen.fill(settings.bg_color)
-        # coin1.draw()
-        # coin2.draw()
-        # ff.draw()
-        # star.draw()
-        # mario.draw()
-
-        # pygame.display.flip()
 
     pygame.quit()
     sys.exit()
