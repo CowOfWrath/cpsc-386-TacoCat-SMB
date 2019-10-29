@@ -182,9 +182,6 @@ def mario_block_collision(mario, floor_group, pipe_group, block_group, map_group
 
     block_wall_hits = pygame.sprite.groupcollide(mg, block_group, False, False, collided=mario_wall_collide)
     pipe_wall_hits = pygame.sprite.groupcollide(mg, pipe_group, False, False, collided=mario_wall_collide)
-    if block_wall_hits or pipe_wall_hits:
-        print('collided to wall')
-        return
 
     # Bottom of Block Collision
     block_hits = pygame.sprite.groupcollide(mg, block_group, False, False, collided=mario_block_bottom_collide)
