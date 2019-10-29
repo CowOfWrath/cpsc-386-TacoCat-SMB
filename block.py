@@ -32,6 +32,8 @@ class Block(Sprite):
         self.is_hittable = True
         self.is_broken = False
         # TODO: add break block code
+        self.break_sound = mixer.Sound(settings.break_brick_sound)
+
 
         # initial block image
         if is_stairs:
@@ -73,39 +75,11 @@ class Block(Sprite):
         return self.collision_pts
 
     def collision_check(self, sprite_object):
-        cpts = self.get_collision_points()
-        so_cpts = {
-            "topSide": [sprite_object.rect.topleft, sprite_object.rect.midtop, sprite_object.rect.topright],
-            "rightSide": [sprite_object.rect.topright, sprite_object.rect.midright, sprite_object.rect.bottomright],
-            "botSide": [sprite_object.rect.bottomleft, sprite_object.rect.midbottom, sprite_object.rect.bottomright],
-            "leftSide": [sprite_object.rect.topleft, sprite_object.rect.midleft, sprite_object.rect.bottomleft],
-        }
-        # if bottom of sprite hit top of rect, set spriteobj to top of rect
-        if( self.rect.collidepoint(so_cpts["botSide"][0]) or
-            self.rect.collidepoint(so_cpts["botSide"][1]) or
-            self.rect.collidepoint(so_cpts["botSide"][2])):
-            sprite_object.y = self.rect.top - sprite_object.rect.h
-            sprite_object.is_on_block = True
-            sprite_object.is_falling = False
+        pass
 
-        #if sprite hits left/right side set sprite to right/left side of block
-        elif (self.rect.collidepoint(so_cpts["leftSide"][0]) or
-            self.rect.collidepoint(so_cpts["leftSide"][1]) or
-            self.rect.collidepoint(so_cpts["leftSide"][2])):
-            sprite_object.rect.x = self.rect.right
-
-
-        elif (self.rect.collidepoint(so_cpts["rightSide"][0]) or
-                self.rect.collidepoint(so_cpts["rightSide"][1]) or
-                self.rect.collidepoint(so_cpts["rightSide"][2])):
-            sprite_object.rect.x = self.rect.left - sprite_object.rect.w
-
-        # TODO: if hittable, break block
-        # check if hit bottom
-
-        # return updated sprite_object
-        return sprite_object
-        # pass
+    def handle_bottom_collision(self, map_group, rubble_group=None):
+        if self.is_hittable and not self.is_broken:
+            self.break_block(map_group=map_group, rubble_group=rubble_group)
 
     def update(self):
         pass
@@ -120,6 +94,22 @@ class Block(Sprite):
             print('TODO - get sprite_object rect and move block')
         pass
 
+    def break_block(self, rubble_group, map_group):
+        if self.is_hittable:
+            self.is_broken = True
+            speeds = [(-15, 5), (-10, 5), (10, 5), (15, 5)]
+            for speed in speeds:
+                left = False
+                if speed[0] < 0:
+                    left = True
+                rubble = BrickRubblePiece(self.screen, self.settings, is_left=left, x=speed[0], y=speed[1] )
+                rubble_group.add(rubble)
+                map_group.add(rubble)
+            self.break_sound.play()
+            self.kill()
+
+
+
     def draw(self):
         self.screen.blit(self.image, self.rect)
 
@@ -133,7 +123,7 @@ class Block(Sprite):
 
 
 class BrickRubblePiece(Sprite):
-    def __init__(self, screen, settings, is_left=True):
+    def __init__(self, screen, settings, is_left=True, x=0, y=0):
         super(BrickRubblePiece, self).__init__()
         self.screen = screen
         self.settings = settings
@@ -162,11 +152,23 @@ class BrickRubblePiece(Sprite):
             self.frames_list[::2] = [self.image_left] * 4
             self.frames_list[1::2] = [self.image_right] * 4
         self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = x, y
+        self.x_speed = settings.brick_rubble_speed_x
+        self.y_speed = settings.brick_rubble_speed_y
 
     def update(self):
+        # update image
         self.iterate_index(len(self.frames_list))
         self.image = self.frames_list[self.f_index]
-        # TODO: Animate Rubble Movement
+        #update pos
+        self.rect.x += self.x_speed
+        self.rect.y += self.y_speed
+        if self.x_speed > 0:
+            self.x_speed -= 1
+        else:
+            self.x_speed += 1
+        if self.rect.y > self.screen.get_height():
+            self.kill()
 
     def draw(self):
         self.screen.blit(self.image, self.rect)

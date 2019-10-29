@@ -169,7 +169,7 @@ def mario_block_bottom_collide(mario, block):
     return False
 
 
-def mario_block_collision(mario, floor_group, pipe_group, block_group):
+def mario_block_collision(mario, floor_group, pipe_group, block_group, map_group):
     mg = pygame.sprite.Group(mario)
 
     # Check if Hit a wall
@@ -178,15 +178,18 @@ def mario_block_collision(mario, floor_group, pipe_group, block_group):
     block_wall_hits = pygame.sprite.groupcollide(mg, block_group, False, False, collided=mario_wall_collide)
     pipe_wall_hits = pygame.sprite.groupcollide(mg, pipe_group, False, False, collided=mario_wall_collide)
 
-    # if block_wall_hits or pipe_wall_hits:
-    #     print('collided to wall')
-    #     # return
+    if block_wall_hits or pipe_wall_hits or floor_wall_hits:
+        print('collided to wall')
+        return
 
     # Bottom of Block Collision
     block_hits = pygame.sprite.groupcollide(mg, block_group, False, False, collided=mario_block_bottom_collide)
-    # if block_hits:
-    #     print('collided to bottom of a block')
-    #     # return
+    if block_hits:
+        for blocks in block_hits.values():
+            for block in blocks:
+                print('collided to bottom of a block')
+                block.break_block(map_group=map_group, rubble_group=pygame.sprite.Group())
+        return
 
     # LANDING ON LOGIC
     mario.is_falling = True
@@ -227,28 +230,14 @@ def mario_block_collision(mario, floor_group, pipe_group, block_group):
         #             # mg.empty()
         #             return
 
-    # Check
-
+    # Clear mario group so no duplication
     mg.empty()
 
-    # mg = pygame.sprite.Group(mario)
-    # block_hits = pygame.sprite.groupcollide(mg, block_group, False, False )
-    # if block_hits:
-    #     print(block_hits.values())
-    #     for blocks in block_hits.values():
-    #         for b in blocks:
-    #             mario = b.collision_check(mario)
-    # else:
-    #     mario.is_on_block = False
-    #     mario.is_falling = True
-    # mg.empty()
-        # floor_hits.collision_check(mario)
 
 
 def check_collisions(settings, mario, map_group, floor_group, pipe_group,block_group, enemy_group, powerup_group, fireball_group):
-    mario_block_collision(mario, floor_group, pipe_group, block_group)
+    mario_block_collision(mario, floor_group, pipe_group, block_group, map_group)
     collide_enemies(mario, enemy_group, fireball_group)
-
 
 def update(screen, settings, mario, map_group, floor_group, pipe_group,block_group, enemy_group, powerup_group, fireball_group):
     map_group.update()
