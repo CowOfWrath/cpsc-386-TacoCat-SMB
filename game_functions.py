@@ -123,9 +123,8 @@ def mario_pipe_collide(mario, pipe):
 
 def mario_floor_collide(mario, floor):
     if (mario.rect.bottom >= floor.rect.top and
-            ((floor.rect.left <= mario.rect.left <= floor.rect.right) or
-             (floor.rect.left <= mario.rect.right <= floor.rect.right)) and
-            mario.rect.top < floor.rect.bottom):
+            (floor.rect.left <= mario.rect.centerx <= floor.rect.right) and
+            mario.rect.top < floor.rect.top):
         mario.rect.bottom = floor.rect.top - 1
         mario.is_falling = False
         mario.jump = False
@@ -135,7 +134,7 @@ def mario_floor_collide(mario, floor):
 
 def mario_wall_collide(mario, wall):
     #left side of wall
-    if ( mario.move_right and mario.rect.right >= wall.rect.left and
+    if (mario.rect.right >= wall.rect.left and
             (wall.rect.top < mario.rect.centery < wall.rect.bottom) and mario.rect.left < wall.rect.left
             and not mario.hit_wall):
         print('collision w/ left side')
@@ -144,7 +143,7 @@ def mario_wall_collide(mario, wall):
         mario.rect.right = wall.rect.left - 1
         mario.hit_wall = True
         return True
-    elif ( mario.move_left and mario.rect.left <= wall.rect.right and
+    elif (mario.rect.left <= wall.rect.right and
             (wall.rect.top < mario.rect.centery < wall.rect.bottom) and mario.rect.right > wall.rect.right
             and not mario.hit_wall):
         print('collision w/ right side')
@@ -175,8 +174,12 @@ def mario_block_collision(mario, floor_group, pipe_group, block_group):
     # Check if Hit a wall
     mario.hit_wall = False
     floor_wall_hits = pygame.sprite.groupcollide(mg, floor_group, False, False, collided=mario_wall_collide)
+    if floor_wall_hits:
+        return
+
     block_wall_hits = pygame.sprite.groupcollide(mg, block_group, False, False, collided=mario_wall_collide)
     pipe_wall_hits = pygame.sprite.groupcollide(mg, pipe_group, False, False, collided=mario_wall_collide)
+
 
     # if block_wall_hits or pipe_wall_hits:
     #     print('collided to wall')
@@ -184,14 +187,17 @@ def mario_block_collision(mario, floor_group, pipe_group, block_group):
 
     # Bottom of Block Collision
     block_hits = pygame.sprite.groupcollide(mg, block_group, False, False, collided=mario_block_bottom_collide)
+    if block_hits:
+        return
     # if block_hits:
     #     print('collided to bottom of a block')
     #     # return
 
     # LANDING ON LOGIC
     mario.is_falling = True
-    if not floor_wall_hits:
-        floor_hits = pygame.sprite.groupcollide(mg, floor_group, False, False, collided=mario_floor_collide)
+    floor_hits = pygame.sprite.groupcollide(mg, floor_group, False, False, collided=mario_floor_collide)
+    if floor_hits:
+        return
         # if floor_hits:
         #     # print(floor_hits)
         #     mario.is_falling = False
@@ -205,7 +211,11 @@ def mario_block_collision(mario, floor_group, pipe_group, block_group):
 
     if mario.is_falling:
         block_hits = pygame.sprite.groupcollide(mg, block_group, False, False, collided=mario_block_collide)
+        if block_hits:
+            return
         pipe_hits = pygame.sprite.groupcollide(mg, pipe_group, False, False, collided=mario_pipe_collide)
+        if pipe_hits:
+            return
         # if block_hits:
         #     # print(block_hits)
         #     mario.is_falling = False
