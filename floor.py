@@ -3,13 +3,14 @@
 # 10/18/19 Initial creation - JL
 import pygame
 from pygame import image
-from pygame.sprite import Sprite
+# from pygame.sprite import Sprite
+from block import Block
 
 
-class Floor(Sprite):
+class Floor(Block):
 
     def __init__(self, screen, settings, is_underground=False):
-        super(Floor, self).__init__()
+        super(Floor, self).__init__(screen, settings, is_underground=is_underground)
         self.screen = screen
         self.settings = settings
         self.image = None
@@ -27,6 +28,8 @@ class Floor(Sprite):
                  self.settings.brick_height)
         )
         self.rect = self.image.get_rect()
+        self.collision_pts = self.get_collision_points()
+
 
     def draw(self):
         self.screen.blit(self.image, self.rect)

@@ -27,7 +27,7 @@ class BG(Sprite):
         self.screen.blit(self.image, self.rect)
 
 
-def generate_floor(screen, settings, map_group):
+def generate_floor(screen, settings, map_group, floor_group, pipe_group):
     for i in range(0, 69):
         # level 15 and 16
         f = Floor(screen, settings)
@@ -38,8 +38,8 @@ def generate_floor(screen, settings, map_group):
         fl.rect.left = i * settings.floor_width
         # print('floor top: ' + str(f.rect.top))
         # print('floor x,y: ' + str(f.rect.x) + ', ' + str(f.rect.y))
-        f.add(map_group)
-        fl.add(map_group)
+        f.add(map_group, floor_group)
+        fl.add(map_group, floor_group)
     for i in range(71,86):
         f = Floor(screen, settings)
         f.rect.top = 13 * settings.floor_height
@@ -47,8 +47,8 @@ def generate_floor(screen, settings, map_group):
         fl = Floor(screen, settings)
         fl.rect.top = 14 * settings.floor_height
         fl.rect.left = i * settings.floor_width
-        f.add(map_group)
-        fl.add(map_group)
+        f.add(map_group, floor_group)
+        fl.add(map_group, floor_group)
     for i in range(89,153):
         f = Floor(screen, settings)
         f.rect.top = 13 * settings.floor_height
@@ -56,8 +56,8 @@ def generate_floor(screen, settings, map_group):
         fl = Floor(screen, settings)
         fl.rect.top = 14 * settings.floor_height
         fl.rect.left = i * settings.floor_width
-        f.add(map_group)
-        fl.add(map_group)
+        f.add(map_group, floor_group)
+        fl.add(map_group, floor_group)
     for i in range(155,224):
         f = Floor(screen, settings)
         f.rect.top = 13 * settings.floor_height
@@ -65,34 +65,35 @@ def generate_floor(screen, settings, map_group):
         fl = Floor(screen, settings)
         fl.rect.top = 14 * settings.floor_height
         fl.rect.left = i * settings.floor_width
-        f.add(map_group)
-        fl.add(map_group)
+        f.add(map_group, floor_group)
+        fl.add(map_group, floor_group)
 
     # Overworld Pipes
     p =  Pipe(screen, settings)
     p.set_position(11, 28)
-    p.add(map_group)
+    p.add(map_group, pipe_group)
+    print('pipe x,y' + str(p.rect.x) + ', ' + str(p.rect.y))
 
     p = Pipe(screen, settings, height_factor=3)
     p.set_position(10, 38)
-    p.add(map_group)
+    p.add(map_group, pipe_group)
 
     p = Pipe(screen, settings, height_factor=4)
     p.set_position(9, 46)
-    p.add(map_group)
+    p.add(map_group, pipe_group)
 
     # 58,12 pipe
     p = Pipe(screen, settings, height_factor=4)
     p.set_position(9, 57)
-    p.add(map_group)
+    p.add(map_group, pipe_group)
 
     p = Pipe(screen, settings)
     p.set_position(11, 163)
-    p.add(map_group)
+    p.add(map_group, pipe_group)
 
     p = Pipe(screen, settings)
     p.set_position(11, 179)
-    p.add(map_group)
+    p.add(map_group, pipe_group)
 
     # TODO: Generate Underworld Floors and Pipes
 
@@ -485,10 +486,10 @@ def generate_blocks(screen, settings, map_group, block_group):
 
 
 
-def generate_map(screen, settings, map_group, block_group, enemy_group):
+def generate_map(screen, settings, map_group, floor_group, pipe_group, block_group, enemy_group):
     bg = BG(screen, settings)
     bg.add(map_group)
-    generate_floor(screen, settings, map_group)
+    generate_floor(screen, settings, map_group, floor_group, pipe_group)
     generate_blocks(screen, settings, map_group, block_group)
     #generate_entities()
 

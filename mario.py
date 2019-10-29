@@ -5,6 +5,9 @@
 #   Added image handling and placeholders
 # 10/17/19 - RC
 #   Added some sprites and some state changes
+# 10/27/10 - JL
+#   Added mario jump
+#   Added mario collision flags and logic
 
 import pygame
 from pygame.sprite import Sprite
@@ -31,6 +34,11 @@ class Mario(Sprite):
         self.move_left = False
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
+
+        # Mario collision Flags
+        self.is_falling = True
+        self.is_jumping = False
+        self.hit_wall = False
 
         self.image = pygame.transform.scale(pygame.image.load("Images/mario_small_idle.png"),
                                                     (self.settings.sm_width, self.settings.sm_height))
@@ -209,9 +217,12 @@ class Mario(Sprite):
     def update(self, map_group):
         # Update Movement
         self.walk = False
+        # print("has hit wall: " + str(self.hit_wall))
         if self.move_right and not self.crouch:
             self.walk = True
-            if self.x >= self.settings.screen_width / 2:
+            if self.hit_wall:
+                print('hitting a wall')
+            elif self.x >= self.settings.screen_width / 2:
                 for e in map_group:
                     if self.run:
                         e.rect.x -= self.settings.mario_run
@@ -224,14 +235,28 @@ class Mario(Sprite):
                     self.x += self.settings.mario_walk
         elif self.move_left and not self.crouch and self.x > 0:
             self.walk = True
-            if self.run:
+            if self.hit_wall:
+                print('hitting a wall')
+            elif self.run:
                 self.x -= self.settings.mario_run
             else:
                 self.x -= self.settings.mario_walk
+        # else:
+        #     print('no wall hit')
 
-        self.y += self.settings.gravity
-        if self.jump:
-            self.y -= self.settings.mario_jump
+        if self.is_falling:
+            self.y += self.settings.gravity
+            self.jump = True
+
+        if self.is_jumping:
+            if self.y <= self.max_jump_height:
+                self.is_falling = True
+                self.is_jumping = False
+                self.y += self.settings.gravity
+            else:
+                self.y -= self.settings.mario_jump
+                self.is_falling = False
+                self.jump = True
 
         # Update animation states and hitbox and position
         if self.state == 0:  # Small Mario
@@ -385,6 +410,9 @@ class Mario(Sprite):
             self.move_right = False
             self.move_left = False
             self.index = 0
+
+    def set_max_jump_height(self):
+        self.max_jump_height = self.y - self.settings.mario_max_jump_height
 
     def iterate_index(self, max):
         time = pygame.time.get_ticks() - self.last_tick

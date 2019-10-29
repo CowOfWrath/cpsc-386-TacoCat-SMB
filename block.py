@@ -57,13 +57,55 @@ class Block(Sprite):
         self.image = self.initial_image
         self.rect = self.image.get_rect()
 
+        self.collision_pts = self.get_collision_points()
+
     def set_position(self, top, left):
         self.rect.top = top * self.settings.block_height
         self.rect.left = left * self.settings.block_width
 
+    def get_collision_points(self):
+        self.collision_pts = {
+            "topSide": [self.rect.topleft, self.rect.midtop, self.rect.topright],
+            "rightSide": [self.rect.topright, self.rect.midright, self.rect.bottomright],
+            "botSide": [self.rect.bottomleft, self.rect.midbottom, self.rect.bottomright],
+            "leftSide": [self.rect.topleft, self.rect.midleft, self.rect.bottomleft],
+        }
+        return self.collision_pts
+
     def collision_check(self, sprite_object):
+        cpts = self.get_collision_points()
+        so_cpts = {
+            "topSide": [sprite_object.rect.topleft, sprite_object.rect.midtop, sprite_object.rect.topright],
+            "rightSide": [sprite_object.rect.topright, sprite_object.rect.midright, sprite_object.rect.bottomright],
+            "botSide": [sprite_object.rect.bottomleft, sprite_object.rect.midbottom, sprite_object.rect.bottomright],
+            "leftSide": [sprite_object.rect.topleft, sprite_object.rect.midleft, sprite_object.rect.bottomleft],
+        }
+        # if bottom of sprite hit top of rect, set spriteobj to top of rect
+        if( self.rect.collidepoint(so_cpts["botSide"][0]) or
+            self.rect.collidepoint(so_cpts["botSide"][1]) or
+            self.rect.collidepoint(so_cpts["botSide"][2])):
+            sprite_object.y = self.rect.top - sprite_object.rect.h
+            sprite_object.is_on_block = True
+            sprite_object.is_falling = False
+
+        #if sprite hits left/right side set sprite to right/left side of block
+        elif (self.rect.collidepoint(so_cpts["leftSide"][0]) or
+            self.rect.collidepoint(so_cpts["leftSide"][1]) or
+            self.rect.collidepoint(so_cpts["leftSide"][2])):
+            sprite_object.rect.x = self.rect.right
+
+
+        elif (self.rect.collidepoint(so_cpts["rightSide"][0]) or
+                self.rect.collidepoint(so_cpts["rightSide"][1]) or
+                self.rect.collidepoint(so_cpts["rightSide"][2])):
+            sprite_object.rect.x = self.rect.left - sprite_object.rect.w
+
         # TODO: if hittable, break block
-        pass
+        # check if hit bottom
+
+        # return updated sprite_object
+        return sprite_object
+        # pass
 
     def update(self):
         pass

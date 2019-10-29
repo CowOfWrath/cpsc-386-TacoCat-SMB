@@ -44,6 +44,7 @@ class Settings:
         self.mario_walk = 4 * self.image_scale
         self.mario_run = 6 * self.image_scale
         self.mario_jump = 8 * self.image_scale
+        self.mario_max_jump_height = 4 * self.sm_height
 
         # Star Settings
         self.star_width = 16 * self.image_scale

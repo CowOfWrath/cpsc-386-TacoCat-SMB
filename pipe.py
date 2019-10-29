@@ -30,15 +30,26 @@ class Pipe(Sprite):
         # image = image.convert_alpha()
         # self.image = pygame.Surface(()).convert()
         self.rect = self.image.get_rect()
-        self.image.fill((255, 255, 255, 128))
+        self.image.fill((255, 255, 255, 100))
         self.state = None
+        self.collision_pts = self.get_collision_points()
 
     def draw(self):
         self.screen.blit(self.image, self.rect)
 
+    def get_collision_points(self):
+        self.collision_pts = {
+            "topSide": [self.rect.topleft, self.rect.midtop, self.rect.topright],
+            "rightSide": [self.rect.topright, self.rect.midright, self.rect.bottomright],
+            "botSide": [self.rect.bottomleft, self.rect.midbottom, self.rect.bottomright],
+            "leftSide": [self.rect.topleft, self.rect.midleft, self.rect.bottomleft],
+        }
+        return self.collision_pts
+
     def set_position(self, top, left):
         self.rect.top = top * self.settings.pipe_height
         self.rect.left = left * self.settings.pipe_width / self.settings.pipe_width_size_factor
+        # print('pipe x,y' + str(self.rect.x) + ', ' + str(self.rect.y))
 
     def check_entered(self, mario):
         # returns None if no-entry or tuple with teleport spawn location

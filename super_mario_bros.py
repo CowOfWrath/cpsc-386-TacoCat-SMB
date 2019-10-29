@@ -47,11 +47,13 @@ def run():
     # Groups
     map_group = Group()
     block_group = Group()
+    floor_group = Group()
+    pipe_group = Group()
     enemy_group = Group()
     powerup_group = Group()
     fireball_group = Group()
 
-    map.generate_map(screen, settings, map_group, block_group, enemy_group)
+    map.generate_map(screen, settings, map_group, floor_group, pipe_group, block_group, enemy_group)
 
 
     star.add(map_group)
@@ -64,8 +66,7 @@ def run():
     coin2.add(powerup_group)
 
     
-    
-
+    pipesprites = pipe_group.sprites()
     
     
     
@@ -75,20 +76,23 @@ def run():
 
         # Update here
         gf.check_events(state, mario)
-        gf.update(screen, settings, mario, map_group, block_group, enemy_group, powerup_group, fireball_group)
+
+        gf.check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group)
+
+        gf.update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group)
         # ff.update()
         # star.update()
         # coin1.update()
         # coin2.update()
         # mario.update(map_group)
         #block updates
-        for b in block_group.sprites():
-            b.update()
+        # for b in block_group.sprites():
+        #     b.update()
 
 
 
         # Display here
-        gf.update_screen(screen, settings, mario, map_group, block_group, enemy_group, powerup_group, fireball_group)
+        gf.update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group)
         # screen.fill(settings.bg_color)
         # coin1.draw()
         # coin2.draw()
