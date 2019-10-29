@@ -77,12 +77,8 @@ def run():
         # Update here
         gf.check_events(state, mario)
 
-        gf.check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group)
 
         gf.update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group)
-
-
-        # gf.check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group)
 
 
         # Display here

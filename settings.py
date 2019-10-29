@@ -76,10 +76,9 @@ class Settings:
         # Broken Brick
         self.brick_rubble_height = 4 * self.image_scale
         self.brick_rubble_width = 4 * self.image_scale
-        self.brick_rubble_left = self.IMAGE_PATH + 'block_debris_left'
-        self.brick_rubble_right = self.IMAGE_PATH + 'block_debris_right'
-        self.brick_rubble_speed_x = 4
-        self.brick_rubble_speed_y = 8
+        self.brick_rubble_left = self.IMAGE_PATH + 'block_debris_left.png'
+        self.brick_rubble_right = self.IMAGE_PATH + 'block_debris_right.png'
+        self.brick_rubble_height_factor = 0.1
         self.break_brick_sound = self.SOUND_PATH + 'breakblock.wav'
         self.brick_rubble_image_TBF = 100   # TBF - time between frames
 

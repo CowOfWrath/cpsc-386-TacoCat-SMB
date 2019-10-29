@@ -97,12 +97,13 @@ class Block(Sprite):
     def break_block(self, rubble_group, map_group):
         if self.is_hittable:
             self.is_broken = True
-            speeds = [(-15, 5), (-10, 5), (10, 5), (15, 5)]
+            base_y_speed= 10
+            speeds = [(-15, base_y_speed), (-10, base_y_speed), (10, base_y_speed), (15, base_y_speed)]
             for speed in speeds:
                 left = False
                 if speed[0] < 0:
                     left = True
-                rubble = BrickRubblePiece(self.screen, self.settings, is_left=left, x=speed[0], y=speed[1] )
+                rubble = BrickRubblePiece(self.screen, self.settings, is_left=left, pos=(self.rect.centerx, self.rect.centery), x_speed=speed[0], y_speed=speed[1] )
                 rubble_group.add(rubble)
                 map_group.add(rubble)
             self.break_sound.play()
@@ -123,38 +124,40 @@ class Block(Sprite):
 
 
 class BrickRubblePiece(Sprite):
-    def __init__(self, screen, settings, is_left=True, x=0, y=0):
+    def __init__(self, screen, settings, is_left=True, pos=(0,0), x_speed=0, y_speed=0):
         super(BrickRubblePiece, self).__init__()
         self.screen = screen
         self.settings = settings
         self.f_index = 0
         self.image = None
         self.last_tick = pygame.time.get_ticks()
-        self.frames_list = []
+        self.frames_list = [self.image, self.image, self.image, self.image]
         self.image_left = pygame.transform.scale(
             image.load(settings.brick_rubble_left),
-            settings.brick_rubble_width,
-            settings.brick_rubble_height
+            (settings.brick_rubble_width,
+            settings.brick_rubble_height)
         )
         self.image_right = pygame.transform.scale(
             image.load(settings.brick_rubble_right),
-            settings.brick_rubble_width,
-            settings.brick_rubble_height
+            (settings.brick_rubble_width,
+            settings.brick_rubble_height)
         )
 
         if is_left:
             self.image = self.image_left
-            self.frames_list[::2] = [self.image_left] * 4
-            self.frames_list[1::2] = [self.image_right] * 4
+            self.frames_list[::2] = [self.image_left] * 2
+            self.frames_list[1::2] = [self.image_right] * 2
 
         else:
             self.image = self.image_right
-            self.frames_list[::2] = [self.image_left] * 4
-            self.frames_list[1::2] = [self.image_right] * 4
+            self.frames_list[::2] = [self.image_left] * 2
+            self.frames_list[1::2] = [self.image_right] * 2
         self.rect = self.image.get_rect()
-        self.rect.x, self.rect.y = x, y
-        self.x_speed = settings.brick_rubble_speed_x
-        self.y_speed = settings.brick_rubble_speed_y
+        self.rect.x, self.rect.y = pos[0], pos[1]
+        self.max_height = self.rect.y - (self.rect.y * settings.brick_rubble_height_factor)
+        self.hit_max_arc = False
+        self.x_speed = x_speed
+        self.y_speed = y_speed
 
     def update(self):
         # update image
@@ -162,7 +165,13 @@ class BrickRubblePiece(Sprite):
         self.image = self.frames_list[self.f_index]
         #update pos
         self.rect.x += self.x_speed
-        self.rect.y += self.y_speed
+        if self.hit_max_arc == False and self.rect.y > self.max_height:
+            self.rect.y -= self.y_speed
+        else:
+            if not self.hit_max_arc:
+                self.hit_max_arc = True
+            self.rect.y += self.y_speed
+
         if self.x_speed > 0:
             self.x_speed -= 1
         else:
@@ -179,8 +188,8 @@ class BrickRubblePiece(Sprite):
             self.f_index += 1
             self.last_tick = pygame.time.get_ticks()
         if self.f_index == max_index:
-            # self.f_index = 0
-            self.kill()
+            self.f_index = 0
+            # self.kill()
 
 
 class CoinBlock(Block):
@@ -204,6 +213,10 @@ class CoinBlock(Block):
     def init_coin_list(self):
         for i in range(self.num_coins_left):
             self.coins.append(Coin(self.screen, self.settings))
+
+    def break_block(self, rubble_group, map_group):
+        if len(self.coins) <= 0:
+            super(Block, self).break_block(rubble_group, map_group)
 
     def collision_check(self, sprite_object):
         if self.is_hittable:
@@ -269,6 +282,10 @@ class MysteryBlock(Block):
             # update idle frames
             self.iterate_index(len(self.images_idle))
             self.image = self.images_idle[self.index]
+
+    def break_block(self, rubble_group, map_group):
+        if self.is_empty:
+            self.is_hittable = False
 
     def set_empty(self):
         self.stored_item = self.settings.mystery_block_possible_items['NONE']
