@@ -41,6 +41,7 @@ class Block(Sprite):
                 (self.settings.brick_width,
                  self.settings.brick_height)
             )
+            self.is_hittable = False
         elif is_underground:
             self.initial_image = pygame.transform.scale(
                 image.load(settings.brick_ug_image),
