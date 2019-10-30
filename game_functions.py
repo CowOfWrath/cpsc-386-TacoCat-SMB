@@ -253,48 +253,49 @@ def mario_block_collision(mario, floor_group, pipe_group, block_group, map_group
 
 
 def enemy_block_collision(enemy_group, floor_group, pipe_group, block_group, map_group ):
+    # TODO enable enemy collisions when needed
+    if False:
+        # Check for Wall Collision
+        enemy_floor_wall_check = pygame.sprite.groupcollide(enemy_group, floor_group, False, False, collided=entity_wall_collide)
+        if enemy_floor_wall_check:
+            return
+        e_block_wall_hits = pygame.sprite.groupcollide(enemy_group, block_group, False, False, collided=entity_wall_collide)
+        e_pipe_wall_hits = pygame.sprite.groupcollide(enemy_group, pipe_group, False, False, collided=entity_wall_collide)
 
-    # Check for Wall Collision
-    enemy_floor_wall_check = pygame.sprite.groupcollide(enemy_group, floor_group, False, False, collided=entity_wall_collide)
-    if enemy_floor_wall_check:
-        return
-    e_block_wall_hits = pygame.sprite.groupcollide(enemy_group, block_group, False, False, collided=entity_wall_collide)
-    e_pipe_wall_hits = pygame.sprite.groupcollide(enemy_group, pipe_group, False, False, collided=entity_wall_collide)
+        # LANDING Logic Check
+        e_floor_hits = pygame.sprite.groupcollide(enemy_group, floor_group, False, False, collided=entity_floor_collide)
+        if e_floor_hits:
+            return
 
-    # LANDING Logic Check
-    e_floor_hits = pygame.sprite.groupcollide(enemy_group, floor_group, False, False, collided=entity_floor_collide)
-    if e_floor_hits:
-        return
-
-    e_block_hits = pygame.sprite.groupcollide(enemy_group, block_group, False, False, collided=entity_block_pipe_collide)
-    if e_block_hits:
-        return
-    e_pipe_hits = pygame.sprite.groupcollide(enemy_group, pipe_group, False, False, collided=entity_block_pipe_collide)
-    if e_pipe_hits:
-        return
+        e_block_hits = pygame.sprite.groupcollide(enemy_group, block_group, False, False, collided=entity_block_pipe_collide)
+        if e_block_hits:
+            return
+        e_pipe_hits = pygame.sprite.groupcollide(enemy_group, pipe_group, False, False, collided=entity_block_pipe_collide)
+        if e_pipe_hits:
+            return
     # END entity_block_collision
 
 
 def item_block_collision(item_group, floor_group, pipe_group, block_group, map_group):
     # TODO: Add some check for if item is moving
+    if False:
+        # Wall Collisions
+        item_floor_wall_check = pygame.sprite.groupcollide(item_group, floor_group, False, False, collided=entity_wall_collide)
+        if item_floor_wall_check:
+            return
+        i_block_wall_hits = pygame.sprite.groupcollide(item_group, block_group, False, False, collided=entity_wall_collide)
+        i_pipe_wall_hits = pygame.sprite.groupcollide(item_group, pipe_group, False, False, collided=entity_wall_collide)
 
-    # Wall Collisions
-    item_floor_wall_check = pygame.sprite.groupcollide(item_group, floor_group, False, False, collided=entity_wall_collide)
-    if item_floor_wall_check:
-        return
-    i_block_wall_hits = pygame.sprite.groupcollide(item_group, block_group, False, False, collided=entity_wall_collide)
-    i_pipe_wall_hits = pygame.sprite.groupcollide(item_group, pipe_group, False, False, collided=entity_wall_collide)
-
-    # LANDING Logic Check
-    i_floor_hits = pygame.sprite.groupcollide(item_group, floor_group, False, False, collided=entity_floor_collide)
-    if i_floor_hits:
-        return
-    i_block_hits = pygame.sprite.groupcollide(item_group, block_group, False, False, collided=entity_block_pipe_collide)
-    if i_block_hits:
-        return
-    i_pipe_hits = pygame.sprite.groupcollide(item_group, pipe_group, False, False, collided=entity_block_pipe_collide)
-    if i_pipe_hits:
-        return
+        # LANDING Logic Check
+        i_floor_hits = pygame.sprite.groupcollide(item_group, floor_group, False, False, collided=entity_floor_collide)
+        if i_floor_hits:
+            return
+        i_block_hits = pygame.sprite.groupcollide(item_group, block_group, False, False, collided=entity_block_pipe_collide)
+        if i_block_hits:
+            return
+        i_pipe_hits = pygame.sprite.groupcollide(item_group, pipe_group, False, False, collided=entity_block_pipe_collide)
+        if i_pipe_hits:
+            return
     # end item collision check
 
 
