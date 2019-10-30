@@ -252,34 +252,51 @@ def mario_block_collision(mario, floor_group, pipe_group, block_group, map_group
     # END mario_block_collision()
 
 
-def entity_block_collision(enemy_group, powerup_group, floor_group, pipe_group, block_group, map_group ):
+def enemy_block_collision(enemy_group, floor_group, pipe_group, block_group, map_group ):
 
     # Check for Wall Collision
     enemy_floor_wall_check = pygame.sprite.groupcollide(enemy_group, floor_group, False, False, collided=entity_wall_collide)
-    item_floor_wall_check = pygame.sprite.groupcollide(powerup_group, floor_group, False, False, collided=entity_wall_collide)
-    if enemy_floor_wall_check or item_floor_wall_check:
+    if enemy_floor_wall_check:
         return
     e_block_wall_hits = pygame.sprite.groupcollide(enemy_group, block_group, False, False, collided=entity_wall_collide)
     e_pipe_wall_hits = pygame.sprite.groupcollide(enemy_group, pipe_group, False, False, collided=entity_wall_collide)
-    i_block_wall_hits = pygame.sprite.groupcollide(powerup_group, block_group, False, False, collided=entity_wall_collide)
-    i_pipe_wall_hits = pygame.sprite.groupcollide(powerup_group, pipe_group, False, False, collided=entity_wall_collide)
 
     # LANDING Logic Check
     e_floor_hits = pygame.sprite.groupcollide(enemy_group, floor_group, False, False, collided=entity_floor_collide)
-    i_floor_hits = pygame.sprite.groupcollide(powerup_group, floor_group, False, False, collided=entity_floor_collide)
-    if e_floor_hits or i_floor_hits:
+    if e_floor_hits:
         return
 
     e_block_hits = pygame.sprite.groupcollide(enemy_group, block_group, False, False, collided=entity_block_pipe_collide)
-    i_block_hits = pygame.sprite.groupcollide(powerup_group, block_group, False, False, collided=entity_block_pipe_collide)
-    if e_block_hits or i_block_hits:
+    if e_block_hits:
         return
     e_pipe_hits = pygame.sprite.groupcollide(enemy_group, pipe_group, False, False, collided=entity_block_pipe_collide)
-    i_pipe_hits = pygame.sprite.groupcollide(powerup_group, pipe_group, False, False, collided=entity_block_pipe_collide)
-    if e_pipe_hits or i_pipe_hits:
+    if e_pipe_hits:
         return
-
     # END entity_block_collision
+
+
+def item_block_collision(item_group, floor_group, pipe_group, block_group, map_group):
+    # TODO: Add some check for if item is moving
+
+    # Wall Collisions
+    item_floor_wall_check = pygame.sprite.groupcollide(item_group, floor_group, False, False, collided=entity_wall_collide)
+    if item_floor_wall_check:
+        return
+    i_block_wall_hits = pygame.sprite.groupcollide(item_group, block_group, False, False, collided=entity_wall_collide)
+    i_pipe_wall_hits = pygame.sprite.groupcollide(item_group, pipe_group, False, False, collided=entity_wall_collide)
+
+    # LANDING Logic Check
+    i_floor_hits = pygame.sprite.groupcollide(item_group, floor_group, False, False, collided=entity_floor_collide)
+    if i_floor_hits:
+        return
+    i_block_hits = pygame.sprite.groupcollide(item_group, block_group, False, False, collided=entity_block_pipe_collide)
+    if i_block_hits:
+        return
+    i_pipe_hits = pygame.sprite.groupcollide(item_group, pipe_group, False, False, collided=entity_block_pipe_collide)
+    if i_pipe_hits:
+        return
+    # end item collision check
+
 
 def check_collisions(settings, mario, map_group, floor_group, pipe_group,block_group, enemy_group, powerup_group, fireball_group):
     # mario environment collisions
@@ -287,7 +304,8 @@ def check_collisions(settings, mario, map_group, floor_group, pipe_group,block_g
     # mario enemy collisions
     collide_enemies(mario, enemy_group, fireball_group)
     # entity (enemies/items) environment collisions
-    entity_block_collision(enemy_group, powerup_group, floor_group, pipe_group, block_group, map_group)
+    enemy_block_collision(enemy_group, floor_group, pipe_group, block_group, map_group)
+    item_block_collision(powerup_group, floor_group, pipe_group, block_group, map_group)
 
 def update(screen, settings, mario, map_group, floor_group, pipe_group,block_group, enemy_group, powerup_group, fireball_group):
     map_group.update()
