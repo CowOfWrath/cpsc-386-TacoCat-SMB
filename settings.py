@@ -70,15 +70,19 @@ class Settings:
         self.brick_width = 16 * self.image_scale
         self.brick_height = 16 * self.image_scale
         self.brick_image = self.IMAGE_PATH + 'brick.png'
+        # number of block heights it should move up
+        self.brick_move_factor = 0.5
+        self.brick_gravity = 1.01
+        self.brick_initial_move_speed = -15
         # Underground Brick Settings
         self.brick_ug_image = self.IMAGE_PATH + 'brick_ug.png'
 
         # Broken Brick
-        self.brick_rubble_height = 4 * self.image_scale
-        self.brick_rubble_width = 4 * self.image_scale
+        self.brick_rubble_height = 8 * self.image_scale
+        self.brick_rubble_width = 8 * self.image_scale
         self.brick_rubble_left = self.IMAGE_PATH + 'block_debris_left.png'
         self.brick_rubble_right = self.IMAGE_PATH + 'block_debris_right.png'
-        self.brick_rubble_height_factor = 0.1
+        self.brick_rubble_height_factor = 0.2
         self.break_brick_sound = self.SOUND_PATH + 'breakblock.wav'
         self.brick_rubble_image_TBF = 100   # TBF - time between frames
 

@@ -230,7 +230,7 @@ def mario_block_collision(mario, floor_group, pipe_group, block_group, map_group
         for blocks in block_hits.values():
             for block in blocks:
                 print('collided to bottom of a block')
-                block.break_block(map_group=map_group, rubble_group=pygame.sprite.Group())
+                block.handle_bottom_collision(map_group=map_group)
         return
 
     # LANDING ON LOGIC

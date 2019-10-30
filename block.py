@@ -31,9 +31,8 @@ class Block(Sprite):
         # Block States
         self.is_hittable = True
         self.is_broken = False
-        # TODO: add break block code
+        self.is_moving = False
         self.break_sound = mixer.Sound(settings.break_brick_sound)
-
 
         # initial block image
         if is_stairs:
@@ -59,11 +58,20 @@ class Block(Sprite):
         self.image = self.initial_image
         self.rect = self.image.get_rect()
 
+        # Block Movement Settings
+        self.y_vel = settings.brick_initial_move_speed
+        self.initial_pos = (self.rect.x, self.rect.y)
+        self.max_height_movement = self.rect.top - (settings.brick_move_factor * self.rect.h)
+
         self.collision_pts = self.get_collision_points()
 
     def set_position(self, top, left):
         self.rect.top = top * self.settings.block_height
         self.rect.left = left * self.settings.block_width
+        self.initial_pos = self.get_position()
+
+    def get_position(self):
+        return (self.rect.x, self.rect.y)
 
     def get_collision_points(self):
         self.collision_pts = {
@@ -74,18 +82,17 @@ class Block(Sprite):
         }
         return self.collision_pts
 
-    def collision_check(self, sprite_object):
-        pass
+    # def collision_check(self, sprite_object):
+    #     pass
 
-    def handle_bottom_collision(self, map_group, rubble_group=None):
+    def handle_bottom_collision(self, map_group):
         if self.is_hittable and not self.is_broken:
-            self.break_block(map_group=map_group, rubble_group=rubble_group)
+            self.break_block(map_group=map_group, rubble_group=pygame.sprite.Group())
 
     def update(self):
         pass
 
     def animate_block_movement(self):
-        # TODO animate block
         pass
 
     def animate_internal_object(self, sprite_object):
@@ -108,8 +115,6 @@ class Block(Sprite):
                 map_group.add(rubble)
             self.break_sound.play()
             self.kill()
-
-
 
     def draw(self):
         self.screen.blit(self.image, self.rect)
@@ -202,8 +207,8 @@ class CoinBlock(Block):
             (self.settings.block_width,
              self.settings.block_height)
         )
+        self.init_coin_list()
         self.sound = mixer.Sound(settings.coin_block_sound)
-
         self.is_hittable = True if coins > 0 else False
 
     def set_empty(self):
@@ -214,32 +219,51 @@ class CoinBlock(Block):
         for i in range(self.num_coins_left):
             self.coins.append(Coin(self.screen, self.settings))
 
+    def update(self):
+        # Adjust Position
+        if self.is_moving:
+            # TODO animate block
+            if self.rect.y > self.max_height_movement and self.y_vel < 0:
+                self.rect.y += (abs(self.y_vel) * -1)
+            elif self.rect.y <= self.initial_pos[1]:
+                self.rect.y += (self.y_vel)
+            else:
+                self.rect.y = self.initial_pos[1]
+
+            # adjust velocity
+            if self.rect.y <= self.initial_pos[1]:
+                self.y_vel += (abs(self.y_vel) * self.settings.brick_gravity)
+                print('y velocity: ' + str(self.y_vel))
+            else:
+                self.rect.top = self.initial_pos[1]
+                self.y_vel = self.settings.brick_initial_move_speed
+                self.is_moving = False
+
     def break_block(self, rubble_group, map_group):
+        print('coins remaining: ' + str(len(self.coins)))
         if len(self.coins) <= 0:
-            super(Block, self).break_block(rubble_group, map_group)
+            super().break_block( rubble_group=rubble_group, map_group=map_group)
 
-    def collision_check(self, sprite_object):
+    def handle_bottom_collision(self, map_group):
         if self.is_hittable:
-            # TODO: JL Note - may need to check corner top collisions
-            did_collide = self.rect.collidepoint(sprite_object.rect.midtop)
-            if did_collide:
-                # TODO - figure out if need to adjust collided object physics
+            # TODO - figure out if need to adjust collided object physics
 
-                # Check if coins
-                if self.num_coins_left > 0:
-                    self.num_coins_left -= 1
+            # Check if coins
+            if self.num_coins_left > 0:
+                self.num_coins_left -= 1
 
-                    # Animate Coin Trigger
-                    # TODO call coin animation - Make sure coin animation plays points
+                # Animate Coin Trigger
+                # TODO call coin animation - Make sure coin animation plays points
 
-                    # Play Coin Sounds
-                    self.sound.play()
+                # Play Coin Sounds
+                self.sound.play()
 
-                    # Set coinblock to empty if no coins
-                    if self.num_coins_left <= 0:
-                        self.set_empty()
-        # else:
-        #     # if collides with bottom and empty, force mario back down
+                # Animate box movement
+                self.is_moving = True
+
+            # Set coinblock to empty if no coins
+            if self.num_coins_left <= 0:
+                self.set_empty()
 
 
 class MysteryBlock(Block):
@@ -282,6 +306,24 @@ class MysteryBlock(Block):
             # update idle frames
             self.iterate_index(len(self.images_idle))
             self.image = self.images_idle[self.index]
+        # Adjust Position
+        if self.is_moving:
+            # TODO animate block
+            if self.rect.y > self.max_height_movement and self.y_vel < 0:
+                self.rect.y += (abs(self.y_vel) * -1)
+            elif self.rect.y <= self.initial_pos[1]:
+                self.rect.y += (self.y_vel)
+            else:
+                self.rect.y = self.initial_pos[1]
+
+            # adjust velocity
+            if self.rect.y <= self.initial_pos[1]:
+                self.y_vel += (abs(self.y_vel) * self.settings.brick_gravity)
+                print('y velocity: ' + str(self.y_vel))
+            else:
+                self.rect.top = self.initial_pos[1]
+                self.y_vel = self.settings.brick_initial_move_speed
+                self.is_moving = False
 
     def break_block(self, rubble_group, map_group):
         if self.is_empty:
@@ -293,21 +335,21 @@ class MysteryBlock(Block):
         self.is_hittable = False
         self.image = self.empty_image
 
-    def collision_check(self, sprite_object):
+    def handle_bottom_collision(self, map_group):
         if self.is_hittable:
-            # TODO: JL Note - may need to check corner top collisions
-            did_collide = self.rect.collidepoint(sprite_object.rect.midtop)
-            if did_collide:
-                # TODO - figure out if need to adjust collided object physics
-                if not self.is_empty:
-                    # Animate Contained Sprite to Appear
-                    self.make_item_appear()
+            # TODO - figure out if need to adjust collided object physics
+            if not self.is_empty:
+                # Animate Contained Sprite to Appear
+                # self.make_item_appear()
 
-                    # Play Sounds
-                    self.sound.play()
+                # Play Sounds
+                self.sound.play()
 
-                    # Change To Empty
-                    self.set_empty()
+                # start moving block
+                self.is_moving = True
+
+                # Change To Empty
+                self.set_empty()
         # else:
         # if collides with bottom and empty, force mario back down
 
