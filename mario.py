@@ -20,7 +20,7 @@ class Mario(Sprite):
         self.screen = screen
 
         # States: sm = 0 | bm = 1 | fm = 2 | smi = 3 | bmi = 4
-        self.state = 0
+        self.state = 1
         self.dead = False
         self.walk = False
         self.run = False
@@ -207,12 +207,7 @@ class Mario(Sprite):
                                                        (self.settings.bm_width, self.settings.bm_height)))
 
     def draw(self):
-        # Temporary code to display hitbox
-        # self.screen.fill((255, 255, 255), self.rect, 0)
-        if self.crouch and self.state != 0:  # Image rect is different size from hitbox
-            self.screen.blit(pygame.transform.flip(self.image, self.facing_left, False), self.display_rect)
-        else:
-            self.screen.blit(pygame.transform.flip(self.image, self.facing_left, False), self.rect)
+        self.screen.blit(pygame.transform.flip(self.image, self.facing_left, False), self.rect)
 
     def update(self, map_group):
         # Update Movement
@@ -300,12 +295,9 @@ class Mario(Sprite):
                 self.rect.y = self.y
             elif self.crouch:
                 self.image = self.bm_crouch
-                temp = self.rect.copy()
-                self.rect = self.sm_idle.get_rect()
+                self.rect = self.image.get_rect()
                 self.rect.x = self.x
-                self.rect.bottom = temp.bottom
-                self.display_rect.x = self.x
-                self.display_rect.bottom = temp.bottom
+                self.rect.y = self.y
             elif self.walk:
                 self.iterate_index(len(self.bm_walk))
                 self.image = self.bm_walk[self.index]
@@ -338,12 +330,9 @@ class Mario(Sprite):
                 self.rect.y = self.y
             elif self.crouch:
                 self.image = self.fm_crouch
-                temp = self.rect.copy()
-                self.rect = self.sm_idle.get_rect()
+                self.rect = self.image.get_rect()
                 self.rect.x = self.x
-                self.rect.bottom = temp.bottom
-                self.display_rect.x = self.x
-                self.display_rect.bottom = temp.bottom
+                self.rect.y = self.y
             elif self.walk:
                 self.iterate_index(len(self.fm_walk))
                 self.image = self.fm_walk[self.index]
