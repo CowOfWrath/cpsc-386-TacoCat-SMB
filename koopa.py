@@ -1,5 +1,6 @@
 # Rey Vergara
 # 10/17/19 Initial creation
+# 10/30/19 added x and y values
 
 import pygame
 from pygame.sprite import Sprite
@@ -15,12 +16,17 @@ class Koopa(Sprite):
         self.facing_right = False
         self.fall = False
         self.index = 0
+        self.instant_death = False
         self.last_tick = pygame.time.get_ticks()
 
         self.image = pygame.transform.scale(pygame.image.load("Images/koopa_2.png"),
                                             (self.settings.koopa_width, self.settings.koopa_height))
 
         self.rect = self.image.get_rect()
+        self.rect.x = self.rect.width
+        self.rect.y = self.rect.height
+        self.x = float(self.rect.x)
+        self.y = float(self.rect.y)
 
         self.images = []
         self.images.extend([pygame.transform.scale(pygame.image.load("Images/koopa_2.png"),
@@ -45,7 +51,7 @@ class Koopa(Sprite):
 
     def iterate_index(self, max_):
         time = pygame.time.get_ticks() - self.last_tick
-        if time > 100:
+        if time > 200:
             self.index += 1
             self.last_tick = pygame.time.get_ticks()
 

@@ -1,14 +1,10 @@
 # Rey Vergara
 
 # 10/17/19 Initial creation
+# 10/30/19 Placed x and y values
 
 import pygame
 from pygame.sprite import Sprite
-
-# Goomba settings
-# self.goomba_width = 8 * self.image_scale
-# self.goomba_height = 8 * self.image_scale
-# self.goomba_speed = 1 * self.image_scale
 
 
 class Goomba(Sprite):
@@ -20,6 +16,8 @@ class Goomba(Sprite):
 
         self.facing_right = False
         self.fall = False
+        self.instant_death = False
+
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
 
@@ -27,15 +25,36 @@ class Goomba(Sprite):
                                             (self.settings.goomba_width, self.settings.goomba_height))
 
         self.rect = self.image.get_rect()
-
+        self.rect.x = self.rect.width
+        self.rect.y = self.rect.height
+        self.x = float(self.rect.x)
+        self.y = float(self.rect.y)
         self.images = []
         self.images.extend([pygame.transform.scale(pygame.image.load("Images/goomba_2.png"),
                                                    (self.settings.goomba_width, self.settings.goomba_height)),
                            pygame.transform.scale(pygame.image.load("Images/goomba_1.png"),
                                                   (self.settings.goomba_width, self.settings.goomba_height))])
+        #self.dead_image = pygame.transform.scale(pygame.image.load("Images/goomba_death.png"))
 
     def draw(self):
         self.screen.blit(self.image, self.rect)
+
+    # def set_pos(self, top, left):
+    #     self.rect.top = top * self.settings.goomba_height
+    #     self.rect.left = left * self.settings.goomba_width
+    # Copied and modified from block.py, checks for goomba collision
+
+    def check_collision(self):
+        self.collision_pts = {
+            "topSide": [self.rect.top, self.rect.midtop, self.rect.topright],
+            "rightSide": [self.rect.topright, self.rect.midright, self.rect.bottomright],
+            "leftSide" : [self.rect.topleft, self.rect.midleft, self.rect.bottomleft],
+            "bottomSide" : [self.rect.bottomleft, self.rect.midbottom, self.rect.bottomright]
+        }
+        return self.collision_pts
+
+    def kill_goomba(self):
+        pass
 
     def update(self):
         self.iterate_index(len(self.images))
@@ -51,7 +70,7 @@ class Goomba(Sprite):
 
     def iterate_index(self, max_):
         time = pygame.time.get_ticks() - self.last_tick
-        if time > 100:
+        if time > 200:
             self.index += 1
             self.last_tick = pygame.time.get_ticks()
 
