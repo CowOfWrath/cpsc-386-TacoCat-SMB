@@ -68,6 +68,200 @@ def generate_floor(screen, settings, map_group, floor_group, pipe_group):
         f.add(map_group, floor_group)
         fl.add(map_group, floor_group)
 
+
+    # Stairs
+    stairs_arr = []
+    # 135-138,12 block
+    for i in range(134, 138):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(12, i)
+        stairs_arr.append(b)
+    # 136-138,11 block
+    for i in range(135, 138):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(11, i)
+        stairs_arr.append(b)
+    # 137,10 block
+    # 138,10 block
+    for i in range(136, 138):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(10, i)
+        stairs_arr.append(b)
+    # 138,9  block
+    b = Block(screen, settings, is_stairs=True)
+    b.set_position(9, 137)
+    stairs_arr.append(b)
+
+    # 141-144,12 block
+    for i in range(140, 144):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(12, i)
+        stairs_arr.append(b)
+
+    # 141-143,11 block
+    for i in range(140, 143):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(11, i)
+        stairs_arr.append(b)
+    # 141-142,10 block
+    for i in range(140, 142):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(10, i)
+        stairs_arr.append(b)
+    # 141,9  block
+    b = Block(screen, settings, is_stairs=True)
+    b.set_position(9, 140)
+    stairs_arr.append(b)
+
+    # 149,12 block
+    b = Block(screen, settings, is_stairs=True)
+    b.set_position(12, 148)
+    stairs_arr.append(b)
+
+    # 150,12 block
+    # 150,11 block
+    for i in range(11, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 149)
+        stairs_arr.append(b)
+    # 151,12 block
+    # 151,11 block
+    # 151,10 block
+    for i in range(10, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 150)
+        stairs_arr.append(b)
+    # 152,12 block
+    # 152,11 block
+    # 152,10 block
+    # 152,9  block
+    for i in range(9, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 151)
+        stairs_arr.append(b)
+    # 153,12 block
+    # 153,11 block
+    # 153,10 block
+    # 153,9  block
+    for i in range(9, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 152)
+        stairs_arr.append(b)
+
+    # 156,12 block
+    # 156,11 block
+    # 156,10 block
+    # 156,9  block
+    for i in range(9, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 155)
+        stairs_arr.append(b)
+    # 157,12 block
+    # 157,11 block
+    # 157,10 block
+    for i in range(10, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 156)
+        stairs_arr.append(b)
+    # 158,12 block
+    # 158,11 block
+    for i in range(11, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 157)
+        stairs_arr.append(b)
+    # 159,12 block
+    b = Block(screen, settings, is_stairs=True)
+    b.set_position(12, 158)
+    stairs_arr.append(b)
+
+    # 182,12 block
+    b = Block(screen, settings, is_stairs=True)
+    b.set_position(12, 181)
+    stairs_arr.append(b)
+    # 183,12 block
+    # 183,11 block
+    for i in range(11, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 182)
+        stairs_arr.append(b)
+    # 184,12 block
+    # 184,11 block
+    # 184,10 block
+    for i in range(10, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 183)
+        stairs_arr.append(b)
+    # 185,12 block
+    # 185,11 block
+    # 185,10 block
+    # 185,9 block
+    for i in range(9, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 184)
+        stairs_arr.append(b)
+    # 186,12 block
+    # 186,11 block
+    # 186,10 block
+    # 186,9 block
+    # 186,8 block
+    for i in range(8, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 185)
+        stairs_arr.append(b)
+    # 187,12 block
+    # 187,11 block
+    # 187,10 block
+    # 187,9 block
+    # 187,8 block
+    # 187,7 block
+    for i in range(7, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 186)
+        stairs_arr.append(b)
+    # 188,12 block
+    # 188,11 block
+    # 188,10 block
+    # 188,9 block
+    # 188,8 block
+    # 188,7 block
+    # 188,6 block
+    for i in range(6, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 187)
+        stairs_arr.append(b)
+    # 189,12 block
+    # 189,11 block
+    # 189,10 block
+    # 189,9 block
+    # 189,8 block
+    # 189,7 block
+    # 189,6 block
+    # 189,5 block
+    for i in range(5, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 188)
+        stairs_arr.append(b)
+    # 190,12 block
+    # 190,11 block
+    # 190,10 block
+    # 190,9 block
+    # 190,8 block
+    # 190,7 block
+    # 190,6 block
+    # 190,5 block
+    for i in range(5, 13):
+        b = Block(screen, settings, is_stairs=True)
+        b.set_position(i, 189)
+        stairs_arr.append(b)
+    #
+    # 199,12 block
+    b = Block(screen, settings, is_stairs=True)
+    b.set_position(12, 198)
+    stairs_arr.append(b)
+
+    for s in stairs_arr:
+        s.add(map_group, floor_group)
+
     # Overworld Pipes
     p =  Pipe(screen, settings)
     p.set_position(11, 28)
@@ -249,111 +443,6 @@ def generate_blocks(screen, settings, map_group, block_group):
     b.set_position(5, 131)
     block_arr.append(b)
 
-    # 135-138,12 block
-    for i in range(134, 138):
-        b = Block(screen, settings,is_stairs=True)
-        b.set_position(12, i)
-        block_arr.append(b)
-    # 136-138,11 block
-    for i in range(135, 138):
-        b = Block(screen, settings,is_stairs=True)
-        b.set_position(11, i)
-        block_arr.append(b)
-    # 137,10 block
-    # 138,10 block
-    for i in range(136, 138):
-        b = Block(screen, settings,is_stairs=True)
-        b.set_position(10, i)
-        block_arr.append(b)
-    # 138,9  block
-    b = Block(screen, settings,is_stairs=True)
-    b.set_position(9, 137)
-    block_arr.append(b)
-
-
-    # 141-144,12 block
-    for i in range(140, 144):
-        b = Block(screen, settings,is_stairs=True)
-        b.set_position(12, i)
-        block_arr.append(b)
-
-    # 141-143,11 block
-    for i in range(140, 143):
-        b = Block(screen, settings,is_stairs=True)
-        b.set_position(11, i)
-        block_arr.append(b)
-    # 141-142,10 block
-    for i in range(140, 142):
-        b = Block(screen, settings,is_stairs=True)
-        b.set_position(10, i)
-        block_arr.append(b)
-    # 141,9  block
-    b = Block(screen, settings,is_stairs=True)
-    b.set_position(9, 140)
-    block_arr.append(b)
-
-    # 149,12 block
-    b = Block(screen, settings, is_stairs=True)
-    b.set_position(12, 148)
-    block_arr.append(b)
-
-    # 150,12 block
-    # 150,11 block
-    for i in range(11, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 149)
-        block_arr.append(b)
-    # 151,12 block
-    # 151,11 block
-    # 151,10 block
-    for i in range(10, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 150)
-        block_arr.append(b)
-    # 152,12 block
-    # 152,11 block
-    # 152,10 block
-    # 152,9  block
-    for i in range(9, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 151)
-        block_arr.append(b)
-    # 153,12 block
-    # 153,11 block
-    # 153,10 block
-    # 153,9  block
-    for i in range(9, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 152)
-        block_arr.append(b)
-
-    # 156,12 block
-    # 156,11 block
-    # 156,10 block
-    # 156,9  block
-    for i in range(9, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 155)
-        block_arr.append(b)
-    # 157,12 block
-    # 157,11 block
-    # 157,10 block
-    for i in range(10, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 156)
-        block_arr.append(b)
-    # 158,12 block
-    # 158,11 block
-    for i in range(11, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 157)
-        block_arr.append(b)
-    # 159,12 block
-    b = Block(screen, settings, is_stairs=True)
-    b.set_position(12, 158)
-    block_arr.append(b)
-
-
     # 169,9 brick
     b = Block(screen, settings)
     b.set_position(9, 168)
@@ -370,92 +459,6 @@ def generate_blocks(screen, settings, map_group, block_group):
     b = Block(screen, settings)
     b.set_position(9, 171)
     block_arr.append(b)
-
-    # 182,12 block
-    b = Block(screen, settings, is_stairs=True)
-    b.set_position(12, 181)
-    block_arr.append(b)
-    # 183,12 block
-    # 183,11 block
-    for i in range(11, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 182)
-        block_arr.append(b)
-    # 184,12 block
-    # 184,11 block
-    # 184,10 block
-    for i in range(10, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 183)
-        block_arr.append(b)
-    # 185,12 block
-    # 185,11 block
-    # 185,10 block
-    # 185,9 block
-    for i in range(9, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 184)
-        block_arr.append(b)
-    # 186,12 block
-    # 186,11 block
-    # 186,10 block
-    # 186,9 block
-    # 186,8 block
-    for i in range(8, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 185)
-        block_arr.append(b)
-    # 187,12 block
-    # 187,11 block
-    # 187,10 block
-    # 187,9 block
-    # 187,8 block
-    # 187,7 block
-    for i in range(7, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 186)
-        block_arr.append(b)
-    # 188,12 block
-    # 188,11 block
-    # 188,10 block
-    # 188,9 block
-    # 188,8 block
-    # 188,7 block
-    # 188,6 block
-    for i in range(6, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 187)
-        block_arr.append(b)
-    # 189,12 block
-    # 189,11 block
-    # 189,10 block
-    # 189,9 block
-    # 189,8 block
-    # 189,7 block
-    # 189,6 block
-    # 189,5 block
-    for i in range(5, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 188)
-        block_arr.append(b)
-    # 190,12 block
-    # 190,11 block
-    # 190,10 block
-    # 190,9 block
-    # 190,8 block
-    # 190,7 block
-    # 190,6 block
-    # 190,5 block
-    for i in range(5, 13):
-        b = Block(screen, settings, is_stairs=True)
-        b.set_position(i, 189)
-        block_arr.append(b)
-    #
-    # 199,12 block
-    b = Block(screen, settings, is_stairs=True)
-    b.set_position(12, 198)
-    block_arr.append(b)
-
 
     for o in block_arr:
         o.add(map_group, block_group)
