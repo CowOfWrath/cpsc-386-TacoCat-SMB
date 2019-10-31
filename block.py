@@ -319,7 +319,10 @@ class MysteryBlock(Block):
             for i in range(length):
                 self.images_idle.append(self.initial_image)
 
-        self.sound = mixer.Sound(settings.mystery_block_sound)
+        if self.stored_item == self.settings.mystery_block_possible_items['COIN']:
+            self.sound = mixer.Sound(settings.coin_block_sound)
+        else:
+            self.sound = mixer.Sound(settings.mystery_block_sound)
         self.image = self.images_idle[0]
         self.rect = self.image.get_rect()
 
@@ -388,7 +391,7 @@ class MysteryBlock(Block):
             obj = Fire_Flower(self.screen, self.settings)
 
         elif self.stored_item == self.settings.mystery_block_possible_items['COIN']:
-            print('Flower item appears!')
+            print('Coin item appears!')
             obj = Coin(self.screen, self.settings)
 
         elif self.stored_item == self.settings.mystery_block_possible_items['ONE_UP']:
