@@ -239,10 +239,10 @@ def mario_block_collision(mario, floor_group, pipe_group, block_group, map_group
     pipe_wall_hits = pygame.sprite.groupcollide(mg, pipe_group, False, False, collided=mario_wall_collide)
     if (block_wall_hits or pipe_wall_hits) and not mario.is_jumping:
         print('exited with wall')
-        if pipe_wall_hits:
-            mario.use_idle_image()
+        # if pipe_wall_hits:
+        #     mario.use_idle_image()
         mario.is_falling = True
-        return
+        # return
 
     floor_wall_hits = pygame.sprite.groupcollide(mg, floor_group, False, False, collided=mario_wall_collide)
     if floor_wall_hits:
