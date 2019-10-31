@@ -1,4 +1,4 @@
- Rey Vergara
+ # Rey Vergara
 
 import pygame
 from pygame.sprite import Sprite
