@@ -16,10 +16,11 @@ class Goomba(Sprite):
 
         self.facing_right = False
         self.fall = False
-        self.instant_death = False
+        self.is_dead = False
 
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
+        self.death_timer = pygame.time.get_ticks()
 
         self.image = pygame.transform.scale(pygame.image.load("Images/goomba_2.png"),
                                             (self.settings.goomba_width, self.settings.goomba_height))
@@ -53,10 +54,16 @@ class Goomba(Sprite):
         }
         return self.collision_pts
 
-    def kill_goomba(self):
-        pass
+    def dead(self):
+        self.image = pygame.transform.scale(pygame.image.load("Images/goomba_death.png"),
+                                            (self.settings.goomba_width, self.settings.goomba_height))
+        self.death_timer = pygame.time.get_ticks()
+        self.is_dead = True
+
 
     def update(self):
+        if self.is_dead:
+            return
         self.iterate_index(len(self.images))
         self.image = self.images[self.index]
 

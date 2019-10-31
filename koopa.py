@@ -16,8 +16,9 @@ class Koopa(Sprite):
         self.facing_right = False
         self.fall = False
         self.index = 0
-        self.instant_death = False
+        self.is_dead = False
         self.last_tick = pygame.time.get_ticks()
+        self.death_timer = -1000
 
         self.image = pygame.transform.scale(pygame.image.load("Images/koopa_2.png"),
                                             (self.settings.koopa_width, self.settings.koopa_height))
@@ -37,7 +38,12 @@ class Koopa(Sprite):
     def draw(self):
         self.screen.blit(self.image, self.rect)
 
+    def dead(self):
+        self.is_dead = True
+
     def update(self):
+        if self.is_dead:
+            return
         self.iterate_index(len(self.images))
         self.image = self.images[self.index]
 

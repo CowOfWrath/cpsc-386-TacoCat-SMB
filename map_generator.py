@@ -470,119 +470,119 @@ def generate_entities(screen, settings, map_group, enemy_group):
     entity_arr = []
     # # 23,12 goomba
     g = Goomba(screen, settings)
-    g.x = 23 * settings.floor_width
+    g.x = 22 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 41,12 goomba
     g = Goomba(screen, settings)
-    g.x = 41 * settings.floor_width
+    g.x = 40 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 52,12 goomba
     g = Goomba(screen, settings)
-    g.x = 52 * settings.floor_width
+    g.x = 51 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 54,12 goomba
     g = Goomba(screen, settings)
-    g.x = 54 * settings.floor_width
+    g.x = 53 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 81,4  goomba
     g = Goomba(screen, settings)
-    g.x = 81 * settings.floor_width
+    g.x = 80 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 11)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 83,4  goomba
     g = Goomba(screen, settings)
-    g.x = 83 * settings.floor_width
+    g.x = 82 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 11)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 98,12 goomba
     g = Goomba(screen, settings)
-    g.x = 98 * settings.floor_width
+    g.x = 97 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 100,12 goomba
     g = Goomba(screen, settings)
-    g.x = 100 * settings.floor_width
+    g.x = 99 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 108,12 koopa
     k = Koopa(screen, settings)
-    k.x = 108 * settings.floor_width
+    k.x = 107 * settings.floor_width
     k.rect.x = k.x
     k.y = settings.screen_height - (settings.floor_height * 3.5)
     k.rect.y = k.y
     entity_arr.append(k)
     # # 115,12 goomba
     g = Goomba(screen, settings)
-    g.x = 115 * settings.floor_width
+    g.x = 114 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 117,12 goomba
     g = Goomba(screen, settings)
-    g.x = 117 * settings.floor_width
+    g.x = 116 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 125,12 goomba
     g = Goomba(screen, settings)
-    g.x = 125 * settings.floor_width
+    g.x = 124 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 127,12 goomba
     g = Goomba(screen, settings)
-    g.x = 127 * settings.floor_width
+    g.x = 126 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 130,12 goomba
     g = Goomba(screen, settings)
-    g.x = 130 * settings.floor_width
+    g.x = 129 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 132,12 goomba
     g = Goomba(screen, settings)
-    g.x = 132 * settings.floor_width
+    g.x = 131 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 175,12 goomba
     g = Goomba(screen, settings)
-    g.x = 175 * settings.floor_width
+    g.x = 174 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y
     entity_arr.append(g)
     # # 177,12 goomba
     g = Goomba(screen, settings)
-    g.x = 177 * settings.floor_width
+    g.x = 176 * settings.floor_width
     g.rect.x = g.x
     g.y = settings.screen_height - (settings.floor_height * 3)
     g.rect.y = g.y

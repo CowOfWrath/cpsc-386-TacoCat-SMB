@@ -132,7 +132,7 @@ class Settings:
 
         # Koopa settings
         self.koopa_width = 8 * self.image_scale
-        self.koopa_height = 32 * self.image_scale
+        self.koopa_height = 24 * self.image_scale
         self.koopa_speed = 1 * self.image_scale
 
         # Mushroom Settings

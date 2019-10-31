@@ -52,6 +52,7 @@ def run():
     enemy_group = Group()
     powerup_group = Group()
     fireball_group = Group()
+    dead_group = Group()
 
     map.generate_map(screen, settings, map_group, floor_group, pipe_group, block_group, enemy_group)
 
@@ -76,11 +77,11 @@ def run():
 
         # Update here
         gf.check_events(state, mario)
-        gf.update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group)
+        gf.update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group)
 
 
         # Display here
-        gf.update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group)
+        gf.update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group)
 
     pygame.quit()
     sys.exit()

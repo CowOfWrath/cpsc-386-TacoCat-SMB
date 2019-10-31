@@ -73,22 +73,29 @@ def check_keyup(event, mario):
     if event.key == pygame.K_LCTRL:
         mario.run = False
 
-def collide_enemies(mario, enemy_group, fireball_group):
+def update_dead(dead_group):
+    for e in dead_group:
+        if pygame.time.get_ticks() - e.death_timer > 1000:
+            e.kill()
+
+def collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group):
     collisions = pygame.sprite.groupcollide(enemy_group, fireball_group, True, True)
     for e in enemy_group:
         if pygame.sprite.collide_rect(mario, e):
             if mario.state == 0:
-                if mario.rect.centery > e.rect.centery:
+                if mario.is_falling:
                     e.kill()
+                    e.dead()
+                    e.add(map_group, dead_group)
                 else:
                     mario.dead = True # need to add code for killing and animating mario death
             if mario.state == 1 and not mario.shrink:
-                if mario.rect.centery > e.rect.centery:
+                if mario.is_falling:
                     e.kill()
                 else:
                     mario.shrink = True
             if mario.state == 2 and not mario.shrink:
-                if mario.rect.centery > e.rect.centery:
+                if mario.is_falling:
                     e.kill()
                 else:
                     mario.shrink = True
@@ -329,22 +336,23 @@ def item_block_collision(item_group, floor_group, pipe_group, block_group, map_g
     # end item collision check
 
 
-def check_collisions(settings, mario, map_group, floor_group, pipe_group,block_group, enemy_group, powerup_group, fireball_group):
+def check_collisions(settings, mario, map_group, floor_group, pipe_group,block_group, enemy_group, powerup_group, fireball_group, dead_group):
     # mario environment collisions
     mario_block_collision(mario, floor_group, pipe_group, block_group, map_group)
     # mario enemy collisions
-    collide_enemies(mario, enemy_group, fireball_group)
+    collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group)
     # entity (enemies/items) environment collisions
     enemy_block_collision(enemy_group, floor_group, pipe_group, block_group, map_group)
     item_block_collision(powerup_group, floor_group, pipe_group, block_group, map_group)
 
-def update(screen, settings, mario, map_group, floor_group, pipe_group,block_group, enemy_group, powerup_group, fireball_group):
+def update(screen, settings, mario, map_group, floor_group, pipe_group,block_group, enemy_group, powerup_group, fireball_group, dead_group):
     map_group.update()
     mario.update(map_group)
-    check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group)
+    check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group)
+    update_dead(dead_group)
 
 
-def update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group):
+def update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group):
     screen.fill(settings.bg_color)
     map_group.draw(screen)
     mario.draw()
