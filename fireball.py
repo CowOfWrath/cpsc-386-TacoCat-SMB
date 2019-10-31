@@ -16,6 +16,7 @@ class Fireball(Sprite):
         self.explode = False
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
+        self.name = "Fireball"
 
         self.image = pygame.transform.scale(pygame.image.load("Images/fireball_1.png"),
                                             (self.settings.fireball_width, self.settings.fireball_height))

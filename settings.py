@@ -143,6 +143,9 @@ class Settings:
         self.koopa_height = 24 * self.image_scale
         self.koopa_speed = 1 * self.image_scale
 
+        # Shell Settings
+        self.shell_speed = 4 * self.image_scale
+
         # Mushroom Settings
         self.mushroom_width = 16 * self.image_scale
         self.mushroom_height = 16 * self.image_scale

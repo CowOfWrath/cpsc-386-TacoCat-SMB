@@ -1,4 +1,4 @@
- # Rey Vergara
+# Rey Vergara
 
 import pygame
 from pygame.sprite import Sprite
@@ -6,7 +6,7 @@ from pygame.sprite import Sprite
 
 class Shell(Sprite):
 
-    def __init__(self, screen, settings):
+    def __init__(self, screen, settings, xpos, ypos):
         super().__init__()
         self.settings = settings
         self.screen = screen
@@ -14,13 +14,15 @@ class Shell(Sprite):
         self.active = False
         self.hit_wall = False
         self.is_dead = False
-        self.left = False
+        self.facing_left = False
+        self.name = "Shell"
+        self.death_timer = -1000
 
         self.image = pygame.transform.scale(pygame.image.load("Images/koopa_shell.png"),
                                             (self.settings.koopa_width, self.settings.koopa_width))
         self.rect = self.image.get_rect()
-        self.rect.x = self.rect.width
-        self.rect.y = self.rect.height
+        self.rect.centerx = xpos
+        self.rect.centery = ypos
 
     def draw(self):
         self.screen.blit(self.image, self.rect)
@@ -29,7 +31,7 @@ class Shell(Sprite):
         if self.is_dead:
             return
         if self.active:
-            if self.left:
-                self.rect.centerx -= 1.5
+            if self.facing_left:
+                self.rect.centerx -= self.settings.shell_speed
             else:
-                self.rect.centerx += 1.5
+                self.rect.centerx += self.settings.shell_speed

@@ -83,44 +83,119 @@ def update_dead(dead_group):
             e.kill()
 
 
+def enemy_stomp(e, mario, map_group, enemy_group, fireball_group, dead_group):
+    if e.name == "Koopa":
+        pygame.mixer.Sound("Sounds/stomp.wav").play()
+        e.kill()
+        e.dead(map_group, enemy_group, fireball_group)
+    elif e.name == "Goomba":
+        pygame.mixer.Sound("Sounds/stomp.wav").play()
+        e.kill()
+        e.dead()
+        e.add(map_group, dead_group)
+    elif e.name == "Shell":
+        if e.active:
+            if mario.iframes:
+                return
+            mario.dead()
+        else:
+            pygame.mixer.Sound("Sounds/shell_kick.wav").play()
+            e.active = True
+            mario.iframes = True
+            mario.invincible_tick = pygame.time.get_ticks()
+            if mario.rect.left < e.rect.right:
+                e.facing_left = False
+            else:
+                e.facing_left = True
+
+
 def collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group):
-    collisions = pygame.sprite.groupcollide(enemy_group, fireball_group, True, True)
+    for f in fireball_group:
+        if f.name == "Fireball":
+            if pygame.sprite.spritecollide(f, enemy_group, True):
+                f.kill()
+        else:
+            for e in enemy_group:
+                if e.name == "Shell":
+                    continue
+                else:
+                    if pygame.sprite.collide_rect(e, f):
+                        pygame.mixer.Sound("Sounds/shell_kick.wav").play()
+                        e.kill()
+                        f.kill()
+
     for e in enemy_group:
         if pygame.sprite.collide_rect(mario, e):
             if mario.state == 0:
                 if mario.is_falling:
-                    pygame.mixer.Sound("Sounds/stomp.wav").play()
-                    e.kill()
-                    e.dead()
-                    e.add(map_group, dead_group)
+                    enemy_stomp(e, mario, map_group, enemy_group, fireball_group, dead_group)
                 else:
-                    if mario.iframes:
-                        return
-                    mario.dead()
+                    if e.name == "Shell":
+                        if e.active:
+                            if mario.iframes:
+                                return
+                            mario.dead()
+                        else:
+                            pygame.mixer.Sound("Sounds/shell_kick.wav").play()
+                            e.active = True
+                            mario.iframes = True
+                            mario.invincible_tick = pygame.time.get_ticks()
+                            if mario.rect.left < e.rect.right:
+                                e.facing_left = False
+                            else:
+                                e.facing_left = True
+                    else:
+                        if mario.iframes:
+                            return
+                        mario.dead()
             if mario.state == 1 and not mario.shrink:
                 if mario.is_falling:
-                    pygame.mixer.Sound("Sounds/stomp.wav").play()
-                    e.kill()
-                    e.dead()
-                    e.add(map_group, dead_group)
+                    enemy_stomp(e, mario, map_group, enemy_group, fireball_group, dead_group)
                 else:
-                    mario.shrink = True
-                    mario.once_tick = pygame.time.get_ticks()
-                    mario.iframes = True
-                    mario.invincible_tick = pygame.time.get_ticks()
-                    mario.index = 0
+                    if e.name == "Shell":
+                        if e.active:
+                            if mario.iframes:
+                                return
+                            mario.dead()
+                        else:
+                            pygame.mixer.Sound("Sounds/shell_kick.wav").play()
+                            e.active = True
+                            mario.iframes = True
+                            mario.invincible_tick = pygame.time.get_ticks()
+                            if mario.rect.left < e.rect.right:
+                                e.facing_left = False
+                            else:
+                                e.facing_left = True
+                    else:
+                        mario.shrink = True
+                        mario.once_tick = pygame.time.get_ticks()
+                        mario.iframes = True
+                        mario.invincible_tick = pygame.time.get_ticks()
+                        mario.index = 0
             if mario.state == 2 and not mario.shrink:
                 if mario.is_falling:
-                    pygame.mixer.Sound("Sounds/stomp.wav").play()
-                    e.kill()
-                    e.dead()
-                    e.add(map_group, dead_group)
+                    enemy_stomp(e, mario, map_group, enemy_group, fireball_group, dead_group)
                 else:
-                    mario.shrink = True
-                    mario.once_tick = pygame.time.get_ticks()
-                    mario.iframes = True
-                    mario.invincible_tick = pygame.time.get_ticks()
-                    mario.index = 0
+                    if e.name == "Shell":
+                        if e.active:
+                            if mario.iframes:
+                                return
+                            mario.dead()
+                        else:
+                            pygame.mixer.Sound("Sounds/shell_kick.wav").play()
+                            e.active = True
+                            mario.iframes = True
+                            mario.invincible_tick = pygame.time.get_ticks()
+                            if mario.rect.left < e.rect.right:
+                                e.facing_left = False
+                            else:
+                                e.facing_left = True
+                    else:
+                        mario.shrink = True
+                        mario.once_tick = pygame.time.get_ticks()
+                        mario.iframes = True
+                        mario.invincible_tick = pygame.time.get_ticks()
+                        mario.index = 0
             if mario.state == 3:
                 pygame.mixer.Sound("Sounds/shell_kick.wav").play()
                 e.kill()

@@ -13,6 +13,7 @@ class Goomba(Sprite):
         super(Goomba, self).__init__()
         self.settings = settings
         self.screen = screen
+        self.name = "Goomba"
 
         self.facing_left = True
         self.hit_wall = False

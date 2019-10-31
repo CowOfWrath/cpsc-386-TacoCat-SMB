@@ -4,6 +4,7 @@
 
 import pygame
 from pygame.sprite import Sprite
+from shell import Shell
 
 
 class Koopa(Sprite):
@@ -12,6 +13,7 @@ class Koopa(Sprite):
         super(Koopa, self).__init__()
         self.settings = settings
         self.screen = screen
+        self.name = "Koopa"
 
         self.facing_left = True
         self.hit_wall = False
@@ -39,8 +41,10 @@ class Koopa(Sprite):
     def draw(self):
         self.screen.blit(self.image, self.rect)
 
-    def dead(self):
+    def dead(self, map_group, enemy_group, fireball_group):
         self.is_dead = True
+        s = Shell(self.screen, self.settings, self.rect.centerx, self.rect.centery)
+        s.add(map_group, enemy_group, fireball_group)
 
     def update(self):
         if self.is_dead:
