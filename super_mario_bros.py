@@ -75,12 +75,14 @@ def run():
     while state.running:
         clock.tick(60)
 
-        # Update here
         gf.check_events(state, mario)
-        gf.update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group)
+        # Update here
+        if not mario.dead:
+            gf.update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group)
 
 
-        # Display here
+
+            # Display here
         gf.update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group)
 
     pygame.quit()

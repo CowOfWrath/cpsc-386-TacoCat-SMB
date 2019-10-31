@@ -32,9 +32,11 @@ class Mario(Sprite):
         self.facing_left = False
         self.move_right = False
         self.move_left = False
+        self.iframes = False
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
         self.once_tick = pygame.time.get_ticks()
+        self.invincible_tick = pygame.time.get_ticks()
 
         # Mario collision Flags
         self.is_falling = True
@@ -211,6 +213,10 @@ class Mario(Sprite):
         self.screen.blit(pygame.transform.flip(self.image, self.facing_left, False), self.rect)
 
     def update(self, map_group):
+        if self.iframes:
+            time = pygame.time.get_ticks() - self.invincible_tick
+            if time > 1000:
+                self.iframes = False
         # Update Movement
         self.walk = False
         if not self.shrink and not self.grow:

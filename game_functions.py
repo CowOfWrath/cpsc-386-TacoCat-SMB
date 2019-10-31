@@ -84,34 +84,47 @@ def collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group):
         if pygame.sprite.collide_rect(mario, e):
             if mario.state == 0:
                 if mario.is_falling:
+                    pygame.mixer.Sound("Sounds/stomp.wav").play()
                     e.kill()
                     e.dead()
                     e.add(map_group, dead_group)
                 else:
+                    if mario.iframes:
+                        return
                     mario.dead = True # need to add code for killing and animating mario death
+                    mario.image = mario.sm_dead
+                    pygame.mixer.Sound("Sounds/die.wav").play()
             if mario.state == 1 and not mario.shrink:
                 if mario.is_falling:
+                    pygame.mixer.Sound("Sounds/stomp.wav").play()
                     e.kill()
                     e.dead()
                     e.add(map_group, dead_group)
                 else:
                     mario.shrink = True
                     mario.once_tick = pygame.time.get_ticks()
+                    mario.iframes = True
+                    mario.invincible_tick = pygame.time.get_ticks()
                     mario.index = 0
             if mario.state == 2 and not mario.shrink:
                 if mario.is_falling:
+                    pygame.mixer.Sound("Sounds/stomp.wav").play()
                     e.kill()
                     e.dead()
                     e.add(map_group, dead_group)
                 else:
                     mario.shrink = True
                     mario.once_tick = pygame.time.get_ticks()
+                    mario.iframes = True
+                    mario.invincible_tick = pygame.time.get_ticks()
                     mario.index = 0
             if mario.state == 3:
+                pygame.mixer.Sound("Sounds/shell_kick.wav").play()
                 e.kill()
                 e.dead()
                 e.add(map_group, dead_group)
             if mario.state == 4:
+                pygame.mixer.Sound("Sounds/shell_kick.wav").play()
                 e.kill()
                 e.dead()
                 e.add(map_group, dead_group)

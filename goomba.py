@@ -64,16 +64,17 @@ class Goomba(Sprite):
     def update(self):
         if self.is_dead:
             return
-        self.iterate_index(len(self.images))
-        self.image = self.images[self.index]
+        if self.rect.colliderect(self.screen.get_rect()):
+            self.iterate_index(len(self.images))
+            self.image = self.images[self.index]
 
-        # gravity
-        # self.rect.centery += self.settings.gravity
+            # gravity
+            # self.rect.centery += self.settings.gravity
 
-        if self.facing_right:
-            self.rect.centerx += 1
-        else:
-            self.rect.centerx -= 1
+            if self.facing_right:
+                self.rect.centerx += 1
+            else:
+                self.rect.centerx -= 1
 
     def iterate_index(self, max_):
         time = pygame.time.get_ticks() - self.last_tick
