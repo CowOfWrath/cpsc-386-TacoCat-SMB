@@ -594,4 +594,4 @@ def generate_map(screen, settings, map_group, floor_group, pipe_group, block_gro
     bg.add(map_group)
     generate_floor(screen, settings, map_group, floor_group, pipe_group)
     generate_blocks(screen, settings, map_group, block_group)
-    #generate_entities()
+    generate_entities(screen, settings, map_group, enemy_group)
