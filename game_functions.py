@@ -92,17 +92,29 @@ def collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group):
             if mario.state == 1 and not mario.shrink:
                 if mario.is_falling:
                     e.kill()
+                    e.dead()
+                    e.add(map_group, dead_group)
                 else:
                     mario.shrink = True
+                    mario.once_tick = pygame.time.get_ticks()
+                    mario.index = 0
             if mario.state == 2 and not mario.shrink:
                 if mario.is_falling:
                     e.kill()
+                    e.dead()
+                    e.add(map_group, dead_group)
                 else:
                     mario.shrink = True
+                    mario.once_tick = pygame.time.get_ticks()
+                    mario.index = 0
             if mario.state == 3:
                 e.kill()
+                e.dead()
+                e.add(map_group, dead_group)
             if mario.state == 4:
                 e.kill()
+                e.dead()
+                e.add(map_group, dead_group)
 
 
 # entity collides w/ top of block or pipe
