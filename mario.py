@@ -20,7 +20,7 @@ class Mario(Sprite):
         self.screen = screen
 
         # States: sm = 0 | bm = 1 | fm = 2 | smi = 3 | bmi = 4
-        self.state = 0
+        self.state = 1
         self.dead = False
         self.walk = False
         self.run = False
@@ -34,6 +34,7 @@ class Mario(Sprite):
         self.move_left = False
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
+        self.once_tick = pygame.time.get_ticks()
 
         # Mario collision Flags
         self.is_falling = True
@@ -212,51 +213,52 @@ class Mario(Sprite):
     def update(self, map_group):
         # Update Movement
         self.walk = False
-        # print("has hit wall: " + str(self.hit_wall))
-        if self.move_right and not self.crouch:
-            self.walk = True
-            if self.hit_wall:
-                print('hitting a wall')
-            elif self.x >= self.settings.screen_width / 2:
-                for e in map_group:
-                    if self.run:
-                        e.rect.x -= self.settings.mario_run
-                    else:
-                        e.rect.x -= self.settings.mario_walk
-            else:
-                if self.run:
-                    self.x += self.settings.mario_run
+        if not self.shrink and not self.grow:
+            # print("has hit wall: " + str(self.hit_wall))
+            if self.move_right and not self.crouch:
+                self.walk = True
+                if self.hit_wall:
+                    print('hitting a wall')
+                elif self.x >= self.settings.screen_width / 2:
+                    for e in map_group:
+                        if self.run:
+                            e.rect.x -= self.settings.mario_run
+                        else:
+                            e.rect.x -= self.settings.mario_walk
                 else:
-                    self.x += self.settings.mario_walk
-        elif self.move_left and not self.crouch and self.x > 0:
-            self.walk = True
-            if self.hit_wall:
-                print('hitting a wall')
-            elif self.run:
-                self.x -= self.settings.mario_run
-            else:
-                self.x -= self.settings.mario_walk
-        # else:
-        #     print('no wall hit')
+                    if self.run:
+                        self.x += self.settings.mario_run
+                    else:
+                        self.x += self.settings.mario_walk
+            elif self.move_left and not self.crouch and self.x > 0:
+                self.walk = True
+                if self.hit_wall:
+                    print('hitting a wall')
+                elif self.run:
+                    self.x -= self.settings.mario_run
+                else:
+                    self.x -= self.settings.mario_walk
+            # else:
+            #     print('no wall hit')
 
-        if self.is_falling:
-            self.y += self.settings.gravity
-            self.jump = True
-
-        if self.is_jumping:
-            if self.y <= self.max_jump_height:
-                self.is_falling = True
-                self.is_jumping = False
+            if self.is_falling:
                 self.y += self.settings.gravity
-            else:
-                self.y -= self.settings.mario_jump
-                self.is_falling = False
                 self.jump = True
+
+            if self.is_jumping:
+                if self.y <= self.max_jump_height:
+                    self.is_falling = True
+                    self.is_jumping = False
+                    self.y += self.settings.gravity
+                else:
+                    self.y -= self.settings.mario_jump
+                    self.is_falling = False
+                    self.jump = True
 
         # Update animation states and hitbox and position
         if self.state == 0:  # Small Mario
             if self.grow:  # On mushroom collision set index to 0
-                self.iterate_index(len(self.sm_grow))
+                self.iterate_once(len(self.sm_grow))
                 temp = self.rect.copy()
                 self.image = self.sm_grow[self.index]
                 self.rect = self.image.get_rect()
@@ -282,7 +284,7 @@ class Mario(Sprite):
                 self.rect.y = self.y
         elif self.state == 1:  # Big Mario
             if self.shrink:  # On enemy collsion set indeox to 0
-                self.iterate_index(len(self.bm_shrink))
+                self.iterate_once(len(self.bm_shrink))
                 temp = self.rect.copy()
                 self.image = self.bm_shrink[self.index]
                 self.rect = self.image.get_rect()
@@ -311,7 +313,7 @@ class Mario(Sprite):
                 self.rect.y = self.y
         elif self.state == 2:  # Fire Mario
             if self.shrink:  # On enemy collision set index to 0
-                self.iterate_index(len(self.fm_shrink))
+                self.iterate_once(len(self.fm_shrink))
                 temp = self.rect.copy()
                 self.image = self.fm_shrink[self.index]
                 self.rect = self.image.get_rect()
@@ -346,7 +348,7 @@ class Mario(Sprite):
                 self.rect.y = self.y
         elif self.state == 3:  # Small Mario Invincible
             if self.grow:  # On mushroom collision set index to 0
-                self.iterate_index(len(self.smi_grow))
+                self.iterate_once(len(self.smi_grow))
                 temp = self.rect.copy()
                 self.image = self.smi_grow[self.index]
                 self.rect = self.image.get_rect()
@@ -424,4 +426,15 @@ class Mario(Sprite):
             self.index += 1
             self.last_tick = pygame.time.get_ticks()
         if self.index == max:
+            self.index = 0
+
+    def iterate_once(self, max):
+        time = pygame.time.get_ticks() - self.once_tick
+        if time > 100:
+            self.index += 1
+            self.once_tick = pygame.time.get_ticks()
+        if self.index == max:
+            self.shrink = False
+            self.grow = False
+            self.state = 0
             self.index = 0
