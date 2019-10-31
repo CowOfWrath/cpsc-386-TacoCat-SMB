@@ -4,11 +4,6 @@
 import pygame
 from pygame.sprite import Sprite
 
-# Koopa settings
-# self.koopa_width = 8 * self.image_scale
-# self.koopa_height = 16 * self.image_scale
-# self.koopa_speed = 1 * self.image_scale
-
 
 class Koopa(Sprite):
 
