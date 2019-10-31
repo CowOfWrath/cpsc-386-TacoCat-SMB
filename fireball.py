@@ -5,7 +5,7 @@ from pygame.sprite import Sprite
 class Fireball(Sprite):
     # Class to manage fireballs
 
-    def __init__(self, screen, settings, mario):
+    def __init__(self, screen, settings, xpos, ypos):
         # Create fireball where Mario currently is
         super().__init__()
         self.screen = screen
@@ -16,15 +16,14 @@ class Fireball(Sprite):
         self.last_tick = pygame.time.get_ticks()
 
         self.image = pygame.transform.scale(pygame.image.load("Images/fireball_1.png"),
-                                            self.settings.fireball_width, self.settings.fireball_height)
+                                            (self.settings.fireball_width, self.settings.fireball_height))
         self.rect = self.image.get_rect()
-        self.rect.centerx = mario.rect.centerx
-        self.rect.right = mario.rect.right
-        self.rect.left = mario.rect.left
+        self.rect.left = xpos
+        self.rect.top = ypos
 
         # Images for fireball
         self.images = []
-        self.images.extend = ([pygame.transform.scale(pygame.image.load("Images/fireball_1.png"),
+        self.images.extend([pygame.transform.scale(pygame.image.load("Images/fireball_1.png"),
                                                       (self.settings.fireball_width, self.settings.fireball_height)),
                                pygame.transform.scale(pygame.image.load("Images/fireball_2.png"),
                                                       (self.settings.fireball_width, self.settings.fireball_height)),
@@ -33,14 +32,14 @@ class Fireball(Sprite):
                                pygame.transform.scale(pygame.image.load("Images/fireball_4.png"),
                                                       (self.settings.fireball_width, self.settings.fireball_height))])
         self.explode_frames = []
-        self.explode_frames.extend = ([pygame.transform.scale(pygame.image.load("Images/explode_0.png"),
+        self.explode_frames.extend([pygame.transform.scale(pygame.image.load("Images/explode_0.png"),
                                                       (self.settings.fireball_width, self.settings.fireball_height)),
                                pygame.transform.scale(pygame.image.load("Images/explode_1.png"),
-                                                      (self.settings.fireball_width * 1.1,
-                                                       self.settings.fireball_height * 1.1)),
+                                                      (self.settings.fireball_width,
+                                                       self.settings.fireball_height)),
                                pygame.transform.scale(pygame.image.load("Images/explode_2.png"),
-                                                      (self.settings.fireball_width * 1.2,
-                                                       self.settings.fireball_height * 1.2))])
+                                                      (self.settings.fireball_width,
+                                                       self.settings.fireball_height))])
 
         # Store location
         self.y = float(self.rect.y)
@@ -65,6 +64,10 @@ class Fireball(Sprite):
             self.last_tick = pygame.time.get_ticks()
 
             # temporarily placed movement in iterate, should belong in its own function
-
+            # if self.fall:
+            #     self.rect.centery += self.settings.fireball_jump
+            # else:
+            #     self.rect.centery -= self.settings.fireball_jump
         if self.index == max:
             self.index = 0
+            # self.fall = not self.fall

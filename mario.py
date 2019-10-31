@@ -11,6 +11,7 @@
 
 import pygame
 from pygame.sprite import Sprite
+from fireball import Fireball
 
 
 class Mario(Sprite):
@@ -216,6 +217,10 @@ class Mario(Sprite):
         self.is_dead = True  # need to add code for killing and animating mario death
         self.image = self.sm_dead
         pygame.mixer.Sound("Sounds/die.wav").play()
+
+    def throw_fireball(self, screen, settings, fireball_group, map_group):
+        f = Fireball(screen, settings, self.rect.right, self.rect.centery)
+        f.add(map_group, fireball_group)
 
     def update(self, map_group):
         if self.rect.bottom >= self.screen.get_rect().bottom:

@@ -75,7 +75,7 @@ def run():
     while state.running:
         clock.tick(60)
 
-        gf.check_events(state, mario)
+        gf.check_events(state, mario, screen, settings, fireball_group, map_group)
         # Update here
         if not mario.is_dead:
             gf.update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group)

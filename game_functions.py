@@ -9,21 +9,24 @@
 import pygame
 
 
-def check_events(state, mario):
+def check_events(state, mario, screen, settings, fireball_group, map_group):
     # Check key and mouse events
     for event in pygame.event.get():
         # Quit game events
         if event.type == pygame.QUIT:
             state.running = False
         elif event.type == pygame.KEYDOWN:
-            check_keydown(state, event, mario)
+            check_keydown(state, event, mario, screen, settings, fireball_group, map_group)
         elif event.type == pygame.KEYUP:
             check_keyup(event, mario)
 
 
-def check_keydown(state, event, mario):
+def check_keydown(state, event, mario, screen, settings, fireball_group, map_group):
     if event.key == pygame.K_ESCAPE:
         state.running = False
+
+    if event.key == pygame.K_SPACE:
+        mario.throw_fireball(screen, settings, fireball_group, map_group)
 
     # Mario movement events
     elif event.key == pygame.K_RIGHT:
