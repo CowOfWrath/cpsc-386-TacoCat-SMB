@@ -224,7 +224,7 @@ class Mario(Sprite):
 
         if self.iframes:
             time = pygame.time.get_ticks() - self.invincible_tick
-            if time > 1000:
+            if time > 3000:
                 self.iframes = False
         # Update Movement
         self.walk = False

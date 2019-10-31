@@ -143,7 +143,7 @@ def entity_floor_collide(entity, floor):
     if (entity.rect.bottom >= floor.rect.top and
             (floor.rect.left <= entity.rect.centerx <= floor.rect.right) and
             entity.rect.top < floor.rect.top):
-        entity.y = floor.rect.top - entity.rect.h
+        entity.rect.y = floor.rect.top - entity.rect.h
         # TODO edit entity falling status if needed
         return True
     return False
@@ -154,14 +154,16 @@ def entity_wall_collide(entity, wall):
             (wall.rect.top < entity.rect.centery < wall.rect.bottom) and entity.rect.left < wall.rect.left
             and not entity.hit_wall and not entity.facing_left):
         # print('collision w/ left side')
-        entity.rect.right = wall.rect.left - 1
+        #entity.rect.right = wall.rect.left - 1
+        entity.facing_left = not entity.facing_left
         # TODO code to change entity direction
         return True
     elif (entity.rect.left <= wall.rect.right and
             (wall.rect.top < entity.rect.centery < wall.rect.bottom) and entity.rect.right > wall.rect.right
             and not entity.hit_wall and entity.facing_left):
         # print('collision w/ right side')
-        entity.rect.left = wall.rect.right + 1
+        #entity.rect.left = wall.rect.right + 1
+        entity.facing_left = not entity.facing_left
         # TODO code to change entity direction
         return True
     return False
@@ -313,8 +315,8 @@ def mario_block_collision(mario, floor_group, pipe_group, block_group, map_group
 
 def enemy_block_collision(enemy_group, floor_group, pipe_group, block_group, map_group ):
     # TODO enable enemy collisions when needed
-    if False:
-        # Check for Wall Collision
+    if True:
+    # Check for Wall Collision
         enemy_floor_wall_check = pygame.sprite.groupcollide(enemy_group, floor_group, False, False, collided=entity_wall_collide)
         if enemy_floor_wall_check:
             return

@@ -13,7 +13,8 @@ class Koopa(Sprite):
         self.settings = settings
         self.screen = screen
 
-        self.facing_right = False
+        self.facing_left = True
+        self.hit_wall = False
         self.fall = False
         self.index = 0
         self.is_dead = False
@@ -49,12 +50,12 @@ class Koopa(Sprite):
             self.image = self.images[self.index]
 
             # gravity
-            # self.rect.centery += self.settings.gravity
+            self.rect.centery += self.settings.gravity
 
-            if self.facing_right:
-                self.rect.centerx += 1
-            else:
+            if self.facing_left:
                 self.rect.centerx -= 1
+            else:
+                self.rect.centerx += 1
 
     def iterate_index(self, max_):
         time = pygame.time.get_ticks() - self.last_tick
