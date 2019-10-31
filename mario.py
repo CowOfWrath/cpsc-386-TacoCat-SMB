@@ -20,7 +20,7 @@ class Mario(Sprite):
         self.screen = screen
 
         # States: sm = 0 | bm = 1 | fm = 2 | smi = 3 | bmi = 4
-        self.state = 1
+        self.state = 0
         self.dead = False
         self.walk = False
         self.run = False
@@ -401,7 +401,22 @@ class Mario(Sprite):
             self.index = 0
 
     def set_max_jump_height(self):
-        self.max_jump_height = self.y - self.settings.mario_max_jump_height
+        self.max_jump_height = self.rect.y - self.settings.mario_max_jump_height
+
+    def use_idle_image(self):
+        # States: sm = 0 | bm = 1 | fm = 2 | smi = 3 | bmi = 4
+        if self.state == 0:
+            self.image = self.sm_idle
+        elif self.state == 1:
+            self.image = self.bm_idle
+        elif self.state == 2:
+            self.image = self.fm_idle
+        elif self.state == 3:
+            self.image = self.smi_idle
+        elif self.state == 4:
+            self.image = self.bmi_idle
+        else:
+            print('impossible state')
 
     def iterate_index(self, max):
         time = pygame.time.get_ticks() - self.last_tick

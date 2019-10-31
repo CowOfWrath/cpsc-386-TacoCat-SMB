@@ -86,12 +86,33 @@ class Block(Sprite):
     # def collision_check(self, sprite_object):
     #     pass
 
-    def handle_bottom_collision(self, map_group):
+    def handle_bottom_collision(self, map_group, can_break_block=False):
         if self.is_hittable and not self.is_broken:
-            self.break_block(map_group=map_group, rubble_group=pygame.sprite.Group())
+            if can_break_block:
+                self.break_block(map_group=map_group, rubble_group=pygame.sprite.Group())
+            else:
+                self.is_moving = True
+
 
     def update(self):
-        pass
+        if self.is_moving:
+            # TODO animate block
+            if self.rect.y > self.max_height_movement and self.y_vel < 0:
+                self.rect.y += (abs(self.y_vel) * -1)
+            elif self.rect.y <= self.initial_pos[1]:
+                self.rect.y += (self.y_vel)
+            else:
+                self.rect.y = self.initial_pos[1]
+
+            # adjust velocity
+            if self.rect.y <= self.initial_pos[1]:
+                self.y_vel += (abs(self.y_vel) * self.settings.brick_gravity)
+                print('y velocity: ' + str(self.y_vel))
+            else:
+                self.rect.top = self.initial_pos[1]
+                self.y_vel = self.settings.brick_initial_move_speed
+                self.is_moving = False
+        # pass
 
     def animate_block_movement(self):
         pass
@@ -245,7 +266,7 @@ class CoinBlock(Block):
         if len(self.coins) <= 0:
             super().break_block( rubble_group=rubble_group, map_group=map_group)
 
-    def handle_bottom_collision(self, map_group):
+    def handle_bottom_collision(self, map_group, can_break_block=False):
         if self.is_hittable:
             # TODO - figure out if need to adjust collided object physics
 
@@ -336,7 +357,7 @@ class MysteryBlock(Block):
         self.is_hittable = False
         self.image = self.empty_image
 
-    def handle_bottom_collision(self, map_group):
+    def handle_bottom_collision(self, map_group, can_break_block=False):
         if self.is_hittable:
             # TODO - figure out if need to adjust collided object physics
             if not self.is_empty:
