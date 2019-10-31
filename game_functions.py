@@ -91,9 +91,7 @@ def collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group):
                 else:
                     if mario.iframes:
                         return
-                    mario.dead = True # need to add code for killing and animating mario death
-                    mario.image = mario.sm_dead
-                    pygame.mixer.Sound("Sounds/die.wav").play()
+                    mario.dead()
             if mario.state == 1 and not mario.shrink:
                 if mario.is_falling:
                     pygame.mixer.Sound("Sounds/stomp.wav").play()

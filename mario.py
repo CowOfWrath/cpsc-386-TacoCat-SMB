@@ -21,7 +21,7 @@ class Mario(Sprite):
 
         # States: sm = 0 | bm = 1 | fm = 2 | smi = 3 | bmi = 4
         self.state = 1
-        self.dead = False
+        self.is_dead = False
         self.walk = False
         self.run = False
         self.jump = False
@@ -212,7 +212,16 @@ class Mario(Sprite):
     def draw(self):
         self.screen.blit(pygame.transform.flip(self.image, self.facing_left, False), self.rect)
 
+    def dead(self):
+        self.is_dead = True  # need to add code for killing and animating mario death
+        self.image = self.sm_dead
+        pygame.mixer.Sound("Sounds/die.wav").play()
+
     def update(self, map_group):
+        if self.rect.bottom >= self.screen.get_rect().bottom:
+            self.dead()
+            return
+
         if self.iframes:
             time = pygame.time.get_ticks() - self.invincible_tick
             if time > 1000:

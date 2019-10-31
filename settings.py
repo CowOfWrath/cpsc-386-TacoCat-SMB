@@ -41,8 +41,8 @@ class Settings:
         self.bm_height = 32 * self.image_scale
         self.sm_width = 16 * self.image_scale - 2
         self.sm_height = 16 * self.image_scale
-        self.mario_walk = 4 * self.image_scale
-        self.mario_run = 6 * self.image_scale
+        self.mario_walk = 2 * self.image_scale
+        self.mario_run = 4 * self.image_scale
         self.mario_jump = 8 * self.image_scale
         self.mario_max_jump_height = 4 * self.sm_height + 5
 
