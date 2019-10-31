@@ -21,7 +21,7 @@ class Mario(Sprite):
         self.screen = screen
 
         # States: sm = 0 | bm = 1 | fm = 2 | smi = 3 | bmi = 4
-        self.state = 1
+        self.state = 2
         self.is_dead = False
         self.walk = False
         self.run = False
