@@ -38,8 +38,15 @@ def check_keydown(state, event, mario):
         mario.move_left = True
         mario.move_right = False
 
+    if mario.is_dead:
+        return
+    
     if event.key == pygame.K_UP:
         print("up down")
+        if mario.state == 0 or mario.state == 3:
+            pygame.mixer.Sound("Sounds/jump-small.wav").play()
+        else:
+            pygame.mixer.Sound("Sounds/jump-super.wav").play()
         # set max jump height from first time
         if mario.is_jumping == False and mario.is_falling == False:
             mario.set_max_jump_height()
