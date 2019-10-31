@@ -27,33 +27,29 @@ def check_keydown(state, event, mario):
 
     # Mario movement events
     elif event.key == pygame.K_RIGHT:
-        print("right down")
         mario.facing_left = False
         mario.move_left = False
         mario.move_right = True
 
     elif event.key == pygame.K_LEFT:
-        print("left down")
         mario.facing_left = True
         mario.move_left = True
         mario.move_right = False
 
     if mario.is_dead:
         return
-    
+
     if event.key == pygame.K_UP:
-        print("up down")
-        if mario.state == 0 or mario.state == 3:
-            pygame.mixer.Sound("Sounds/jump-small.wav").play()
-        else:
-            pygame.mixer.Sound("Sounds/jump-super.wav").play()
         # set max jump height from first time
         if mario.is_jumping == False and mario.is_falling == False:
             mario.set_max_jump_height()
             mario.is_jumping = True
+            if mario.state == 0 or mario.state == 3:
+                pygame.mixer.Sound("Sounds/jump-small.wav").play()
+            else:
+                pygame.mixer.Sound("Sounds/jump-super.wav").play()
         mario.jump = True
     elif event.key == pygame.K_DOWN:
-        print("down down")
         mario.crouch = True
 
     if event.key == pygame.K_LCTRL:
@@ -62,19 +58,15 @@ def check_keydown(state, event, mario):
 
 def check_keyup(event, mario):
     if event.key == pygame.K_RIGHT:
-        print("right up")
         mario.move_right = False
     elif event.key == pygame.K_LEFT:
-        print("left up")
         mario.move_left = False
 
     if event.key == pygame.K_UP:
-        print("up up")
         # mario.jump = False
         # mario.is_falling = True
         mario.is_jumping = False
     elif event.key == pygame.K_DOWN:
-        print("down up")
         mario.crouch = False
 
     if event.key == pygame.K_LCTRL:
