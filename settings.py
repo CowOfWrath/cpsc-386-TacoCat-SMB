@@ -92,7 +92,7 @@ class Settings:
         self.brick_rubble_right = self.IMAGE_PATH + 'block_debris_right.png'
         self.brick_rubble_height_factor = 0.2
         self.break_brick_sound = self.SOUND_PATH + 'breakblock.wav'
-        self.brick_rubble_image_TBF = 100   # TBF - time between frames
+        self.brick_rubble_image_TBF = 100  # TBF - time between frames
 
         # BlockStairs Settings
         self.block_stairs_image = self.IMAGE_PATH + 'block.png'

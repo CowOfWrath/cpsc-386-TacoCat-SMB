@@ -26,22 +26,23 @@ class Fireball(Sprite):
         # Images for fireball
         self.images = []
         self.images.extend([pygame.transform.scale(pygame.image.load("Images/fireball_1.png"),
-                                                      (self.settings.fireball_width, self.settings.fireball_height)),
-                               pygame.transform.scale(pygame.image.load("Images/fireball_2.png"),
-                                                      (self.settings.fireball_width, self.settings.fireball_height)),
-                               pygame.transform.scale(pygame.image.load("Images/fireball_3.png"),
-                                                      (self.settings.fireball_width, self.settings.fireball_height)),
-                               pygame.transform.scale(pygame.image.load("Images/fireball_4.png"),
-                                                      (self.settings.fireball_width, self.settings.fireball_height))])
+                                                   (self.settings.fireball_width, self.settings.fireball_height)),
+                            pygame.transform.scale(pygame.image.load("Images/fireball_2.png"),
+                                                   (self.settings.fireball_width, self.settings.fireball_height)),
+                            pygame.transform.scale(pygame.image.load("Images/fireball_3.png"),
+                                                   (self.settings.fireball_width, self.settings.fireball_height)),
+                            pygame.transform.scale(pygame.image.load("Images/fireball_4.png"),
+                                                   (self.settings.fireball_width, self.settings.fireball_height))])
         self.explode_frames = []
         self.explode_frames.extend([pygame.transform.scale(pygame.image.load("Images/explode_0.png"),
-                                                      (self.settings.fireball_width, self.settings.fireball_height)),
-                               pygame.transform.scale(pygame.image.load("Images/explode_1.png"),
-                                                      (self.settings.fireball_width,
-                                                       self.settings.fireball_height)),
-                               pygame.transform.scale(pygame.image.load("Images/explode_2.png"),
-                                                      (self.settings.fireball_width,
-                                                       self.settings.fireball_height))])
+                                                           (self.settings.fireball_width,
+                                                            self.settings.fireball_height)),
+                                    pygame.transform.scale(pygame.image.load("Images/explode_1.png"),
+                                                           (self.settings.fireball_width,
+                                                            self.settings.fireball_height)),
+                                    pygame.transform.scale(pygame.image.load("Images/explode_2.png"),
+                                                           (self.settings.fireball_width,
+                                                            self.settings.fireball_height))])
 
         # Store location
         self.y = float(self.rect.y)

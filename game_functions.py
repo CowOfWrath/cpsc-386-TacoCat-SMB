@@ -76,10 +76,12 @@ def check_keyup(event, mario):
     if event.key == pygame.K_LCTRL:
         mario.run = False
 
+
 def update_dead(dead_group):
     for e in dead_group:
         if pygame.time.get_ticks() - e.death_timer > 1000:
             e.kill()
+
 
 def collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group):
     collisions = pygame.sprite.groupcollide(enemy_group, fireball_group, True, True)
@@ -158,15 +160,15 @@ def entity_wall_collide(entity, wall):
             (wall.rect.top < entity.rect.centery < wall.rect.bottom) and entity.rect.left < wall.rect.left
             and not entity.hit_wall and not entity.facing_left):
         # print('collision w/ left side')
-        #entity.rect.right = wall.rect.left - 1
+        # entity.rect.right = wall.rect.left - 1
         entity.facing_left = not entity.facing_left
         # TODO code to change entity direction
         return True
     elif (entity.rect.left <= wall.rect.right and
-            (wall.rect.top < entity.rect.centery < wall.rect.bottom) and entity.rect.right > wall.rect.right
-            and not entity.hit_wall and entity.facing_left):
+          (wall.rect.top < entity.rect.centery < wall.rect.bottom) and entity.rect.right > wall.rect.right
+          and not entity.hit_wall and entity.facing_left):
         # print('collision w/ right side')
-        #entity.rect.left = wall.rect.right + 1
+        # entity.rect.left = wall.rect.right + 1
         entity.facing_left = not entity.facing_left
         # TODO code to change entity direction
         return True
@@ -216,7 +218,7 @@ def mario_floor_collide(mario, floor):
 
 
 def mario_wall_collide(mario, wall):
-    #left side of wall
+    # left side of wall
     if (mario.rect.right >= wall.rect.left and
             (wall.rect.top <= mario.rect.centery <= wall.rect.bottom or
              wall.rect.topleft[1] <= mario.rect.topright[1] < wall.rect.bottomleft[1] or
@@ -231,11 +233,12 @@ def mario_wall_collide(mario, wall):
         mario.hit_wall = True
         return True
     elif (mario.rect.left <= wall.rect.right and
-            (wall.rect.top <= mario.rect.centery <= wall.rect.bottom or
-             wall.rect.topright[1] <= mario.rect.topleft[1] < wall.rect.bottomright[1] or
-             wall.rect.topright[1] < mario.rect.bottomleft[1] <= wall.rect.bottomright[1]) and mario.rect.right > wall.rect.right and not mario.hit_wall):
+          (wall.rect.top <= mario.rect.centery <= wall.rect.bottom or
+           wall.rect.topright[1] <= mario.rect.topleft[1] < wall.rect.bottomright[1] or
+           wall.rect.topright[1] < mario.rect.bottomleft[1] <= wall.rect.bottomright[
+               1]) and mario.rect.right > wall.rect.right and not mario.hit_wall):
         print('collision w/ right side')
-        print('mario falling ' + str(mario.is_falling) )
+        print('mario falling ' + str(mario.is_falling))
         print('wall tr: ' + str(wall.rect.topright) + 'br: ' + str(wall.rect.bottomright))
         print('mario tl: ' + str(mario.rect.topleft))
         print('wall tr: ' + str(wall.rect.topright) + 'br: ' + str(wall.rect.bottomright))
@@ -255,7 +258,7 @@ def mario_block_bottom_collide(mario, block):
             (block.rect.left <= mario.rect.left < block.rect.right or
              block.rect.left < mario.rect.right <= block.rect.right) and
             mario.rect.centery > block.rect.centery and mario.is_jumping):
-        #mario.rect.y = block.rect.bottom + mario.rect.h
+        # mario.rect.y = block.rect.bottom + mario.rect.h
         mario.rect.top = block.rect.bottom + 1
         print('collided bottom')
         mario.is_falling = True
@@ -317,25 +320,30 @@ def mario_block_collision(mario, floor_group, pipe_group, block_group, map_group
     # END mario_block_collision()
 
 
-def enemy_block_collision(enemy_group, floor_group, pipe_group, block_group, map_group ):
+def enemy_block_collision(enemy_group, floor_group, pipe_group, block_group, map_group):
     # TODO enable enemy collisions when needed
     if True:
-    # Check for Wall Collision
-        enemy_floor_wall_check = pygame.sprite.groupcollide(enemy_group, floor_group, False, False, collided=entity_wall_collide)
+        # Check for Wall Collision
+        enemy_floor_wall_check = pygame.sprite.groupcollide(enemy_group, floor_group, False, False,
+                                                            collided=entity_wall_collide)
         if enemy_floor_wall_check:
             return
-        e_block_wall_hits = pygame.sprite.groupcollide(enemy_group, block_group, False, False, collided=entity_wall_collide)
-        e_pipe_wall_hits = pygame.sprite.groupcollide(enemy_group, pipe_group, False, False, collided=entity_wall_collide)
+        e_block_wall_hits = pygame.sprite.groupcollide(enemy_group, block_group, False, False,
+                                                       collided=entity_wall_collide)
+        e_pipe_wall_hits = pygame.sprite.groupcollide(enemy_group, pipe_group, False, False,
+                                                      collided=entity_wall_collide)
 
         # LANDING Logic Check
         e_floor_hits = pygame.sprite.groupcollide(enemy_group, floor_group, False, False, collided=entity_floor_collide)
         if e_floor_hits:
             return
 
-        e_block_hits = pygame.sprite.groupcollide(enemy_group, block_group, False, False, collided=entity_block_pipe_collide)
+        e_block_hits = pygame.sprite.groupcollide(enemy_group, block_group, False, False,
+                                                  collided=entity_block_pipe_collide)
         if e_block_hits:
             return
-        e_pipe_hits = pygame.sprite.groupcollide(enemy_group, pipe_group, False, False, collided=entity_block_pipe_collide)
+        e_pipe_hits = pygame.sprite.groupcollide(enemy_group, pipe_group, False, False,
+                                                 collided=entity_block_pipe_collide)
         if e_pipe_hits:
             return
     # END entity_block_collision
@@ -345,26 +353,32 @@ def item_block_collision(item_group, floor_group, pipe_group, block_group, map_g
     # TODO: Add some check for if item is moving
     if False:
         # Wall Collisions
-        item_floor_wall_check = pygame.sprite.groupcollide(item_group, floor_group, False, False, collided=entity_wall_collide)
+        item_floor_wall_check = pygame.sprite.groupcollide(item_group, floor_group, False, False,
+                                                           collided=entity_wall_collide)
         if item_floor_wall_check:
             return
-        i_block_wall_hits = pygame.sprite.groupcollide(item_group, block_group, False, False, collided=entity_wall_collide)
-        i_pipe_wall_hits = pygame.sprite.groupcollide(item_group, pipe_group, False, False, collided=entity_wall_collide)
+        i_block_wall_hits = pygame.sprite.groupcollide(item_group, block_group, False, False,
+                                                       collided=entity_wall_collide)
+        i_pipe_wall_hits = pygame.sprite.groupcollide(item_group, pipe_group, False, False,
+                                                      collided=entity_wall_collide)
 
         # LANDING Logic Check
         i_floor_hits = pygame.sprite.groupcollide(item_group, floor_group, False, False, collided=entity_floor_collide)
         if i_floor_hits:
             return
-        i_block_hits = pygame.sprite.groupcollide(item_group, block_group, False, False, collided=entity_block_pipe_collide)
+        i_block_hits = pygame.sprite.groupcollide(item_group, block_group, False, False,
+                                                  collided=entity_block_pipe_collide)
         if i_block_hits:
             return
-        i_pipe_hits = pygame.sprite.groupcollide(item_group, pipe_group, False, False, collided=entity_block_pipe_collide)
+        i_pipe_hits = pygame.sprite.groupcollide(item_group, pipe_group, False, False,
+                                                 collided=entity_block_pipe_collide)
         if i_pipe_hits:
             return
     # end item collision check
 
 
-def check_collisions(settings, mario, map_group, floor_group, pipe_group,block_group, enemy_group, powerup_group, fireball_group, dead_group):
+def check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group,
+                     fireball_group, dead_group):
     # mario environment collisions
     mario_block_collision(mario, floor_group, pipe_group, block_group, map_group)
     # mario enemy collisions
@@ -373,14 +387,18 @@ def check_collisions(settings, mario, map_group, floor_group, pipe_group,block_g
     enemy_block_collision(enemy_group, floor_group, pipe_group, block_group, map_group)
     item_block_collision(powerup_group, floor_group, pipe_group, block_group, map_group)
 
-def update(screen, settings, mario, map_group, floor_group, pipe_group,block_group, enemy_group, powerup_group, fireball_group, dead_group):
+
+def update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group,
+           fireball_group, dead_group):
     map_group.update()
     mario.update(map_group)
-    check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group)
+    check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group,
+                     fireball_group, dead_group)
     update_dead(dead_group)
 
 
-def update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group):
+def update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group,
+                  fireball_group, dead_group):
     screen.fill(settings.bg_color)
     map_group.draw(screen)
     mario.draw()

@@ -26,7 +26,8 @@ class Pipe(Sprite):
         # )
         # self.rect = self.image.get_rect()
 
-        self.image = pygame.Surface([settings.pipe_width, settings.pipe_height*self.height_factor], pygame.SRCALPHA, 32).convert_alpha()
+        self.image = pygame.Surface([settings.pipe_width, settings.pipe_height * self.height_factor], pygame.SRCALPHA,
+                                    32).convert_alpha()
         # image = image.convert_alpha()
         # self.image = pygame.Surface(()).convert()
         self.rect = self.image.get_rect()
@@ -59,8 +60,8 @@ class Pipe(Sprite):
 
         pts = None
         collision_pts = {
-            "topSide":[mario.rect.topleft, mario.rect.midtop, mario.rect.topright],
-            "rightSide":[mario.rect.topright, mario.rect.midright, mario.rect.bottomright],
+            "topSide": [mario.rect.topleft, mario.rect.midtop, mario.rect.topright],
+            "rightSide": [mario.rect.topright, mario.rect.midright, mario.rect.bottomright],
             "botSide": [mario.rect.botleft, mario.rect.midbottom, mario.rect.botright]
         }
 

@@ -31,19 +31,8 @@ def run():
 
     mario = Mario(screen, settings)
 
-    star = Star(screen, settings)
-    star.rect.center = screen.get_rect().center
-
-    coin1 = Coin(screen, settings)
-    coin1.idle = False
-    coin1.rect.centerx = 100
-
-    coin2 = Coin(screen, settings)
-    coin2.rect.centerx = 200
     pygame.mixer.music.load("Sounds/overworld.mp3")
     pygame.mixer.music.play()
-    ff = Fire_Flower(screen, settings)
-    ff.rect.centerx = 300
 
     # Groups
     map_group = Group()
@@ -57,20 +46,7 @@ def run():
 
     map.generate_map(screen, settings, map_group, floor_group, pipe_group, block_group, enemy_group)
 
-
-    star.add(map_group)
-    ff.add(map_group)
-    coin1.add(map_group)
-    coin2.add(map_group)
-    star.add(powerup_group)
-    ff.add(powerup_group)
-    coin1.add(powerup_group)
-    coin2.add(powerup_group)
-
-
     pipesprites = pipe_group.sprites()
-
-
 
     # Game Loop
     while state.running:
@@ -79,12 +55,12 @@ def run():
         gf.check_events(state, mario, screen, settings, fireball_group, map_group)
         # Update here
         if not mario.is_dead:
-            gf.update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group)
-
-
+            gf.update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group,
+                      powerup_group, fireball_group, dead_group)
 
             # Display here
-        gf.update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group)
+        gf.update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group,
+                         powerup_group, fireball_group, dead_group)
 
     pygame.quit()
     sys.exit()

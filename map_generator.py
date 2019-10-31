@@ -12,6 +12,7 @@ from block import Block, MysteryBlock, CoinBlock, BrickMysteryBlock
 from goomba import Goomba
 from koopa import Koopa
 
+
 class BG(Sprite):
     def __init__(self, screen, settings):
         super(BG, self).__init__()
@@ -42,7 +43,7 @@ def generate_floor(screen, settings, map_group, floor_group, pipe_group):
         # print('floor x,y: ' + str(f.rect.x) + ', ' + str(f.rect.y))
         f.add(map_group, floor_group)
         fl.add(map_group, floor_group)
-    for i in range(71,86):
+    for i in range(71, 86):
         f = Floor(screen, settings)
         f.rect.top = 13 * settings.floor_height
         f.rect.left = i * settings.floor_width
@@ -51,7 +52,7 @@ def generate_floor(screen, settings, map_group, floor_group, pipe_group):
         fl.rect.left = i * settings.floor_width
         f.add(map_group, floor_group)
         fl.add(map_group, floor_group)
-    for i in range(89,153):
+    for i in range(89, 153):
         f = Floor(screen, settings)
         f.rect.top = 13 * settings.floor_height
         f.rect.left = i * settings.floor_width
@@ -60,7 +61,7 @@ def generate_floor(screen, settings, map_group, floor_group, pipe_group):
         fl.rect.left = i * settings.floor_width
         f.add(map_group, floor_group)
         fl.add(map_group, floor_group)
-    for i in range(155,224):
+    for i in range(155, 224):
         f = Floor(screen, settings)
         f.rect.top = 13 * settings.floor_height
         f.rect.left = i * settings.floor_width
@@ -69,7 +70,6 @@ def generate_floor(screen, settings, map_group, floor_group, pipe_group):
         fl.rect.left = i * settings.floor_width
         f.add(map_group, floor_group)
         fl.add(map_group, floor_group)
-
 
     # Stairs
     stairs_arr = []
@@ -265,7 +265,7 @@ def generate_floor(screen, settings, map_group, floor_group, pipe_group):
         s.add(map_group, floor_group)
 
     # Overworld Pipes
-    p =  Pipe(screen, settings)
+    p = Pipe(screen, settings)
     p.set_position(11, 28)
     p.add(map_group, pipe_group)
     print('pipe x,y' + str(p.rect.x) + ', ' + str(p.rect.y))
@@ -292,7 +292,6 @@ def generate_floor(screen, settings, map_group, floor_group, pipe_group):
     p.add(map_group, pipe_group)
 
     # TODO: Generate Underworld Floors and Pipes
-
 
 
 def generate_blocks(screen, settings, map_group, block_group):

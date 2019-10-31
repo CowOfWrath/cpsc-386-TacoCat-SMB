@@ -34,9 +34,9 @@ class Goomba(Sprite):
         self.images = []
         self.images.extend([pygame.transform.scale(pygame.image.load("Images/goomba_2.png"),
                                                    (self.settings.goomba_width, self.settings.goomba_height)),
-                           pygame.transform.scale(pygame.image.load("Images/goomba_1.png"),
-                                                  (self.settings.goomba_width, self.settings.goomba_height))])
-        #self.dead_image = pygame.transform.scale(pygame.image.load("Images/goomba_death.png"))
+                            pygame.transform.scale(pygame.image.load("Images/goomba_1.png"),
+                                                   (self.settings.goomba_width, self.settings.goomba_height))])
+        # self.dead_image = pygame.transform.scale(pygame.image.load("Images/goomba_death.png"))
 
     def draw(self):
         self.screen.blit(self.image, self.rect)
@@ -50,8 +50,8 @@ class Goomba(Sprite):
         self.collision_pts = {
             "topSide": [self.rect.top, self.rect.midtop, self.rect.topright],
             "rightSide": [self.rect.topright, self.rect.midright, self.rect.bottomright],
-            "leftSide" : [self.rect.topleft, self.rect.midleft, self.rect.bottomleft],
-            "bottomSide" : [self.rect.bottomleft, self.rect.midbottom, self.rect.bottomright]
+            "leftSide": [self.rect.topleft, self.rect.midleft, self.rect.bottomleft],
+            "bottomSide": [self.rect.bottomleft, self.rect.midbottom, self.rect.bottomright]
         }
         return self.collision_pts
 
@@ -60,7 +60,6 @@ class Goomba(Sprite):
                                             (self.settings.goomba_width, self.settings.goomba_height))
         self.death_timer = pygame.time.get_ticks()
         self.is_dead = True
-
 
     def update(self):
         if self.is_dead:
