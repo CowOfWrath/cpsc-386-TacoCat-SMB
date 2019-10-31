@@ -41,8 +41,8 @@ class Settings:
         self.bm_height = 32 * self.image_scale
         self.sm_width = 16 * self.image_scale - 2
         self.sm_height = 16 * self.image_scale
-        self.mario_walk = 2 * self.image_scale
-        self.mario_run = 4 * self.image_scale
+        self.mario_walk = 4 * self.image_scale
+        self.mario_run = 6 * self.image_scale
         self.mario_jump = 8 * self.image_scale
         self.mario_max_jump_height = 4 * self.sm_height + 5
 
@@ -59,6 +59,13 @@ class Settings:
         # Fire Flower Settings
         self.fire_flower_width = 16 * self.image_scale
         self.fire_flower_height = 16 * self.image_scale
+
+        # Fireball Settings
+        self.fireball_limit = 2
+        self.fireball_width = 4 * self.image_scale
+        self.fireball_height = 4 * self.image_scale
+        self.fireball_speed = 2 * self.image_scale
+        self.fireball_sound = self.SOUND_PATH + 'fireball.wav'
 
         # Floor Settings
         self.floor_width = 16 * self.image_scale
@@ -131,7 +138,7 @@ class Settings:
         self.goomba_speed = 1 * self.image_scale
 
         # Koopa settings
-        self.koopa_width = 8 * self.image_scale
+        self.koopa_width = 16 * self.image_scale
         self.koopa_height = 24 * self.image_scale
         self.koopa_speed = 1 * self.image_scale
 
