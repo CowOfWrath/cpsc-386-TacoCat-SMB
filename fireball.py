@@ -12,6 +12,8 @@ class Fireball(Sprite):
         self.settings = settings
         self.facing_left = False
         self.fall = False
+        self.bounces = 0
+        self.explode = False
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
 
@@ -50,8 +52,14 @@ class Fireball(Sprite):
         self.screen.blit(self.image, self.rect)
 
     def update(self):
-        self.iterate_index(len(self.images))
-        self.image = self.images[self.index]
+        if self.bounces == 4:
+            self.explode = True
+        if self.explode:
+            self.iterate_index(len(self.explode_frames))
+            self.image = self.explode_frames[self.index]
+        else:
+            self.iterate_index(len(self.images))
+            self.image = self.images[self.index]
         if self.facing_left:
             self.rect.centerx -= self.settings.fireball_speed
         else:
@@ -59,7 +67,7 @@ class Fireball(Sprite):
 
     def iterate_index(self, max):
         time = pygame.time.get_ticks() - self.last_tick
-        if time > 100:
+        if time > 50:
             self.index += 1
             self.last_tick = pygame.time.get_ticks()
 
@@ -70,4 +78,7 @@ class Fireball(Sprite):
             #     self.rect.centery -= self.settings.fireball_jump
         if self.index == max:
             self.index = 0
+            self.bounces += 1
+            if self.explode:
+                self.kill()
             # self.fall = not self.fall
