@@ -9,6 +9,8 @@ from pygame.sprite import Sprite
 from floor import Floor
 from pipe import Pipe
 from block import Block, MysteryBlock, CoinBlock, BrickMysteryBlock
+from goomba import Goomba
+from koopa import Koopa
 
 class BG(Sprite):
     def __init__(self, screen, settings):
