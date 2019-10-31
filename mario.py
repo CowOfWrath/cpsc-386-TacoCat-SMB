@@ -216,6 +216,7 @@ class Mario(Sprite):
     def dead(self):
         self.is_dead = True  # need to add code for killing and animating mario death
         self.image = self.sm_dead
+        pygame.mixer.music.stop()
         pygame.mixer.Sound("Sounds/die.wav").play()
 
     def throw_fireball(self, screen, settings, fireball_group, map_group):
