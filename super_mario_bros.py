@@ -40,7 +40,8 @@ def run():
 
     coin2 = Coin(screen, settings)
     coin2.rect.centerx = 200
-
+    pygame.mixer.music.load("Sounds/overworld.mp3")
+    pygame.mixer.music.play()
     ff = Fire_Flower(screen, settings)
     ff.rect.centerx = 300
 
@@ -66,11 +67,11 @@ def run():
     coin1.add(powerup_group)
     coin2.add(powerup_group)
 
-    
+
     pipesprites = pipe_group.sprites()
-    
-    
-    
+
+
+
     # Game Loop
     while state.running:
         clock.tick(60)
