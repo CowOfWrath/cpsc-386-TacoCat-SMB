@@ -222,6 +222,7 @@ class Mario(Sprite):
     def throw_fireball(self, screen, settings, fireball_group, map_group):
         f = Fireball(screen, settings, self.rect.right, self.rect.centery)
         f.add(map_group, fireball_group)
+        self.fireball = True
 
     def update(self, map_group):
         if self.rect.bottom >= self.screen.get_rect().bottom:
