@@ -30,7 +30,7 @@ class Pipe(Sprite):
         # image = image.convert_alpha()
         # self.image = pygame.Surface(()).convert()
         self.rect = self.image.get_rect()
-        self.image.fill((255, 255, 255, 100))
+        self.image.fill((255, 255, 255, 0))
         self.state = None
         self.collision_pts = self.get_collision_points()
 

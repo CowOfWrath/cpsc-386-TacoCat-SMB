@@ -313,7 +313,7 @@ class MysteryBlock(Block):
         if is_invisible:
             self.initial_image = pygame.Surface([settings.brick_width, settings.brick_height], pygame.SRCALPHA, 32).convert_alpha()
             # TODO - remove this fill statement for hidden block
-            self.initial_image.fill((255, 255, 255, 50))
+            self.initial_image.fill((255, 255, 255, 0))
             length = len(self.images_idle)
             self.images_idle.clear()
             for i in range(length):
