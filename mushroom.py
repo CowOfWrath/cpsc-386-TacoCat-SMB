@@ -16,25 +16,62 @@ class Mushroom(Sprite):
         super(Mushroom, self).__init__()
         self.screen = screen
         self.settings = settings
-        self.going_left = False
+        self.facing_left = False
+        self.is_moving = False
+        self.start_spawn = False
+        self.is_falling = True
         self.is_one_up = is_one_up
 
         if self.is_one_up:
             self.image = pygame.transform.scale(pygame.image.load(settings.oneup_img),
-                                                self.settings.mushroom_width, self.settings.mushroom_height)
+                                                (settings.mushroom_width, settings.mushroom_height))
         else:
             self.image = pygame.transform.scale(pygame.image.load(settings.mushroom_img),
-                                            self.settings.mushroom_width, self.settings.mushroom_height)
-        self.mushroom_rect = self.image.get_rect()
+                                                (settings.mushroom_width, settings.mushroom_height))
+        # self.image.fill((255, 255, 255, 150))
+        self.rect = self.image.get_rect()
+        self.initial_pos = (self.rect.x, self.rect.y)
+        self.target_pos = (self.rect.x, self.rect.y - self.rect.h - 1)
+        self.wait_count = 0
 
     def draw(self):
-        self.screen.blit(self.image, self.mushroom_rect)
+        self.screen.blit(self.image, self.rect)
+
+    def spawn(self):
+        self.start_spawn = True
+
+    def get_position(self):
+        return (self.rect.x, self.rect.y)
+
+    def set_position(self, y, x ):
+        self.rect.top = y
+        self.rect.left = x
+        self.initial_pos = self.get_position()
+        self.target_pos = (self.rect.x, self.rect.y - self.rect.h - 1)
 
     def update(self):
         # gravity
         # self.rect.centery += self.settings.gravity
+        if self.start_spawn:
+            print('mushroom target y: ' + str(self.target_pos[1]) + ' actual y: ' + str(self.rect.y))
+            if self.rect.y > self.target_pos[1]:
+                self.rect.y = self.rect.y - self.settings.item_box_spawn_speed
+            else:
+                self.rect.y = self.target_pos[1]
+                print('mushroom target y: ' + str(self.target_pos[1]) + ' actual y: ' + str(self.rect.y))
+                print('mushroom height: ' + str(self.rect.h))
+                self.start_spawn = False
+                self.wait_count = 0
+                self.is_moving = True
+        elif self.is_moving:
+            self.wait_count += 1
 
-        if self.going_left:
-            self.mushroom_rect -= self.settings.mushroom_speed
-        else:
-            self.mushroom_rect += self.settings.mushroom_speed
+        # item spawned wait X frames
+        if self.wait_count > 5:
+            if self.facing_left and self.is_moving:
+                self.rect.x -= self.settings.mushroom_speed
+            elif self.is_moving:
+                self.rect.x += self.settings.mushroom_speed
+
+            if self.is_falling and self.is_moving:
+                self.rect.bottom += self.settings.gravity

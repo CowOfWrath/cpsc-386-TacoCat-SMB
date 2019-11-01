@@ -27,12 +27,14 @@ class Block(Sprite):
         self.last_tick = pygame.time.get_ticks()
         self.index = 0
         self.initial_image = None
+        self.curr_item = None
 
         # Block States
         self.is_hittable = True
         self.is_broken = False
         self.is_moving = False
         self.break_sound = mixer.Sound(settings.break_brick_sound)
+        self.has_item = False
 
         # initial block image
         if is_stairs:
@@ -85,6 +87,9 @@ class Block(Sprite):
 
     # def collision_check(self, sprite_object):
     #     pass
+
+    def get_spawned_item(self):
+        pass
 
     def handle_bottom_collision(self, map_group, can_break_block=False):
         if self.is_hittable and not self.is_broken:
@@ -232,6 +237,7 @@ class CoinBlock(Block):
         self.init_coin_list()
         self.sound = mixer.Sound(settings.coin_block_sound)
         self.is_hittable = True if coins > 0 else False
+        self.has_item = True if coins > 0 else False
 
     def set_empty(self):
         self.is_hittable = False
@@ -269,13 +275,19 @@ class CoinBlock(Block):
     def handle_bottom_collision(self, map_group, can_break_block=False):
         if self.is_hittable:
             # TODO - figure out if need to adjust collided object physics
-
+            self.has_item = self.num_coins_left > 0
             # Check if coins
-            if self.num_coins_left > 0:
+            if self.has_item:
                 self.num_coins_left -= 1
 
                 # Animate Coin Trigger
                 # TODO call coin animation - Make sure coin animation plays points
+                coin_obj = self.coins.pop()
+                coin_obj.set_position(self.rect.top, self.rect.left)
+                coin_obj.add(map_group)
+                coin_obj.start_spawn
+                self.curr_item = coin_obj
+
 
                 # Play Coin Sounds
                 self.sound.play()
@@ -286,6 +298,12 @@ class CoinBlock(Block):
             # Set coinblock to empty if no coins
             if self.num_coins_left <= 0:
                 self.set_empty()
+
+    def get_spawned_item(self):
+        if self.has_item:
+            self.has_item = False
+            return self.curr_item
+
 
 
 class MysteryBlock(Block):
@@ -365,8 +383,13 @@ class MysteryBlock(Block):
             # TODO - figure out if need to adjust collided object physics
             if not self.is_empty:
                 # Animate Contained Sprite to Appear
-                # self.make_item_appear()
-
+                item = self.make_item_appear()
+                if item:
+                    item.set_position(self.rect.top, self.rect.left)
+                    print('item added to xy: ' + str(item.get_position()))
+                    item.add(map_group)
+                    self.curr_item = item
+                    self.has_item = True
                 # Play Sounds
                 self.sound.play()
 
@@ -378,6 +401,11 @@ class MysteryBlock(Block):
         # else:
         # if collides with bottom and empty, force mario back down
 
+    def get_spawned_item(self):
+        if self.has_item:
+            self.has_item = False
+            return self.curr_item
+
     def make_item_appear(self):
         # TODO: animate sprite to appear in if/else below
         #   Move sprite up until bottom of sprite is at top of block
@@ -385,26 +413,34 @@ class MysteryBlock(Block):
         if self.stored_item == self.settings.mystery_block_possible_items['MUSHROOM']:
             print('Mushroom item appears!')
             obj = Mushroom(self.screen, self.settings)
+            obj.spawn()
 
         elif self.stored_item == self.settings.mystery_block_possible_items['FIRE_FLOWER']:
             print('Flower item appears!')
             obj = Fire_Flower(self.screen, self.settings)
+            obj.spawn()
+
 
         elif self.stored_item == self.settings.mystery_block_possible_items['COIN']:
             print('Coin item appears!')
             obj = Coin(self.screen, self.settings)
+            obj.spawn()
 
         elif self.stored_item == self.settings.mystery_block_possible_items['ONE_UP']:
             print('1UP item appears!')
             obj = Mushroom(self.screen, self.settings, is_one_up=True)
+            obj.spawn()
 
         elif self.stored_item == self.settings.mystery_block_possible_items['STAR']:
             print('Star item appears!')
             obj = Star(self.screen, self.settings)
+            obj.spawn()
+
         else:
             # shouldn't be empty!
             print('WARNING - mystery block missing item')
-        self.animate_internal_object(obj)
+        return obj
+        # self.animate_internal_object(obj)
 
     def iterate_index(self, max_index):
         time = pygame.time.get_ticks() - self.last_tick

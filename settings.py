@@ -55,6 +55,9 @@ class Settings:
         # Coin Settings
         self.coin_width = 16 * self.image_scale
         self.coin_height = 16 * self.image_scale
+        self.coin_move_factor = 2
+        self.coin_initial__move_speed = -32
+        self.coin_gravity = 1.01
 
         # Fire Flower Settings
         self.fire_flower_width = 16 * self.image_scale
@@ -155,3 +158,6 @@ class Settings:
 
         # Physics Settings
         self.gravity = 4 * self.image_scale
+
+        # Item Settings
+        self.item_box_spawn_speed = 2 * self.image_scale

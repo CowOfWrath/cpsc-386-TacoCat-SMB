@@ -16,14 +16,23 @@ class Coin(Sprite):
         self.settings = settings
 
         self.idle = True
-        self.kill = False
+        self.kill_flag = False
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
 
-        self.image = pygame.transform.scale(pygame.image.load("Images/white.png"),
-                                                    (self.settings.coin_width, self.settings.coin_height))
+        # Item states
+        self.start_spawn = False
+        self.facing_left = False
+        self.is_moving = False
+
+        self.image = pygame.transform.scale(pygame.image.load("Images/white.png"), (self.settings.coin_width, self.settings.coin_height))
 
         self.rect = self.image.get_rect()
+        self.time_index = 0
+        self.initial_pos = (self.rect.x, self.rect.y)
+        self.target_pos = (self.rect.x, self.rect.y)
+        self.max_height_movement = self.rect.top - (settings.coin_move_factor * self.rect.h)
+        self.y_vel = settings.coin_initial__move_speed
 
         self.images_idle = []
         self.images_idle.append(pygame.transform.scale(pygame.image.load("Images/coin_idle1.png"),
@@ -53,6 +62,42 @@ class Coin(Sprite):
         else:
             self.iterate_index(len(self.images_move))
             self.image = self.images_move[self.index]
+        # update movement
+        print('coin pos: ' + str(self.rect.x) + ', ' + str(self.rect.y))
+        if self.start_spawn:
+            if self.rect.y > self.max_height_movement and self.y_vel < 0:
+                self.rect.y += (abs(self.y_vel) * -1)
+            elif self.rect.y <= self.target_pos[1]:
+                self.rect.y += (self.y_vel)
+            else:
+                self.rect.y = self.initial_pos[1]
+
+            # adjust velocity
+            if self.rect.y <= self.target_pos[1]:
+                self.y_vel = self.y_vel + (self.settings.coin_gravity*self.time_index)
+                print('y coin velocity: ' + str(self.y_vel))
+                self.time_index += 1
+            else:
+                self.rect.top = self.initial_pos[1]
+                self.y_vel = self.settings.coin_initial__move_speed
+                self.start_spawn = False
+                self.kill_flag = True
+        if self.kill_flag:
+            self.kill()
+
+    def spawn(self):
+        self.start_spawn = True
+        self.idle = False
+
+    def get_position(self):
+        return (self.rect.x, self.rect.y)
+
+    def set_position(self, y, x ):
+        self.rect.top = y
+        self.rect.left = x
+        self.initial_pos = self.get_position()
+        self.target_pos = self.get_position()
+        self.max_height_movement = self.rect.top - (self.settings.coin_move_factor * self.rect.h)
 
     def iterate_index(self, max):
         time = pygame.time.get_ticks() - self.last_tick
@@ -61,6 +106,6 @@ class Coin(Sprite):
             self.last_tick = pygame.time.get_ticks()
         if self.index == max:
             self.index = 0
-            if not self.idle:
+            # if not self.idle:
                 # Kill coin (move animation used for coins generated from mystery boxes and multi hit bricks)
-                self.kill = True  # in a separate function remove the sprite from all groups using Sprite.kill()
+                # self.kill_flag = True  # in a separate function remove the sprite from all groups using Sprite.kill()
