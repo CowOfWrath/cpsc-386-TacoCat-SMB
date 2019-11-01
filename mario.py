@@ -21,7 +21,7 @@ class Mario(Sprite):
         self.screen = screen
 
         # States: sm = 0 | bm = 1 | fm = 2 | smi = 3 | bmi = 4
-        self.state = 2
+        self.state = 0
         self.is_dead = False
         self.is_flag = False
         self.victory = False
@@ -32,6 +32,7 @@ class Mario(Sprite):
         self.shrink = False
         self.grow = False
         self.fireball = False
+        self.fire_flower = False
         self.facing_left = False
         self.move_right = False
         self.move_left = False
@@ -468,7 +469,15 @@ class Mario(Sprite):
             self.index += 1
             self.once_tick = pygame.time.get_ticks()
         if self.index == max:
+            if self.shrink:
+                self.state = 0
+            if self.state == 0 and self.grow and self.fire_flower:
+                self.state = 2
+            elif self.state == 0 and self.grow and not self.fire_flower:
+                self.state = 1
+            elif self.state == 3 and self.grow:
+                self.state = 4
             self.shrink = False
             self.grow = False
-            self.state = 0
+            self.fire_flower = False
             self.index = 0

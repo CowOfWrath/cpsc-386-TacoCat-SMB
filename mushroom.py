@@ -22,6 +22,10 @@ class Mushroom(Sprite):
         self.is_falling = True
         self.is_one_up = is_one_up
         self.kill_flag = False
+        if self.is_one_up:
+            self.name = "One Up"
+        else:
+            self.name = "Mushroom"
 
         if self.is_one_up:
             self.image = pygame.transform.scale(pygame.image.load(settings.oneup_img),

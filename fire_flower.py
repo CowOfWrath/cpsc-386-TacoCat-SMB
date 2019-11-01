@@ -18,6 +18,7 @@ class Fire_Flower(Sprite):
         self.start_spawn = False
         self.is_falling = False
         self.kill_flag = False
+        self.name = "Fire Flower"
 
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
