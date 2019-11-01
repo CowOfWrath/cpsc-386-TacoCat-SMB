@@ -20,6 +20,7 @@ class Star(Sprite):
         self.start_spawn = False
         self.is_falling = False
         self.kill_flag = False
+        self.name = "Star"
 
         self.index = 0
         self.last_tick = pygame.time.get_ticks()
