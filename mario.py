@@ -23,6 +23,8 @@ class Mario(Sprite):
         # States: sm = 0 | bm = 1 | fm = 2 | smi = 3 | bmi = 4
         self.state = 2
         self.is_dead = False
+        self.is_flag = False
+        self.victory = False
         self.walk = False
         self.run = False
         self.jump = False
@@ -228,6 +230,16 @@ class Mario(Sprite):
         if self.rect.bottom >= self.screen.get_rect().bottom:
             self.dead()
             return
+
+        if self.is_flag:
+            # change mario image
+            return
+
+        if self.victory and not self.is_flag:
+            self.move_right = True
+            self.move_left = False
+            self.crouch = False
+            self.walk = True
 
         if self.iframes:
             time = pygame.time.get_ticks() - self.invincible_tick

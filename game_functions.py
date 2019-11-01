@@ -108,6 +108,14 @@ def enemy_stomp(e, mario, map_group, enemy_group, fireball_group, dead_group):
             else:
                 e.facing_left = True
 
+def mario_flag_collide(mario, flag):
+    if pygame.sprite.collide_rect(mario, flag):
+        flag.raise_flag = True
+        mario.is_flag = True
+        if flag.flag_rect.top == flag.rect.top + 24:
+            mario.is_flag = False
+            mario.victory = True
+
 
 def collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group):
     for f in fireball_group:
@@ -358,6 +366,8 @@ def mario_wall_collide(mario, wall):
         # mario.rect.x = wall.rect.right + 1
         # mario.rect.right = wall.rect.left - 1
         mario.hit_wall = True
+        if mario.victory == True:
+            mario.display = False
         return True
     elif (mario.rect.left <= wall.rect.right and
           (wall.rect.top <= mario.rect.centery <= wall.rect.bottom or
@@ -528,8 +538,9 @@ def item_block_collision(item_group, floor_group, pipe_group, block_group, map_g
 
 
 def check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group,
-                     fireball_group, dead_group):
+                     fireball_group, dead_group, f):
     # mario environment collisions
+    mario_flag_collide(mario, f)
     mario_block_collision(mario, floor_group, pipe_group, block_group, map_group, powerup_group)
     # mario enemy collisions
     collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group)
@@ -539,19 +550,20 @@ def check_collisions(settings, mario, map_group, floor_group, pipe_group, block_
 
 
 def update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group,
-           fireball_group, dead_group):
+           fireball_group, dead_group, f):
     map_group.update()
     mario.update(map_group)
     powerup_group.update()
     check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group,
-                     fireball_group, dead_group)
+                     fireball_group, dead_group, f)
     update_dead(dead_group)
 
 
 def update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group,
-                  fireball_group, dead_group):
+                  fireball_group, dead_group, f):
     screen.fill(settings.bg_color)
     map_group.draw(screen)
+    f.draw_flag()
     mario.draw()
     powerup_group.draw(screen)
     pygame.display.flip()

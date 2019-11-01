@@ -136,6 +136,11 @@ class Settings:
         self.horiz_pipe_image = self.IMAGE_PATH + 'horiz_pipe.png'
         self.pipe_sound = self.SOUND_PATH + 'pipe_hit.wav'
 
+        # Flag settings
+        self.flag_width = 16 * self.image_scale
+        self.flag_height = 154 * self.image_scale
+        self.flag_speed = 2 * self.image_scale
+
         # Goomba settings
         self.goomba_width = 16 * self.image_scale
         self.goomba_height = 16 * self.image_scale

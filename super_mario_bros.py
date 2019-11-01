@@ -16,6 +16,7 @@ from mario import Mario
 from star import Star
 from coin import Coin
 from fire_flower import Fire_Flower
+from flag import Flag
 
 
 def run():
@@ -46,6 +47,8 @@ def run():
     dead_group = Group()
 
     map.generate_map(screen, settings, map_group, floor_group, pipe_group, block_group, enemy_group)
+    f = Flag(screen, settings, 198 * settings.block_width, 13 * settings.block_height)
+    f.add(map_group)
 
 
 
@@ -62,12 +65,12 @@ def run():
         gf.check_events(state, mario, screen, settings, fireball_group, map_group)
         # Update here
         if not mario.is_dead:
-            gf.update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group)
+            gf.update(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group, f)
 
 
 
             # Display here
-        gf.update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group)
+        gf.update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group, fireball_group, dead_group, f)
 
     pygame.quit()
     sys.exit()

@@ -11,6 +11,7 @@ from pipe import Pipe
 from block import Block, MysteryBlock, CoinBlock, BrickMysteryBlock
 from goomba import Goomba
 from koopa import Koopa
+from flag import Flag
 
 
 class BG(Sprite):
@@ -459,6 +460,11 @@ def generate_blocks(screen, settings, map_group, block_group):
     # 172,9 brick
     b = Block(screen, settings)
     b.set_position(9, 171)
+    block_arr.append(b)
+
+    #205, 12, brick
+    b = Block(screen, settings)
+    b.set_position(12, 223)
     block_arr.append(b)
 
     for o in block_arr:
