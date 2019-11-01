@@ -181,8 +181,13 @@ class Mario(Sprite):
         self.smi_walk.append(pygame.transform.scale(pygame.image.load("Images/mario_small_invincible_walk3.png"),
                                                    (self.settings.sm_width, self.settings.sm_height)))
 
-        self.smi_jump = pygame.transform.scale(pygame.image.load("Images/mario_small_jump.png"),
-                                               (self.settings.sm_width, self.settings.sm_height))
+        self.smi_jump = []
+        self.smi_jump.append(pygame.transform.scale(pygame.image.load("Images/mario_small_invincible_jump1.png"),
+                                               (self.settings.sm_width, self.settings.sm_height)))
+        self.smi_jump.append(pygame.transform.scale(pygame.image.load("Images/mario_small_invincible_jump2.png"),
+                                                    (self.settings.sm_width, self.settings.sm_height)))
+        self.smi_jump.append(pygame.transform.scale(pygame.image.load("Images/mario_small_invincible_jump3.png"),
+                                                    (self.settings.sm_width, self.settings.sm_height)))
 
         self.smi_sparkle = []
         self.smi_sparkle.append(pygame.transform.scale(pygame.image.load("Images/small_mario_invincible_1.png"),
@@ -223,11 +228,29 @@ class Mario(Sprite):
         self.bmi_walk.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_walk3.png"),
                                                        (self.settings.bm_width, self.settings.bm_height)))
 
-        self.bmi_jump = pygame.transform.scale(pygame.image.load("Images/mario_big_jump.png"),
-                                               (self.settings.bm_width, self.settings.bm_height))
+        self.bmi_jump = []
+        self.bmi_jump.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_jump1.png"),
+                                               (self.settings.bm_width, self.settings.bm_height)))
+        self.bmi_jump.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_jump2.png"),
+                                                    (self.settings.bm_width, self.settings.bm_height)))
+        self.bmi_jump.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_jump3.png"),
+                                                    (self.settings.bm_width, self.settings.bm_height)))
+        self.bmi_jump.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_jump4.png"),
+                                                    (self.settings.bm_width, self.settings.bm_height)))
+        self.bmi_jump.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_jump5.png"),
+                                                    (self.settings.bm_width, self.settings.bm_height)))
 
-        self.bmi_crouch = pygame.transform.scale(pygame.image.load("Images/mario_big_crouch.png"),
-                                                (self.settings.bm_width, self.settings.bm_height))
+        self.bmi_crouch = []
+        self.bmi_crouch.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_crouch1.png"),
+                                                (self.settings.bm_width, self.settings.bm_height)))
+        self.bmi_crouch.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_crouch2.png"),
+                                                      (self.settings.bm_width, self.settings.bm_height)))
+        self.bmi_crouch.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_crouch3.png"),
+                                                      (self.settings.bm_width, self.settings.bm_height)))
+        self.bmi_crouch.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_crouch4.png"),
+                                                      (self.settings.bm_width, self.settings.bm_height)))
+        self.bmi_crouch.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_crouch5.png"),
+                                                      (self.settings.bm_width, self.settings.bm_height)))
 
         self.bmi_sparkle = []
         self.bmi_sparkle.append(pygame.transform.scale(pygame.image.load("Images/big_mario_invincible_1.png"),
@@ -426,7 +449,8 @@ class Mario(Sprite):
                 self.rect.x = self.x
                 self.rect.bottom = temp.bottom
             elif self.jump:
-                self.image = self.smi_jump
+                self.iterate_index(len(self.smi_jump))
+                self.image = self.smi_jump[self.index]
                 self.rect = self.image.get_rect()
                 self.rect.x = self.x
                 self.rect.y = self.y
@@ -445,12 +469,14 @@ class Mario(Sprite):
         elif self.state == 4:  # Big Mario Invinicble
             self.star_timer()
             if self.jump:
-                self.image = self.bmi_jump
+                self.iterate_index(len(self.bmi_jump))
+                self.image = self.bmi_jump[self.index]
                 self.rect = self.image.get_rect()
                 self.rect.x = self.x
                 self.rect.y = self.y
             elif self.crouch:
-                self.image = self.bmi_crouch
+                self.iterate_index(len(self.bmi_crouch))
+                self.image = self.bmi_crouch[self.index]
                 self.rect = self.image.get_rect()
                 self.rect.x = self.x
                 self.rect.y = self.y

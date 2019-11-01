@@ -114,12 +114,12 @@ def enemy_stomp(e, mario, map_group, enemy_group, fireball_group, dead_group):
 
 def mario_flag_collide(mario, flag):
     if pygame.sprite.collide_rect(mario, flag):
+        pygame.mixer.music.stop()
         flag.raise_flag = True
         mario.is_flag = True
         if flag.flag_rect.top == flag.rect.top + 24:
             mario.is_flag = False
             mario.victory = True
-
 
 def mario_powerup_collide(mario, map_group, powerup_group):
     mg = pygame.sprite.Group()
@@ -168,7 +168,6 @@ def collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group):
                     if pygame.sprite.collide_rect(e, f):
                         pygame.mixer.Sound("Sounds/shell_kick.wav").play()
                         e.kill()
-                        f.kill()
 
     for e in enemy_group:
         if pygame.sprite.collide_rect(mario, e):
