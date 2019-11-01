@@ -525,12 +525,10 @@ def enemy_block_collision(enemy_group, floor_group, pipe_group, block_group, map
 
         # LANDING Logic Check
         e_floor_hits = pygame.sprite.groupcollide(enemy_group, floor_group, False, False, collided=entity_floor_collide)
-        if e_floor_hits:
-            return
 
         e_block_hits = pygame.sprite.groupcollide(enemy_group, block_group, False, False,
                                                   collided=entity_block_pipe_collide)
-        if e_block_hits:
+        if e_block_hits or e_floor_hits:
             return
 
         e_pipe_hits = pygame.sprite.groupcollide(enemy_group, pipe_group, False, False,
