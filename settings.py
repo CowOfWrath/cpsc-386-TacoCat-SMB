@@ -49,8 +49,9 @@ class Settings:
         # Star Settings
         self.star_width = 16 * self.image_scale
         self.star_height = 16 * self.image_scale
-        self.star_speed = 1 * self.image_scale
-        self.star_jump = 16 * self.image_scale
+        self.star_speed = 3 * self.image_scale
+        self.star_jump = 4 * self.image_scale
+        self.star_max_jump_height = 2 * self.sm_height
 
         # Coin Settings
         self.coin_width = 16 * self.image_scale

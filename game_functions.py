@@ -7,6 +7,7 @@
 #   Block Collision Checks
 
 import pygame
+from star import Star
 
 
 def check_events(state, mario, screen, settings, fireball_group, map_group):
@@ -220,27 +221,29 @@ def collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group):
 
 # item collides w/ top of block or pipe
 def item_block_pipe_collide(item, block):
-    if item.is_moving:
+    if item.is_moving and item.is_falling:
         if (item.rect.bottom >= block.rect.top and
                 ((block.rect.left <= item.rect.left <= block.rect.right) or
                  (block.rect.left <= item.rect.right <= block.rect.right)) and
                 item.rect.top < block.rect.top):
-            print('item surface collision detected')
+            print('item block collision detected')
             item.rect.top = block.rect.top - item.rect.h - 1
             item.is_falling = False
+            item.set_max_jump_height()
             # TODO edit entity falling status if needed
             return True
     return False
 
 
 def item_floor_collide(item, floor):
-    if item.is_moving:
+    if item.is_moving and item.is_falling:
         if (item.rect.bottom >= floor.rect.top and
                 (floor.rect.left <= item.rect.centerx <= floor.rect.right) and
                 item.rect.top < floor.rect.top):
-            print('item surface collision detected')
+            print('item floor collision detected')
             item.rect.y = floor.rect.top - item.rect.h - 1
             item.is_falling = False
+            item.set_max_jump_height()
             # TODO edit entity falling status if needed
         return True
     return False
@@ -274,7 +277,6 @@ def entity_block_pipe_collide(entity, block):
             ((block.rect.left <= entity.rect.left <= block.rect.right) or
              (block.rect.left <= entity.rect.right <= block.rect.right)) and
             entity.rect.top < block.rect.bottom):
-        print('item landed on block')
         entity.rect.bottom = block.rect.top - 1
         # TODO edit entity falling status if needed
         return True
@@ -285,7 +287,6 @@ def entity_floor_collide(entity, floor):
     if (entity.rect.bottom >= floor.rect.top and
             (floor.rect.left <= entity.rect.centerx <= floor.rect.right) and
             entity.rect.top < floor.rect.top):
-        print('item landed on floor')
         entity.rect.y = floor.rect.top - entity.rect.h
         # TODO edit entity falling status if needed
         return True
@@ -522,7 +523,9 @@ def item_block_collision(item_group, floor_group, pipe_group, block_group, map_g
 
         items = iter(item_group)
         for _ in range(list_len):
-            next(items).is_falling = True
+            item = next(items)
+            if not isinstance(item, Star):
+                item.is_falling = True
 
         # LANDING Logic Check
         i_floor_hits = pygame.sprite.groupcollide(item_group, floor_group, False, False, collided=item_floor_collide)

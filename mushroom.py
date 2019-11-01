@@ -50,6 +50,9 @@ class Mushroom(Sprite):
         self.initial_pos = self.get_position()
         self.target_pos = (self.rect.x, self.rect.y - self.rect.h - 1)
 
+    def set_max_jump_height(self):
+        pass
+
     def mark_for_death(self):
         self.kill_flag = True
 
@@ -71,7 +74,7 @@ class Mushroom(Sprite):
             self.wait_count += 1
 
         # item spawned wait X frames
-        if self.wait_count > 5:
+        if self.is_moving and self.wait_count > 5:
             if self.facing_left and self.is_moving:
                 self.rect.x -= self.settings.mushroom_speed
             elif self.is_moving:
