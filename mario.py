@@ -466,6 +466,8 @@ class Mario(Sprite):
             print('impossible state')
 
     def iterate_index(self, max):
+        if self.index == max:
+            self.index = 0
         time = pygame.time.get_ticks() - self.last_tick
         if time > 100:
             self.index += 1

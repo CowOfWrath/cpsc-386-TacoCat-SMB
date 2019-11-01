@@ -144,7 +144,7 @@ def mario_powerup_collide(mario, map_group, powerup_group):
                 mario.state = 2
         elif c.name == "Star":
             pygame.mixer.music.stop()
-            pygame.mixer.music.load("Sounds/starman.wav")
+            pygame.mixer.music.load("Sounds/starman.mp3")
             pygame.mixer.music.play(loops=-1)
             if mario.state == 0:
                 mario.state = 3
