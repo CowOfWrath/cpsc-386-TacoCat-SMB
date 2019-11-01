@@ -111,6 +111,7 @@ def enemy_stomp(e, mario, map_group, enemy_group, fireball_group, dead_group):
             else:
                 e.facing_left = True
 
+
 def mario_flag_collide(mario, flag):
     if pygame.sprite.collide_rect(mario, flag):
         flag.raise_flag = True
@@ -118,6 +119,7 @@ def mario_flag_collide(mario, flag):
         if flag.flag_rect.top == flag.rect.top + 24:
             mario.is_flag = False
             mario.victory = True
+
 
 def mario_powerup_collide(mario, map_group, powerup_group):
     mg = pygame.sprite.Group()
@@ -245,13 +247,9 @@ def collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group):
             if mario.state == 3:
                 pygame.mixer.Sound("Sounds/shell_kick.wav").play()
                 e.kill()
-                e.dead()
-                e.add(map_group, dead_group)
             if mario.state == 4:
                 pygame.mixer.Sound("Sounds/shell_kick.wav").play()
                 e.kill()
-                e.dead()
-                e.add(map_group, dead_group)
 
 
 # item collides w/ top of block or pipe
@@ -303,7 +301,6 @@ def item_wall_collide(item, wall):
             # TODO code to change entity direction
             return True
     return False
-
 
 
 # entity collides w/ top of block or pipe
@@ -553,8 +550,6 @@ def item_block_collision(item_group, floor_group, pipe_group, block_group, map_g
                                                            collided=item_wall_collide)
         if item_floor_wall_check:
             return
-
-
 
         items = iter(item_group)
         for _ in range(list_len):

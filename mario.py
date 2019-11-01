@@ -174,10 +174,14 @@ class Mario(Sprite):
 
         # Images for Small Mario Invincible
         self.smi_walk = []
-        self.smi_walk.append(pygame.transform.scale(pygame.image.load("Images/white.png"),
-                                                    (self.settings.sm_width, self.settings.sm_height)))
+        self.smi_walk.append(pygame.transform.scale(pygame.image.load("Images/mario_small_invincible_walk1.png"),
+                                                   (self.settings.sm_width, self.settings.sm_height)))
+        self.smi_walk.append(pygame.transform.scale(pygame.image.load("Images/mario_small_invincible_walk2.png"),
+                                                   (self.settings.sm_width, self.settings.sm_height)))
+        self.smi_walk.append(pygame.transform.scale(pygame.image.load("Images/mario_small_invincible_walk3.png"),
+                                                   (self.settings.sm_width, self.settings.sm_height)))
 
-        self.smi_jump = pygame.transform.scale(pygame.image.load("Images/white.png"),
+        self.smi_jump = pygame.transform.scale(pygame.image.load("Images/mario_small_jump.png"),
                                                (self.settings.sm_width, self.settings.sm_height))
 
         self.smi_sparkle = []
@@ -191,16 +195,39 @@ class Mario(Sprite):
                                                        (self.settings.sm_width, self.settings.sm_height)))
 
         self.smi_grow = []
-        self.smi_grow.append(pygame.transform.scale(pygame.image.load("Images/white.png"),
-                                                    (self.settings.sm_width, self.settings.sm_height)))
+        self.smi_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_small_idle.png"),
+                                                   (self.settings.sm_width, self.settings.sm_height)))
+        self.smi_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_big_hit.png"),
+                                                   (self.settings.bm_width, self.settings.bm_height)))
+        self.smi_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_big_idle.png"),
+                                                   (self.settings.bm_width, self.settings.bm_height)))
+        self.smi_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_small_idle.png"),
+                                                   (self.settings.sm_width, self.settings.sm_height)))
+        self.smi_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_big_hit.png"),
+                                                   (self.settings.bm_width, self.settings.bm_height)))
+        self.smi_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_big_idle.png"),
+                                                   (self.settings.bm_width, self.settings.bm_height)))
+        self.smi_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_small_idle.png"),
+                                                   (self.settings.sm_width, self.settings.sm_height)))
+        self.smi_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_big_hit.png"),
+                                                   (self.settings.bm_width, self.settings.bm_height)))
+        self.smi_grow.append(pygame.transform.scale(pygame.image.load("Images/mario_big_idle.png"),
+                                                   (self.settings.bm_width, self.settings.bm_height)))
 
         # Images for Big Mario Invincible
         self.bmi_walk = []
-        self.bmi_walk.append(pygame.transform.scale(pygame.image.load("Images/white.png"),
-                                                    (self.settings.bm_width, self.settings.bm_height)))
+        self.bmi_walk.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_walk1.png"),
+                                                       (self.settings.bm_width, self.settings.bm_height)))
+        self.bmi_walk.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_walk2.png"),
+                                                       (self.settings.bm_width, self.settings.bm_height)))
+        self.bmi_walk.append(pygame.transform.scale(pygame.image.load("Images/mario_big_invincible_walk3.png"),
+                                                       (self.settings.bm_width, self.settings.bm_height)))
 
-        self.bmi_jump = pygame.transform.scale(pygame.image.load("Images/white.png"),
+        self.bmi_jump = pygame.transform.scale(pygame.image.load("Images/mario_big_jump.png"),
                                                (self.settings.bm_width, self.settings.bm_height))
+
+        self.bmi_crouch = pygame.transform.scale(pygame.image.load("Images/mario_big_crouch.png"),
+                                                (self.settings.bm_width, self.settings.bm_height))
 
         self.bmi_sparkle = []
         self.bmi_sparkle.append(pygame.transform.scale(pygame.image.load("Images/big_mario_invincible_1.png"),
@@ -422,6 +449,11 @@ class Mario(Sprite):
                 self.rect = self.image.get_rect()
                 self.rect.x = self.x
                 self.rect.y = self.y
+            elif self.crouch:
+                self.image = self.bmi_crouch
+                self.rect = self.image.get_rect()
+                self.rect.x = self.x
+                self.rect.y = self.y
             elif self.walk:
                 self.iterate_index(len(self.bmi_walk))
                 self.image = self.bmi_walk[self.index]
@@ -466,13 +498,13 @@ class Mario(Sprite):
             print('impossible state')
 
     def iterate_index(self, max):
-        if self.index == max:
+        if self.index >= max:
             self.index = 0
         time = pygame.time.get_ticks() - self.last_tick
         if time > 100:
             self.index += 1
             self.last_tick = pygame.time.get_ticks()
-        if self.index == max:
+        if self.index >= max:
             self.index = 0
 
     def iterate_once(self, max):
