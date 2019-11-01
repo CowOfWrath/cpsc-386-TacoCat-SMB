@@ -63,7 +63,7 @@ class Coin(Sprite):
             self.iterate_index(len(self.images_move))
             self.image = self.images_move[self.index]
         # update movement
-        print('coin pos: ' + str(self.rect.x) + ', ' + str(self.rect.y))
+        # print('coin pos: ' + str(self.rect.x) + ', ' + str(self.rect.y))
         if self.start_spawn:
             if self.rect.y > self.max_height_movement and self.y_vel < 0:
                 self.rect.y += (abs(self.y_vel) * -1)
@@ -75,7 +75,7 @@ class Coin(Sprite):
             # adjust velocity
             if self.rect.y <= self.target_pos[1]:
                 self.y_vel = self.y_vel + (self.settings.coin_gravity*self.time_index)
-                print('y coin velocity: ' + str(self.y_vel))
+                # print('y coin velocity: ' + str(self.y_vel))
                 self.time_index += 1
             else:
                 self.rect.top = self.initial_pos[1]

@@ -112,7 +112,7 @@ class Block(Sprite):
             # adjust velocity
             if self.rect.y <= self.initial_pos[1]:
                 self.y_vel += (abs(self.y_vel) * self.settings.brick_gravity)
-                print('y velocity: ' + str(self.y_vel))
+                # print('y velocity: ' + str(self.y_vel))
             else:
                 self.rect.top = self.initial_pos[1]
                 self.y_vel = self.settings.brick_initial_move_speed
@@ -261,7 +261,7 @@ class CoinBlock(Block):
             # adjust velocity
             if self.rect.y <= self.initial_pos[1]:
                 self.y_vel += (abs(self.y_vel) * self.settings.brick_gravity)
-                print('y velocity: ' + str(self.y_vel))
+                # print('y velocity: ' + str(self.y_vel))
             else:
                 self.rect.top = self.initial_pos[1]
                 self.y_vel = self.settings.brick_initial_move_speed
@@ -362,7 +362,7 @@ class MysteryBlock(Block):
             # adjust velocity
             if self.rect.y <= self.initial_pos[1]:
                 self.y_vel += (abs(self.y_vel) * self.settings.brick_gravity)
-                print('y velocity: ' + str(self.y_vel))
+                # print('y velocity: ' + str(self.y_vel))
             else:
                 self.rect.top = self.initial_pos[1]
                 self.y_vel = self.settings.brick_initial_move_speed
