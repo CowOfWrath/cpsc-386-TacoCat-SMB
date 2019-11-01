@@ -41,6 +41,7 @@ class Mario(Sprite):
         self.last_tick = pygame.time.get_ticks()
         self.once_tick = pygame.time.get_ticks()
         self.invincible_tick = pygame.time.get_ticks()
+        self.star_tick = pygame.time.get_ticks()
 
         # Mario collision Flags
         self.is_falling = True
@@ -389,6 +390,7 @@ class Mario(Sprite):
                 self.rect.x = self.x
                 self.rect.y = self.y
         elif self.state == 3:  # Small Mario Invincible
+            self.star_timer()
             if self.grow:  # On mushroom collision set index to 0
                 self.iterate_once(len(self.smi_grow))
                 temp = self.rect.copy()
@@ -414,6 +416,7 @@ class Mario(Sprite):
                 self.rect.x = self.x
                 self.rect.y = self.y
         elif self.state == 4:  # Big Mario Invinicble
+            self.star_timer()
             if self.jump:
                 self.image = self.bmi_jump
                 self.rect = self.image.get_rect()
@@ -488,3 +491,14 @@ class Mario(Sprite):
             self.grow = False
             self.fire_flower = False
             self.index = 0
+
+    def star_timer(self):
+        time = pygame.time.get_ticks() - self.star_tick
+        if time > 10000:
+            if self.state == 3:
+                self.state = 0
+            elif self.state == 4:
+                self.state = 1
+            pygame.mixer.music.stop()
+            pygame.mixer.music.load("Sounds/overworld.mp3")
+            pygame.mixer.music.play()

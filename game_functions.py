@@ -149,6 +149,7 @@ def mario_powerup_collide(mario, map_group, powerup_group):
                 mario.state = 3
             else:
                 mario.state = 4
+            mario.star_tick = pygame.time.get_ticks()
 
 
 def collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group):
