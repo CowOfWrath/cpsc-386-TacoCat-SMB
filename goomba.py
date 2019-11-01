@@ -70,12 +70,12 @@ class Goomba(Sprite):
             self.image = self.images[self.index]
 
             # gravity
-            self.rect.centery += self.settings.gravity
+            self.rect.y += self.settings.gravity
 
             if self.facing_left:
-                self.rect.centerx -= 1
+                self.rect.x -= 1
             else:
-                self.rect.centerx += 1
+                self.rect.x += 1
 
     def iterate_index(self, max_):
         time = pygame.time.get_ticks() - self.last_tick
