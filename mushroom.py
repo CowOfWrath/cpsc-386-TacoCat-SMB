@@ -21,6 +21,7 @@ class Mushroom(Sprite):
         self.start_spawn = False
         self.is_falling = True
         self.is_one_up = is_one_up
+        self.kill_flag = False
 
         if self.is_one_up:
             self.image = pygame.transform.scale(pygame.image.load(settings.oneup_img),
@@ -49,6 +50,9 @@ class Mushroom(Sprite):
         self.initial_pos = self.get_position()
         self.target_pos = (self.rect.x, self.rect.y - self.rect.h - 1)
 
+    def mark_for_death(self):
+        self.kill_flag = True
+
     def update(self):
         # gravity
         # self.rect.centery += self.settings.gravity
@@ -75,3 +79,8 @@ class Mushroom(Sprite):
 
             if self.is_falling and self.is_moving:
                 self.rect.bottom += self.settings.gravity
+
+        #check to kill
+        if self.kill_flag:
+            self.kill()
+
