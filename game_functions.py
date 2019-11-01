@@ -89,8 +89,7 @@ def enemy_stomp(e, mario, map_group, enemy_group, fireball_group, dead_group):
         e.kill()
         e.dead(map_group, enemy_group, fireball_group)
     elif e.name == "Goomba":
-        e.y -= 1
-        e.rect.y = e.y
+        e.rect.y -= 12
         pygame.mixer.Sound("Sounds/stomp.wav").play()
         e.kill()
         e.dead()
@@ -440,10 +439,9 @@ def mario_block_collision(mario, floor_group, pipe_group, block_group, map_group
                     print('block has item and added to powerups')
                     print('block position: ' + str(block.initial_pos))
                     print('block position lr: ' + str(block.rect.left) + ', ' + str(block.rect.top))
+
                     item = block.get_spawned_item()
                     item.add(powerup_group)
-                if block.is_broken:
-                    print('block broke - TODO kill any object above it')
         mg.empty()
         return
 
@@ -489,12 +487,13 @@ def enemy_block_collision(enemy_group, floor_group, pipe_group, block_group, map
 
         # LANDING Logic Check
         e_floor_hits = pygame.sprite.groupcollide(enemy_group, floor_group, False, False, collided=entity_floor_collide)
+        if e_floor_hits:
+            return
 
         e_block_hits = pygame.sprite.groupcollide(enemy_group, block_group, False, False,
                                                   collided=entity_block_pipe_collide)
-        if e_block_hits or e_floor_hits:
+        if e_block_hits:
             return
-
         e_pipe_hits = pygame.sprite.groupcollide(enemy_group, pipe_group, False, False,
                                                  collided=entity_block_pipe_collide)
         if e_pipe_hits:
@@ -555,6 +554,7 @@ def update(screen, settings, mario, map_group, floor_group, pipe_group, block_gr
            fireball_group, dead_group, f):
     map_group.update()
     mario.update(map_group)
+    powerup_group.update()
     check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group,
                      fireball_group, dead_group, f)
     update_dead(dead_group)
@@ -566,4 +566,5 @@ def update_screen(screen, settings, mario, map_group, floor_group, pipe_group, b
     map_group.draw(screen)
     f.draw_flag()
     mario.draw()
+    # powerup_group.draw(screen)
     pygame.display.flip()
