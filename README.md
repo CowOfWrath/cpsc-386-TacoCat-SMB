@@ -18,4 +18,4 @@ Credit to Vincent DeAugustine for the individual sprite files
 
 Credit to A.J. Nitro for world map background
 
-Credit to mattersofgrey.com and Deezer for the sounds and music
+Credit to mattersofgrey.com, mariomayhem.com, and themushroomkingdom.com (Deezer) for the sounds and music
