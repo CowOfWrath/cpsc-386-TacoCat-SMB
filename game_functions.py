@@ -27,6 +27,7 @@ def check_keydown(state, event, mario, screen, settings, fireball_group, map_gro
 
     if event.key == pygame.K_SPACE and mario.state == 2 and len(fireball_group) < settings.fireball_limit:
         mario.throw_fireball(screen, settings, fireball_group, map_group)
+        mario.fireball = True;
         pygame.mixer.Sound("Sounds/fireball.wav").play()
 
     # Mario movement events

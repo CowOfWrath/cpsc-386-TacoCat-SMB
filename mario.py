@@ -223,9 +223,16 @@ class Mario(Sprite):
         pygame.mixer.Sound("Sounds/die.wav").play()
 
     def throw_fireball(self, screen, settings, fireball_group, map_group):
-        f = Fireball(screen, settings, self.rect.right, self.rect.centery)
-        f.add(map_group, fireball_group)
-        self.fireball = True
+        if self.facing_left:
+            f = Fireball(screen, settings, self.rect.left, self.rect.centery)
+            f.facing_left = True
+            f.add(map_group, fireball_group)
+        else:
+            f = Fireball(screen, settings, self.rect.right, self.rect.centery)
+            f.facing_left = False
+            f.add(map_group, fireball_group)
+        self.fireball = False
+
 
     def update(self, map_group):
         if self.rect.bottom >= self.screen.get_rect().bottom:
