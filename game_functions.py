@@ -89,6 +89,8 @@ def enemy_stomp(e, mario, map_group, enemy_group, fireball_group, dead_group):
         e.kill()
         e.dead(map_group, enemy_group, fireball_group)
     elif e.name == "Goomba":
+        e.y -= 1
+        e.rect.y = e.y
         pygame.mixer.Sound("Sounds/stomp.wav").play()
         e.kill()
         e.dead()
