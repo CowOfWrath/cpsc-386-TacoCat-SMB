@@ -285,7 +285,7 @@ class CoinBlock(Block):
                 coin_obj = self.coins.pop()
                 coin_obj.set_position(self.rect.top, self.rect.left)
                 coin_obj.add(map_group)
-                coin_obj.start_spawn
+                coin_obj.spawn()
                 self.curr_item = coin_obj
 
 

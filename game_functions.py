@@ -565,5 +565,5 @@ def update_screen(screen, settings, mario, map_group, floor_group, pipe_group, b
     map_group.draw(screen)
     f.draw_flag()
     mario.draw()
-    powerup_group.draw(screen)
+    # powerup_group.draw(screen)
     pygame.display.flip()
