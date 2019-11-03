@@ -14,6 +14,7 @@ class Shell(Sprite):
         self.active = False
         self.hit_wall = False
         self.is_dead = False
+        self.is_moving = True
         self.facing_left = False
         self.name = "Shell"
         self.death_timer = -1000

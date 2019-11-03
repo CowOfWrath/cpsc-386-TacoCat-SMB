@@ -159,7 +159,7 @@ def collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group):
     for f in fireball_group:
         if f.name == "Fireball":
             if pygame.sprite.spritecollide(f, enemy_group, True):
-                f.kill()
+                f.mark_for_death()
         else:
             for e in enemy_group:
                 if e.name == "Shell":
@@ -298,6 +298,48 @@ def item_wall_collide(item, wall):
             # entity.rect.left = wall.rect.right + 1
             item.facing_left = not item.facing_left
             # TODO code to change entity direction
+            return True
+    return False
+
+
+# Fireball stuff
+def fb_block_pipe_collide(fb, block):
+    if fb.name == "Fireball" and fb.is_moving and fb.is_falling:
+        if (fb.rect.bottom >= block.rect.top > fb.rect.top and
+                ((block.rect.left <= fb.rect.left <= block.rect.right) or
+                 (block.rect.left <= fb.rect.right <= block.rect.right))):
+            # print('item block collision detected')
+            fb.rect.top = block.rect.top - fb.rect.h - 1
+            fb.is_falling = False
+            fb.set_max_jump_height()
+            return True
+    return False
+
+
+def fb_floor_collide(fb, floor):
+    if fb.name == "Fireball" and fb.is_moving and fb.is_falling:
+        if (fb.rect.bottom >= floor.rect.top > fb.rect.top and
+                (floor.rect.left <= fb.rect.centerx <= floor.rect.right)):
+            # print('item floor collision detected')
+            fb.rect.y = floor.rect.top - fb.rect.h - 1
+            fb.is_falling = False
+            fb.set_max_jump_height()
+            # TODO edit entity falling status if needed
+        return True
+    return False
+
+
+def fb_wall_collide(fb, wall):
+    if fb.name == "Fireball" and fb.is_moving:
+        if (fb.rect.right >= wall.rect.left > fb.rect.left and
+                (wall.rect.top < fb.rect.centery < wall.rect.bottom)
+                and not fb.facing_left):
+            fb.mark_for_death()
+            return True
+        elif (fb.rect.left <= wall.rect.right < fb.rect.right and
+              (wall.rect.top < fb.rect.centery < wall.rect.bottom)
+              and fb.facing_left):
+            fb.mark_for_death()
             return True
     return False
 
@@ -571,6 +613,35 @@ def item_block_collision(item_group, floor_group, pipe_group, block_group, map_g
     # end item collision check
 
 
+def fireball_block_collision(fb_group, floor_group, pipe_group, block_group, map_group):
+    group_len = len(fb_group)
+    if group_len > 0:
+        fb_block_wall_hits = pygame.sprite.groupcollide(fb_group, block_group, False, False,
+                                                        collided=fb_wall_collide)
+        fb_pipe_wall_hits = pygame.sprite.groupcollide(fb_group, pipe_group, False, False,
+                                                       collided=fb_wall_collide)
+        fb_floor_wall_check = pygame.sprite.groupcollide(fb_group, floor_group, False, False,
+                                                           collided=fb_wall_collide)
+        if fb_floor_wall_check:
+            return
+
+
+        # LANDING Logic Check
+        fb_floor_hits = pygame.sprite.groupcollide(fb_group, floor_group, False, False,
+                                                  collided=fb_floor_collide)
+        # if i_floor_hits:
+        #     return
+        fb_block_hits = pygame.sprite.groupcollide(fb_group, block_group, False, False,
+                                                  collided=fb_block_pipe_collide)
+        # if fb_block_hits or fb_floor_hits:
+        #     return
+        fb_pipe_hits = pygame.sprite.groupcollide(fb_group, pipe_group, False, False,
+                                                 collided=fb_block_pipe_collide)
+        if fb_pipe_hits:
+            return
+
+
+
 def check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group,
                      fireball_group, dead_group, f):
     # mario environment collisions
@@ -579,6 +650,7 @@ def check_collisions(settings, mario, map_group, floor_group, pipe_group, block_
     mario_powerup_collide(mario, map_group, powerup_group)
     # mario enemy collisions
     collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group)
+    fireball_block_collision(fireball_group, floor_group, pipe_group, block_group, map_group)
     # entity (enemies/items) environment collisions
     enemy_block_collision(enemy_group, floor_group, pipe_group, block_group, map_group)
     item_block_collision(powerup_group, floor_group, pipe_group, block_group, map_group)

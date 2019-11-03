@@ -45,6 +45,8 @@ class Koopa(Sprite):
         self.is_dead = True
         s = Shell(self.screen, self.settings, self.rect.centerx, self.rect.centery)
         s.add(map_group, enemy_group, fireball_group)
+        # s.add(map_group, enemy_group)
+
 
     def update(self):
         if self.is_dead:

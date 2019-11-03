@@ -68,8 +68,9 @@ class Settings:
         self.fireball_limit = 2
         self.fireball_width = 8 * self.image_scale
         self.fireball_height = 8 * self.image_scale
-        self.fireball_speed = 4 * self.image_scale
-        self.fireball_jump = 8 * self.image_scale
+        self.fireball_speed = 6 * self.image_scale
+        self.fireball_jump = 4 * self.image_scale
+        self.fireball_max_jump_height = 0.75 * self.sm_height
         self.fireball_sound = self.SOUND_PATH + 'fireball.wav'
 
         # Floor Settings
