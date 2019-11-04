@@ -58,8 +58,7 @@ def run():
         settings.reset_holders()
         clock.tick(settings.fps)
 
-        # print('mario is_dead ' + str(mario.is_dead))
-
+        # handle mario death
         if mario.is_dead and death_counter <= 240:
             # draw black screen
             if death_counter == 60:
@@ -80,7 +79,6 @@ def run():
                 pygame.display.flip()
             death_counter += 1
             print(death_counter)
-
         elif mario.is_dead and death_counter > 240:
             # reset
             death_counter = 0
@@ -98,14 +96,49 @@ def run():
             map.generate_map(screen, settings, map_group, floor_group, pipe_group, block_group, enemy_group)
             f = Flag(screen, settings, 198 * settings.block_width, 13 * settings.block_height)
             f.add(map_group)
-
             stats.new_level()
 
-            # reset stuff
+        # victory -> change level -> use death_counter to reset
+        if mario.has_won and death_counter <= 300:
+            # draw black screen
+            if death_counter == 100:
+                stats.level_num += 1
+                screen.fill(settings.bg_color)
+                # display level
+                lvl_str = "World " + str(stats.world) + "-" + str(stats.level_num)
+                level_label = Text(None, settings.TEXT_SIZE, lvl_str, settings.WHITE, 0, 0)
+                level_label.rect.center = (settings.screen_width / 2, settings.screen_height / 2)
+                level_label.draw(screen)
+                coming_soon = Text(None, settings.TEXT_SIZE, "Coming Soon", settings.WHITE, 0, 0)
+                coming_soon.rect.center = (settings.screen_width / 2, (settings.screen_height / 2)+settings.SPACER)
+                coming_soon.draw(screen)
+                pygame.display.flip()
+            death_counter += 1
+            print(death_counter)
+        elif mario.has_won and death_counter > 300:
+            # reset game
+            death_counter = 0
+            mario.kill()
+            mario = Mario(screen, settings, stats)
+            map_group = Group()
+            block_group = Group()
+            floor_group = Group()
+            pipe_group = Group()
+            enemy_group = Group()
+            powerup_group = Group()
+            fireball_group = Group()
+            dead_group = Group()
+            pygame.mixer.music.load("Sounds/overworld.mp3")
+            pygame.mixer.music.play(-1)
+            map.generate_map(screen, settings, map_group, floor_group, pipe_group, block_group, enemy_group)
+            f = Flag(screen, settings, 198 * settings.block_width, 13 * settings.block_height)
+            f.add(map_group)
+            stats.new_level()
 
+        # Game Play
         gf.check_events(state, mario, screen, settings, fireball_group, map_group)
         # Update here
-        if not mario.is_dead:
+        if not mario.is_dead and not mario.has_won:
             if timer < settings.fps:
                 timer += 1
             else:
@@ -116,6 +149,9 @@ def run():
 
             if stats.did_time_runout():
                 mario.dead()
+            if stats.time == 100:
+                pygame.mixer.Sound('Sounds/time_warning.wav').play()
+
 
             # update game values
             stats.add_score(settings.score_holder)

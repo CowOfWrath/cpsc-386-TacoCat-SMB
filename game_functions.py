@@ -116,6 +116,8 @@ def mario_flag_collide(mario, flag, settings):
     if pygame.sprite.collide_rect(mario, flag):
         settings.score_holder += settings.point_values['flag-mid']
         pygame.mixer.music.stop()
+        pygame.mixer.music.load("Sounds/stage_clear.wav")
+        pygame.mixer.music.play()
         flag.raise_flag = True
         mario.is_flag = True
         if flag.flag_rect.top == flag.rect.top + 24:

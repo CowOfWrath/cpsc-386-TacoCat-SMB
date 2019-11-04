@@ -46,6 +46,7 @@ class Mario(Sprite):
         self.invincible_tick = pygame.time.get_ticks()
         self.star_tick = pygame.time.get_ticks()
         self.was_fire = False
+        self.has_won = False
 
         # Mario collision Flags
         self.is_falling = True
@@ -301,7 +302,7 @@ class Mario(Sprite):
             # change mario image
             return
 
-        if self.victory and not self.is_flag and self.victory_count < 10:
+        if self.victory and not self.is_flag and self.victory_count < 30:
             self.move_right = True
             self.move_left = False
             self.crouch = False
@@ -310,6 +311,7 @@ class Mario(Sprite):
         elif self.victory and not self.is_flag:
             self.move_right = False
             self.walk = False
+            self.has_won = True
 
         if self.iframes:
             time = pygame.time.get_ticks() - self.invincible_tick
