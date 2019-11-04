@@ -28,7 +28,7 @@ def check_keydown(state, event, mario, screen, settings, fireball_group, map_gro
 
     if event.key == pygame.K_SPACE and mario.state == 2 and len(fireball_group) < settings.fireball_limit:
         mario.throw_fireball(screen, settings, fireball_group, map_group)
-        mario.fireball = True;
+        mario.fireball = True
         pygame.mixer.Sound("Sounds/fireball.wav").play()
 
     # Mario movement events
@@ -88,12 +88,12 @@ def update_dead(dead_group):
 def enemy_stomp(e, mario, map_group, enemy_group, fireball_group, dead_group):
     if e.name == "Koopa":
         pygame.mixer.Sound("Sounds/stomp.wav").play()
-        e.kill()
+        # e.kill()
         e.dead(map_group, enemy_group, fireball_group)
     elif e.name == "Goomba":
         e.rect.y -= 12
         pygame.mixer.Sound("Sounds/stomp.wav").play()
-        e.kill()
+        # e.kill()
         e.dead()
         e.add(map_group, dead_group)
     elif e.name == "Shell":
@@ -112,8 +112,9 @@ def enemy_stomp(e, mario, map_group, enemy_group, fireball_group, dead_group):
                 e.facing_left = True
 
 
-def mario_flag_collide(mario, flag):
+def mario_flag_collide(mario, flag, settings):
     if pygame.sprite.collide_rect(mario, flag):
+        settings.score_holder += settings.point_values['flag-mid']
         pygame.mixer.music.stop()
         flag.raise_flag = True
         mario.is_flag = True
@@ -121,15 +122,19 @@ def mario_flag_collide(mario, flag):
             mario.is_flag = False
             mario.victory = True
 
-def mario_powerup_collide(mario, map_group, powerup_group):
+
+def mario_powerup_collide(mario, map_group, powerup_group, settings):
     mg = pygame.sprite.Group()
     mario.add(mg)
     collisions = pygame.sprite.groupcollide(powerup_group, mg, True, False)
     for c in collisions:
         if c.name == "One Up":
             pygame.mixer.Sound("Sounds/1-up.wav").play()
+            settings.score_holder += settings.point_values['one-up']
+            settings.one_up = True
         elif c.name == "Mushroom":
             pygame.mixer.Sound("Sounds/powerup.wav").play()
+            settings.score_holder += settings.point_values['mushroom']
             mario.index = 0
             if mario.state == 2:
                 return
@@ -139,7 +144,10 @@ def mario_powerup_collide(mario, map_group, powerup_group):
                 mario.grow = True
         elif c.name == "Fire Flower":
             pygame.mixer.Sound("Sounds/powerup.wav").play()
+            settings.score_holder += settings.point_values['fire-flower']
             mario.fire_flower = True
+            mario.was_fire = True
+            print('set to fire' + str(mario.was_fire))
             if mario.state == 0:
                 mario.grow = True
             elif mario.state == 1:
@@ -147,19 +155,25 @@ def mario_powerup_collide(mario, map_group, powerup_group):
         elif c.name == "Star":
             pygame.mixer.music.stop()
             pygame.mixer.music.load("Sounds/starman.mp3")
+            settings.score_holder += settings.point_values['star']
             pygame.mixer.music.play(loops=-1)
             if mario.state == 0:
                 mario.state = 3
             else:
                 mario.state = 4
             mario.star_tick = pygame.time.get_ticks()
+    mg.empty()
 
 
 def collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group):
     for f in fireball_group:
         if f.name == "Fireball":
-            if pygame.sprite.spritecollide(f, enemy_group, True):
+            sprites = pygame.sprite.spritecollide(f, enemy_group, False)
+            if sprites:
                 f.mark_for_death()
+                print(sprites)
+                for s in sprites:
+                    s.dead()
         else:
             for e in enemy_group:
                 if e.name == "Shell":
@@ -645,9 +659,9 @@ def fireball_block_collision(fb_group, floor_group, pipe_group, block_group, map
 def check_collisions(settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group,
                      fireball_group, dead_group, f):
     # mario environment collisions
-    mario_flag_collide(mario, f)
+    mario_flag_collide(mario, f, settings)
     mario_block_collision(mario, floor_group, pipe_group, block_group, map_group, powerup_group)
-    mario_powerup_collide(mario, map_group, powerup_group)
+    mario_powerup_collide(mario, map_group, powerup_group, settings)
     # mario enemy collisions
     collide_enemies(mario, map_group, enemy_group, fireball_group, dead_group)
     fireball_block_collision(fireball_group, floor_group, pipe_group, block_group, map_group)
@@ -665,10 +679,11 @@ def update(screen, settings, mario, map_group, floor_group, pipe_group, block_gr
     update_dead(dead_group)
 
 
-def update_screen(screen, settings, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group,
+def update_screen(screen, settings, stats, mario, map_group, floor_group, pipe_group, block_group, enemy_group, powerup_group,
                   fireball_group, dead_group, f):
     screen.fill(settings.bg_color)
     map_group.draw(screen)
+    stats.draw()
     f.draw_flag()
     mario.draw()
     pygame.display.flip()

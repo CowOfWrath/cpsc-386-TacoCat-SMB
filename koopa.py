@@ -41,15 +41,18 @@ class Koopa(Sprite):
     def draw(self):
         self.screen.blit(self.image, self.rect)
 
-    def dead(self, map_group, enemy_group, fireball_group):
+    def dead(self, map_group=None, enemy_group=None, fireball_group=None):
+        self.settings.score_holder += self.settings.point_values['koopa']
         self.is_dead = True
-        s = Shell(self.screen, self.settings, self.rect.centerx, self.rect.centery)
-        s.add(map_group, enemy_group, fireball_group)
+        # if map_group and enemy_group and fireball_group:
+        if map_group != None and enemy_group != None and fireball_group != None:
+            s = Shell(self.screen, self.settings, self.rect.centerx, self.rect.centery)
+            s.add(map_group, enemy_group, fireball_group)
         # s.add(map_group, enemy_group)
-
 
     def update(self):
         if self.is_dead:
+            self.kill()
             return
         if self.rect.colliderect(self.screen.get_rect()):
             self.iterate_index(len(self.images))

@@ -88,6 +88,8 @@ class Coin(Sprite):
     def spawn(self):
         self.start_spawn = True
         self.idle = False
+        self.settings.score_holder += self.settings.point_values['coin']
+        self.settings.coin_holder += 1
 
     def get_position(self):
         return (self.rect.x, self.rect.y)

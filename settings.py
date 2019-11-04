@@ -9,6 +9,7 @@
 #   added paths for Sounds and Images
 #   added dictionary for point values
 from os.path import abspath, dirname
+from text import Text
 
 
 class Settings:
@@ -22,6 +23,18 @@ class Settings:
         self.screen_height = 720
         self.bg_color = (0, 0, 0)
         self.image_scale = 3
+        self.fps = 60
+
+        # Text UI Settings
+        self.WHITE = (255, 255, 255)
+        self.TEXT_SIZE = 36
+        self.ALT_TEXT_SIZE = 20
+        self.SPACER = 54
+
+        # Score holder
+        self.score_holder = 0
+        self.coin_holder = 0
+        self.one_up = False
 
         # Point Dictionary
         # TODO - finish points list
@@ -30,10 +43,13 @@ class Settings:
             "fire-flower": 1000,
             "star": 1000,
             "mushroom": 1000,
-            "1-up": 1000,
+            "one-up": 1000,
             "goomba": 100,
             "koopa": 200,
-            "brick": 50
+            "brick": 50,
+            "flag-top": 5000,
+            "flag-mid": 2000,
+            "flag-bot": 100
         }
 
         # Mario Settings
@@ -168,3 +184,8 @@ class Settings:
 
         # Item Settings
         self.item_box_spawn_speed = 2 * self.image_scale
+
+    def reset_holders(self):
+        self.score_holder = 0
+        self.coin_holder = 0
+        self.one_up = False

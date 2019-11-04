@@ -57,6 +57,7 @@ class Goomba(Sprite):
         return self.collision_pts
 
     def dead(self):
+        self.settings.score_holder += self.settings.point_values['goomba']
         self.image = pygame.transform.scale(pygame.image.load("Images/goomba_death.png"),
                                             (self.settings.goomba_width, self.settings.goomba_height))
         self.death_timer = pygame.time.get_ticks()
@@ -64,6 +65,7 @@ class Goomba(Sprite):
 
     def update(self):
         if self.is_dead:
+            self.kill()
             return
         if self.rect.colliderect(self.screen.get_rect()):
             self.iterate_index(len(self.images))

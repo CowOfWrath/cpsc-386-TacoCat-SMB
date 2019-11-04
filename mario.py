@@ -15,10 +15,13 @@ from fireball import Fireball
 
 
 class Mario(Sprite):
-    def __init__(self, screen, settings):
+    def __init__(self, screen, settings, stats):
         super(Mario, self).__init__()
         self.settings = settings
         self.screen = screen
+        self.stats = stats
+
+        self.victory_count = 0
 
         # States: sm = 0 | bm = 1 | fm = 2 | smi = 3 | bmi = 4
         self.state = 0
@@ -42,6 +45,7 @@ class Mario(Sprite):
         self.once_tick = pygame.time.get_ticks()
         self.invincible_tick = pygame.time.get_ticks()
         self.star_tick = pygame.time.get_ticks()
+        self.was_fire = False
 
         # Mario collision Flags
         self.is_falling = True
@@ -271,7 +275,10 @@ class Mario(Sprite):
         self.is_dead = True  # need to add code for killing and animating mario death
         self.image = self.sm_dead
         pygame.mixer.music.stop()
-        pygame.mixer.Sound("Sounds/die.wav").play()
+        if self.stats.lives == 0:
+            pygame.mixer.Sound("Sounds/gameover.wav").play()
+        else:
+            pygame.mixer.Sound("Sounds/die.wav").play()
 
     def throw_fireball(self, screen, settings, fireball_group, map_group):
         if self.facing_left:
@@ -294,11 +301,15 @@ class Mario(Sprite):
             # change mario image
             return
 
-        if self.victory and not self.is_flag:
+        if self.victory and not self.is_flag and self.victory_count < 10:
             self.move_right = True
             self.move_left = False
             self.crouch = False
             self.walk = True
+            self.victory_count += 1
+        elif self.victory and not self.is_flag:
+            self.move_right = False
+            self.walk = False
 
         if self.iframes:
             time = pygame.time.get_ticks() - self.invincible_tick
@@ -558,7 +569,12 @@ class Mario(Sprite):
             if self.state == 3:
                 self.state = 0
             elif self.state == 4:
-                self.state = 1
+                print('was fire' + str(self.was_fire))
+                if self.was_fire:
+                    self.was_fire = False
+                    self.state = 2
+                else:
+                    self.state = 1
             pygame.mixer.music.stop()
             pygame.mixer.music.load("Sounds/overworld.mp3")
             pygame.mixer.music.play()
